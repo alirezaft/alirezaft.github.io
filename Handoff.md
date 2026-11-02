@@ -1,6 +1,6 @@
 # Project Handoff & Decision History: Cyberpunk Unity Game Developer Portfolio
 
-> **Target Audience for this Document:** Antigravity AI agents or human developers continuing work on this project across devices. This document captures the entire conversation history, decision tree, architectural rationale, and execution blueprint.
+> **Target Audience for this Document:** Antigravity AI agents or human developers continuing work on this project across devices. This document captures the entire conversation history, decision tree, architectural rationale, implementation progress, and execution blueprint.
 
 ---
 
@@ -11,7 +11,8 @@
 * **Hosting Platform:** GitHub Pages (`c:\Alirezaftgithubpages`).
 * **Key Artifacts in Repository:**
   * [`portfolio_specification.md`](file:///c:/Alirezaftgithubpages/portfolio_specification.md) — Full Product Requirements Document (PRD).
-  * [`Handoff.md`](file:///c:/Alirezaftgithubpages/Handoff.md) — This document.
+  * [`EXECUTION_PLAN.md`](file:///c:/Alirezaftgithubpages/EXECUTION_PLAN.md) — 9-Phase Step-by-Step Execution Plan.
+  * [`Handoff.md`](file:///c:/Alirezaftgithubpages/Handoff.md) — This living handoff document.
 
 ---
 
@@ -31,7 +32,7 @@ The project was shaped through a collaborative `/grill-me` architectural intervi
 
 ### Decision 2: Theme & Visual Metaphor
 * **Selected Decision:** **Cyberpunk / Neon Game Lab (Developer Desk Station)**.
-* **Visual Direction:** Dark synthwave base palette, glowing cyan/magenta/amber neon accents, CRT scanlines, bloom post-processing, and tactile hardware props.
+* **Visual Direction:** Dark synthwave base palette (`#050811`), glowing cyan (`#00f3ff`), magenta (`#ff007f`), and amber (`#ffb700`) neon accents, CRT scanlines, bloom post-processing, and tactile hardware props.
 
 ### Decision 3: Recruiter Accessibility (The 3D Portfolio Dilemma)
 * **Problem:** Hiring managers and recruiters spend an average of 30 seconds scanning a portfolio and may not want to navigate 3D spatial controls.
@@ -70,7 +71,7 @@ The project was shaped through a collaborative `/grill-me` architectural intervi
 * **Easter Egg Switch:** `[OVERCLOCK TEST]` toggle switch that surges all traces and revs fans.
 
 ### Decision 9: Engineering Stack & Hosting Requirements
-* **Selected Decision:** **React 18/19 + Vite + TypeScript + React Three Fiber + Tailwind CSS**.
+* **Selected Decision:** **React 19 + Vite 6 + TypeScript 5.7 + React Three Fiber v9 + Drei v10 + Tailwind CSS v3 + Framer Motion v12**.
 * **Hosting:** Configured for GitHub Pages (`base: './'`).
 * **Performance Guarantees:**
   * Dynamic Pixel Ratio clamped to `[1, 1.5]` to prevent mobile overheating.
@@ -84,96 +85,123 @@ The project was shaped through a collaborative `/grill-me` architectural intervi
 
 ---
 
-## 3. Modular Codebase File Tree
+## 3. Implementation Progress & Activity Log
 
-The following structure is planned for `C:\Alirezaftgithubpages`:
+### Phase 0: Environment Setup & Scaffolding [COMPLETED]
+* **Date:** 2026-11-02
+* **Actions Taken:**
+  1. Configured [`package.json`](file:///c:/Alirezaftgithubpages/package.json) with core packages:
+     - `three` (`^0.174.0`), `@types/three` (`^0.174.0`)
+     - `@react-three/fiber` (`^9.1.2`), `@react-three/drei` (`^10.0.7`), `@react-three/postprocessing` (`^3.0.4`)
+     - `tailwindcss` (`^3.4.17`), `postcss` (`^8.5.3`), `autoprefixer` (`^10.4.20`)
+     - `lucide-react` (`^1.16.0`), `framer-motion` (`^12.4.7`), `clsx` (`^2.1.1`), `tailwind-merge` (`^3.0.2`), `canvas-confetti` (`^1.9.4`)
+  2. Configured [`vite.config.ts`](file:///c:/Alirezaftgithubpages/vite.config.ts) with `base: './'` for proper static asset resolution on GitHub Pages.
+  3. Configured strict TypeScript build via `tsconfig.json`, `tsconfig.app.json`, and `tsconfig.node.json`.
+  4. Configured [`tailwind.config.js`](file:///c:/Alirezaftgithubpages/tailwind.config.js) with cyberpunk theme tokens (`cyber-bg: #050811`, `cyber-cyan: #00f3ff`, `cyber-magenta: #ff007f`, `cyber-amber: #ffb700`, `cyber-green: #00ff66`, `cyber-border: #1e293b`).
+  5. Created directory structure for static assets:
+     - `public/assets/videos/`
+     - `public/assets/models/`
+     - `public/assets/textures/`
+     - `public/assets/icons/`
+     - `public/vite.svg` (custom cyberpunk hex icon)
+  6. Configured [`.gitignore`](file:///c:/Alirezaftgithubpages/.gitignore) ignoring `node_modules`, `dist`, logs, and `*.tsbuildinfo`.
+  7. Built smoke-test in [`src/App.tsx`](file:///c:/Alirezaftgithubpages/src/App.tsx):
+     - Working R3F `<Canvas>` with `dpr={[1, 1.5]}` clamping.
+     - Responsive OrbitControls, cyberpunk Grid, lighting, 3D text, and rotating emissive cube.
+     - 2D HUD header with status badges and test buttons.
+  8. Verified production build: `npm run build` completed with code `0`, outputting strictly relative asset paths (`./assets/...`) in `dist/index.html`.
+
+---
+
+### Phase 1: Modular Content Architecture & Data Contracts [COMPLETED]
+* **Date:** 2026-11-02
+* **Actions Taken:**
+  1. Ran `/grill-me` architectural interview to resolve data structure and classification dependencies:
+     - 4 Shelf Categories: Shipped commercial games, VR games & applications, Open Source experiments, Tools.
+     - Concise Portfolio Card contract with overview, key responsibilities, tech tags, metrics, and direct links.
+     - Tiered Skill Circuit Component schema: Main CPU (Vital), Heavy ICs (Major), Medium ICs (Platforms/Integrations), Passive Modules (Supporting/Workflow).
+     - Holographic Datapad 3-tab layout: Career Log, Operator Bio & Philosophy, Transmissions & Publications.
+     - Playful & tech-savvy 'Byte' companion robot dialogue & microchip feeding lore.
+  2. Built modular projects package (`src/content/projects/`):
+     - `types.ts`, `categories.ts`, `index.ts`
+     - Individual project files: `project-mr-bean-special-delivery.ts`, `project-mr-bean-solitaire.ts`, `project-kingdom-hero.ts`, `project-vr-production.ts`, `project-kinect-vision.ts`, `project-unity-verlet-rope.ts`, `project-simple-diagnosis.ts`, `project-prefab-palette.ts`, `project-editor-balancing-tools.ts`.
+  3. Built modular skills circuit package (`src/content/skills/`):
+     - `types.ts`, `circuits.ts`, `index.ts`
+     - 12 real-world components with hardware specs (BGA, QFP, SOIC, SMD), pin counts, real metrics (50M+ users, 30% crash reduction), and cross-linked project IDs.
+  4. Built profile & career log package (`src/content/profile/`):
+     - `types.ts`, `bio.ts`, `experience.ts`, `transmissions.ts`, `socials.ts`, `index.ts`.
+  5. Built companion lore package (`src/content/companion/`):
+     - `types.ts`, `robotLore.ts`, `index.ts` with idle quotes, feeding reactions, project commentary, and navigation hints.
+  6. Created master re-export barrel `src/content/index.ts`.
+  7. Verified production build: `npm run build` passed with code `0`.
+
+---
+
+## 4. Current File Tree
 
 ```
 c:\Alirezaftgithubpages\
-├── .github/
-│   └── workflows/
-│       └── deploy.yml              # Automated GitHub Pages CI/CD
 ├── public/
 │   ├── assets/
-│   │   ├── models/                 # Optimized GLB models (props/desk)
-│   │   ├── videos/                 # Gameplay preview videos (.webm / .mp4)
-│   │   └── resume.pdf              # Client's Resume / CV
-│   └── favicon.svg
+│   │   ├── icons/
+│   │   ├── models/
+│   │   ├── textures/
+│   │   └── videos/
+│   └── vite.svg                    # Cyberpunk SVG favicon
 ├── src/
-│   ├── components/
-│   │   ├── 3d/
-│   │   │   ├── Scene.tsx           # Main R3F Canvas and lighting
-│   │   │   ├── Desk.tsx            # 3D Cyber-deck base environment
-│   │   │   ├── CrtMonitor.tsx      # CRT monitor with dynamic video texture
-│   │   │   ├── CartridgeRack.tsx   # Project cartridges with slot-in animation
-│   │   │   ├── Datapad.tsx         # Holographic bio pad
-│   │   │   ├── ChipsetRack.tsx     # PCB test-bench with bus trace lighting
-│   │   │   ├── UsbResumeChip.tsx   # Plug-in USB key for CV download
-│   │   │   ├── CyberRobot.tsx      # Byte the companion robot & microchip feeding
-│   │   │   └── CommsTerminal.tsx   # Contact transceiver
-│   │   ├── ui/
-│   │   │   ├── Hud.tsx             # Persistent header: Mute toggle, Recruiter Mode switch
-│   │   │   ├── ProjectDrawer.tsx   # Slide-out case study panel
-│   │   │   ├── RecruiterGrid.tsx   # Fast 2D project & skills grid view
-│   │   │   ├── HologramModal.tsx   # AR telemetry overlay for skills & bio
-│   │   │   └── WebGlModal.tsx      # Optional iframe player for Unity WebGL demos
-│   │   └── audio/
-│   │       └── soundManager.ts     # Web Audio API procedural sound synthesis
-│   ├── content/
-│   │   ├── config.ts               # Profile metadata & social links
+│   ├── content/                    # MODULAR DATA ARCHITECTURE
+│   │   ├── companion/
+│   │   │   ├── index.ts
+│   │   │   ├── robotLore.ts
+│   │   │   └── types.ts
+│   │   ├── profile/
+│   │   │   ├── bio.ts
+│   │   │   ├── experience.ts
+│   │   │   ├── index.ts
+│   │   │   ├── socials.ts
+│   │   │   ├── transmissions.ts
+│   │   │   └── types.ts
 │   │   ├── projects/
-│   │   │   ├── types.ts            # Project schema interface
-│   │   │   ├── project-01-neon.ts  # Modular project definition
-│   │   │   ├── project-02-rogue.ts # Modular project definition
-│   │   │   ├── project-03-vfx.ts   # Modular project definition
-│   │   │   └── index.ts            # Barrel export of all projects
+│   │   │   ├── categories.ts
+│   │   │   ├── index.ts
+│   │   │   ├── project-editor-balancing-tools.ts
+│   │   │   ├── project-kinect-vision.ts
+│   │   │   ├── project-kingdom-hero.ts
+│   │   │   ├── project-mr-bean-solitaire.ts
+│   │   │   ├── project-mr-bean-special-delivery.ts
+│   │   │   ├── project-prefab-palette.ts
+│   │   │   ├── project-simple-diagnosis.ts
+│   │   │   ├── project-unity-verlet-rope.ts
+│   │   │   ├── project-vr-production.ts
+│   │   │   └── types.ts
 │   │   ├── skills/
-│   │   │   ├── types.ts            # Skill category & chip schema
-│   │   │   ├── core-engine.ts      # Unity & C# CPU specs
-│   │   │   ├── graphics-vfx.ts     # HLSL, URP, Shader Graph GPU specs
-│   │   │   ├── architecture.ts     # DOTS, Memory, Addressables RAM specs
-│   │   │   ├── tooling-systems.ts  # AI, Physics, Git, Blender IC specs
-│   │   │   └── index.ts            # Barrel export of all chips
-│   │   └── companion/
-│   │       └── robotLore.ts        # Byte's speech bubbles, dev tips & reactions
-│   ├── hooks/
-│   │   ├── useAudio.ts             # Audio state & trigger hooks
-│   │   └── useCameraFocus.ts       # Smooth camera lerping to focused props
-│   ├── App.tsx                     # Root application container & mode switcher
-│   ├── main.tsx                    # Vite entry point
-│   └── index.css                   # Tailwind CSS & CRT scanline styling
-├── index.html
-├── package.json
-├── tsconfig.json
-├── vite.config.ts                  # Base './' configured for GitHub Pages
+│   │   │   ├── circuits.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   └── index.ts                # Master content barrel
+│   ├── App.tsx                     # Verified R3F test canvas & HUD scaffold
+│   ├── index.css                   # Tailwind base & custom scrollbar styles
+│   └── main.tsx                    # React 19 root entry point
+├── .gitignore                      # Configured ignore rules
+├── EXECUTION_PLAN.md               # 9-Phase detailed plan
+├── Handoff.md                      # This handoff file
+├── index.html                      # HTML entry with JetBrains Mono font & viewport setup
+├── package.json                    # Dependencies & build scripts
+├── package-lock.json
+├── postcss.config.js
 ├── portfolio_specification.md      # Detailed PRD
-└── Handoff.md                      # This handoff file
+├── tailwind.config.js              # Cyberpunk color extensions
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts                  # base: './' for GitHub Pages
 ```
 
 ---
 
-## 4. Next Steps for Implementation
+## 5. Immediate Next Steps: Phase 2 (Procedural Web Audio Engine)
 
-When continuing in the next turn or from another Antigravity instance:
-
-1. **Scaffold React + Vite + TypeScript:**
-   Initialize Vite in `C:\Alirezaftgithubpages`:
-   ```powershell
-   npm create vite@latest . -- --template react-ts
-   ```
-2. **Install Core Dependencies:**
-   ```powershell
-   npm install three @react-three/fiber @react-three/drei @react-three/postprocessing lucide-react clsx tailwindcss postcss autoprefixer
-   ```
-3. **Configure Tailwind & Vite:**
-   Set `base: './'` in `vite.config.ts` for GitHub Pages compatibility.
-4. **Set Up the Modular Content System:**
-   Create `src/content/` with realistic sample Unity projects (architecture, shaders, gameplay videos, tech tags).
-5. **Implement Web Audio Synthesizer:**
-   Build `src/components/audio/soundManager.ts` using native Web Audio API oscillators for procedural cyberpunk clicks, CRT hum, and robot beeps.
-6. **Build the 3D Cyber-Deck & Props:**
-   Implement procedural Three.js meshes/shaders for the desk, CRT monitor with video texture, cartridges, chipset rack, USB plug-in, and Byte the robot.
-7. **Build the Recruiter Dual-Mode HUD:**
-   Add the top HUD with instant "Grid View" toggle and slide-out project case studies.
-8. **Set Up GitHub Actions Deployment:**
-   Create `.github/workflows/deploy.yml` for automated GitHub Pages static deployment.
+1. **Phase 2: Procedural Web Audio Engine:**
+   - Implement `src/audio/soundManager.ts` using native Web Audio API oscillators and gain nodes (clicks, hums, power-surges, chirps).
+   - Implement global `useAudio` hook with mute toggle and `localStorage` persistence.
+   - Wire sound cues into HUD test controls.

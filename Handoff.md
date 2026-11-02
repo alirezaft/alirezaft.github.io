@@ -124,7 +124,7 @@ The project was shaped through a collaborative `/grill-me` architectural intervi
      - Playful & tech-savvy 'Byte' companion robot dialogue & microchip feeding lore.
   2. Built modular projects package (`src/content/projects/`):
      - `types.ts`, `categories.ts`, `index.ts`
-     - Individual project files: `project-mr-bean-special-delivery.ts`, `project-mr-bean-solitaire.ts`, `project-kingdom-hero.ts`, `project-vr-production.ts`, `project-kinect-vision.ts`, `project-unity-verlet-rope.ts`, `project-simple-diagnosis.ts`, `project-prefab-palette.ts`, `project-editor-balancing-tools.ts`.
+     - Individual project files: `project-mr-bean-special-delivery.ts`, `project-mr-bean-solitaire.ts`, `project-kingdom-hero.ts`, `project-vr-production.ts`, `project-kinect-vision.ts`, `project-unity-verlet-rope.ts`, `project-simple-diagnosis.ts`, `project-prefab-palette.ts`, `project-editor-balancing-tools.ts` (UnityChart).
   3. Built modular skills circuit package (`src/content/skills/`):
      - `types.ts`, `circuits.ts`, `index.ts`
      - 12 real-world components with hardware specs (BGA, QFP, SOIC, SMD), pin counts, real metrics (50M+ users, 30% crash reduction), and cross-linked project IDs.

@@ -125,6 +125,14 @@ export const ROBOT_DIALOGUES: RobotDialogueItem[] = [
     relatedProjectId: 'prefab-palette',
   },
   {
+    id: 'proj-unity-chart',
+    category: 'project-commentary',
+    text: 'Real-time vector graphs inside UI Toolkit! UnityChart makes play-mode data visualization look so clean in custom inspectors.',
+    mood: 'happy',
+    soundCue: 'chirp',
+    relatedProjectId: 'unity-chart',
+  },
+  {
     id: 'proj-vr-production',
     category: 'project-commentary',
     text: '90 FPS stereo rendering in VR with zero nausea: genuine engineering discipline.',

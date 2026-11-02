@@ -7,10 +7,11 @@ import { projectKinectVision } from './project-kinect-vision';
 import { projectUnityVerletRope } from './project-unity-verlet-rope';
 import { projectSimpleDiagnosis } from './project-simple-diagnosis';
 import { projectPrefabPalette } from './project-prefab-palette';
-import { projectEditorBalancingTools } from './project-editor-balancing-tools';
+import { projectEditorBalancingTools, projectUnityChart } from './project-editor-balancing-tools';
 
 export * from './types';
 export * from './categories';
+export { projectUnityChart };
 
 export const ALL_PROJECTS: Project[] = [
   // Shelf Row 1: Shipped Commercial Games

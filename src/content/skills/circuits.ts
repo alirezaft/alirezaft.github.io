@@ -46,7 +46,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'tooling-sdks',
     summary: 'Designing modern editor utilities, UXML/USS panels, property drawers, and automated pipeline tooling for game designers.',
     realWorldImpact: 'Streamlined designer workflows and reduced level production time by 10%.',
-    linkedProjectIds: ['prefab-palette', 'custom-editor-balancing-tools', 'mr-bean-special-delivery'],
+    linkedProjectIds: ['prefab-palette', 'unity-chart', 'mr-bean-special-delivery'],
     specs: {
       frequencyOrRating: 'Reactive UXML Data Binding',
       footprint: 'QFP-128 Dedicated Controller',

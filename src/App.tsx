@@ -1,0 +1,133 @@
+import { useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Grid, Text } from '@react-three/drei';
+import * as THREE from 'three';
+import { Terminal, Cpu, Volume2, Sparkles } from 'lucide-react';
+
+function RotatingCyberCube() {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const [hovered, setHover] = useState(false);
+
+  useFrame((_, delta) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x += delta * 0.5;
+      meshRef.current.rotation.y += delta * 0.8;
+    }
+  });
+
+  return (
+    <mesh
+      ref={meshRef}
+      onPointerOver={() => setHover(true)}
+      onPointerOut={() => setHover(false)}
+      scale={hovered ? 1.15 : 1}
+    >
+      <boxGeometry args={[1.5, 1.5, 1.5]} />
+      <meshStandardMaterial
+        color={hovered ? "#00f3ff" : "#ff007f"}
+        emissive={hovered ? "#00f3ff" : "#ff007f"}
+        emissiveIntensity={0.6}
+        roughness={0.2}
+        metalness={0.8}
+        wireframe={false}
+      />
+    </mesh>
+  );
+}
+
+export default function App() {
+  return (
+    <div className="relative w-full h-screen bg-[#050811] overflow-hidden">
+      {/* 2D HUD Scaffolding Header */}
+      <header className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 py-4 border-b border-cyber-border bg-[#050811]/80 backdrop-blur-md">
+        <div className="flex items-center space-x-3">
+          <div className="p-2 rounded bg-cyan-950/60 border border-cyber-cyan text-cyber-cyan">
+            <Terminal className="w-5 h-5 animate-pulse" />
+          </div>
+          <div>
+            <h1 className="text-sm font-bold tracking-widest text-slate-100 flex items-center gap-2">
+              CYBER_DECK <span className="text-xs px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyber-cyan border border-cyber-cyan/30">PHASE 0 ONLINE</span>
+            </h1>
+            <p className="text-xs text-slate-400">UNITY GAME DEV PORTFOLIO // R3F + VITE</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
+            <Cpu className="w-3.5 h-3.5 text-cyber-amber" />
+            <span>DPR: [1.0, 1.5]</span>
+          </div>
+          <button
+            className="flex items-center gap-2 px-3 py-1.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 text-cyber-cyan border border-cyber-cyan/40 text-xs transition"
+          >
+            <Volume2 className="w-3.5 h-3.5" />
+            <span>SFX TEST</span>
+          </button>
+        </div>
+      </header>
+
+      {/* 3D Scene Viewport */}
+      <div className="w-full h-full">
+        <Canvas
+          dpr={[1, 1.5]}
+          camera={{ position: [3, 3, 5], fov: 45 }}
+          gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
+        >
+          <color attach="background" args={['#050811']} />
+          
+          {/* Ambient & Directional Cyber Lighting */}
+          <ambientLight intensity={0.2} />
+          <pointLight position={[5, 5, 5]} color="#00f3ff" intensity={30} />
+          <pointLight position={[-5, 3, -5]} color="#ff007f" intensity={25} />
+          <pointLight position={[0, -3, 2]} color="#ffb700" intensity={15} />
+
+          {/* Interactive Test Element */}
+          <RotatingCyberCube />
+
+          {/* Cyberpunk Ground Grid */}
+          <Grid
+            position={[0, -1.5, 0]}
+            args={[20, 20]}
+            cellSize={0.5}
+            cellThickness={0.6}
+            cellColor="#1e293b"
+            sectionSize={2.5}
+            sectionThickness={1.2}
+            sectionColor="#00f3ff"
+            fadeDistance={25}
+            fadeStrength={1.5}
+          />
+
+          <Text
+            position={[0, -1.2, 2]}
+            fontSize={0.25}
+            color="#00f3ff"
+            anchorX="center"
+            anchorY="middle"
+          >
+            SYSTEM READY: PHASE 0 VERIFIED
+          </Text>
+
+          <OrbitControls
+            enableDamping
+            dampingFactor={0.05}
+            minDistance={2}
+            maxDistance={12}
+            maxPolarAngle={Math.PI / 2 + 0.1}
+          />
+        </Canvas>
+      </div>
+
+      {/* Bottom Status Banner */}
+      <footer className="absolute bottom-4 left-6 right-6 z-10 flex items-center justify-between text-xs text-slate-500 pointer-events-none">
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-cyber-cyan" />
+          <span>Interactive 3D Engine initialized with WebGL2</span>
+        </div>
+        <div>
+          <span>Drag to orbit • Scroll to zoom</span>
+        </div>
+      </footer>
+    </div>
+  );
+}

@@ -3,6 +3,18 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Grid, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { Terminal, Cpu, Volume2, Sparkles } from 'lucide-react';
+import AudioTestPage from './AudioTestPage';
+
+// ---------------------------------------------------------------------------
+// DEV-ONLY: show audio test page when URL hash is #audio-test
+// This block is tree-shaken in production builds (import.meta.env.DEV)
+// ---------------------------------------------------------------------------
+const IS_AUDIO_TEST =
+  import.meta.env.DEV && window.location.hash === '#audio-test';
+
+// ---------------------------------------------------------------------------
+// 3D scene helpers (Phase 0 smoke-test)
+// ---------------------------------------------------------------------------
 
 function RotatingCyberCube() {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -24,8 +36,8 @@ function RotatingCyberCube() {
     >
       <boxGeometry args={[1.5, 1.5, 1.5]} />
       <meshStandardMaterial
-        color={hovered ? "#00f3ff" : "#ff007f"}
-        emissive={hovered ? "#00f3ff" : "#ff007f"}
+        color={hovered ? '#00f3ff' : '#ff007f'}
+        emissive={hovered ? '#00f3ff' : '#ff007f'}
         emissiveIntensity={0.6}
         roughness={0.2}
         metalness={0.8}
@@ -35,7 +47,14 @@ function RotatingCyberCube() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Main App
+// ---------------------------------------------------------------------------
+
 export default function App() {
+  // Redirect to audio test harness in dev mode
+  if (IS_AUDIO_TEST) return <AudioTestPage />;
+
   return (
     <div className="relative w-full h-screen bg-[#050811] overflow-hidden">
       {/* 2D HUD Scaffolding Header */}
@@ -46,7 +65,10 @@ export default function App() {
           </div>
           <div>
             <h1 className="text-sm font-bold tracking-widest text-slate-100 flex items-center gap-2">
-              CYBER_DECK <span className="text-xs px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyber-cyan border border-cyber-cyan/30">PHASE 0 ONLINE</span>
+              CYBER_DECK{' '}
+              <span className="text-xs px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyber-cyan border border-cyber-cyan/30">
+                PHASE 0 ONLINE
+              </span>
             </h1>
             <p className="text-xs text-slate-400">UNITY GAME DEV PORTFOLIO // R3F + VITE</p>
           </div>
@@ -57,12 +79,14 @@ export default function App() {
             <Cpu className="w-3.5 h-3.5 text-cyber-amber" />
             <span>DPR: [1.0, 1.5]</span>
           </div>
-          <button
+          <a
+            href="#audio-test"
+            onClick={() => window.location.reload()}
             className="flex items-center gap-2 px-3 py-1.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 text-cyber-cyan border border-cyber-cyan/40 text-xs transition"
           >
             <Volume2 className="w-3.5 h-3.5" />
             <span>SFX TEST</span>
-          </button>
+          </a>
         </div>
       </header>
 
@@ -74,7 +98,7 @@ export default function App() {
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         >
           <color attach="background" args={['#050811']} />
-          
+
           {/* Ambient & Directional Cyber Lighting */}
           <ambientLight intensity={0.2} />
           <pointLight position={[5, 5, 5]} color="#00f3ff" intensity={30} />
@@ -125,7 +149,7 @@ export default function App() {
           <span>Interactive 3D Engine initialized with WebGL2</span>
         </div>
         <div>
-          <span>Drag to orbit • Scroll to zoom</span>
+          <span>Drag to orbit · Scroll to zoom</span>
         </div>
       </footer>
     </div>

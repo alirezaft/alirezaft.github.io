@@ -205,3 +205,23 @@ c:\Alirezaftgithubpages\
    - Implement `src/audio/soundManager.ts` using native Web Audio API oscillators and gain nodes (clicks, hums, power-surges, chirps).
    - Implement global `useAudio` hook with mute toggle and `localStorage` persistence.
    - Wire sound cues into HUD test controls.
+
+
+---
+
+## Phase 2: Procedural Web Audio Engine [COMPLETED]
+* **Date:** 2026-11-03
+* **Tech Stack:** Tone.js (wrapping Web Audio API, ~50KB)
+* **Architecture:** Single `useAudio` React context/hook (no separate singleton)
+* **Sonic Aesthetic:** Sharp, punchy digital — Tron / Mirror's Edge. Dry, polyphonic. ±5–10 semitone pitch micro-variation.
+* **Startup:** Unmuted by default; AudioContext resumed on first user gesture.
+* **Persistence:** `localStorage` for mute state + volume.
+* **Files Created:**
+  - `src/audio/soundEngine.ts` — 16 synthesized sound functions + ambient hum
+  - `src/audio/useAudio.tsx` — AudioProvider + useAudio hook
+  - `src/audio/index.ts` — barrel export
+  - `src/AudioTestPage.tsx` — dev-only test harness
+  - `src/vite-env.d.ts` — Vite type reference
+* **Test Harness:** `http://localhost:3000/#audio-test` — all 16 sounds with play buttons, polyphony stress test, mute/volume.
+
+**Next: Phase 3 — 2D HUD, Recruiter Grid & Slide-out Drawers.**

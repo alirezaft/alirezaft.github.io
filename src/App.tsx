@@ -2,8 +2,11 @@ import { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Grid, Text } from '@react-three/drei';
 import * as THREE from 'three';
-import { Terminal, Cpu, Volume2, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import AudioTestPage from './AudioTestPage';
+import Hud from './components/ui/Hud';
+import { RecruiterGrid } from './components/ui/recruiter';
+import { useUI } from './context';
 
 // ---------------------------------------------------------------------------
 // DEV-ONLY: show audio test page when URL hash is #audio-test
@@ -52,43 +55,18 @@ function RotatingCyberCube() {
 // ---------------------------------------------------------------------------
 
 export default function App() {
+  const { viewMode } = useUI();
+
   // Redirect to audio test harness in dev mode
   if (IS_AUDIO_TEST) return <AudioTestPage />;
 
   return (
     <div className="relative w-full h-screen bg-[#050811] overflow-hidden">
-      {/* 2D HUD Scaffolding Header */}
-      <header className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 py-4 border-b border-cyber-border bg-[#050811]/80 backdrop-blur-md">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 rounded bg-cyan-950/60 border border-cyber-cyan text-cyber-cyan">
-            <Terminal className="w-5 h-5 animate-pulse" />
-          </div>
-          <div>
-            <h1 className="text-sm font-bold tracking-widest text-slate-100 flex items-center gap-2">
-              CYBER_DECK{' '}
-              <span className="text-xs px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyber-cyan border border-cyber-cyan/30">
-                PHASE 0 ONLINE
-              </span>
-            </h1>
-            <p className="text-xs text-slate-400">UNITY GAME DEV PORTFOLIO // R3F + VITE</p>
-          </div>
-        </div>
+      {/* Sleek Top Cyber HUD (Mode Switcher & Media Audio Controller) */}
+      <Hud />
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
-            <Cpu className="w-3.5 h-3.5 text-cyber-amber" />
-            <span>DPR: [1.0, 1.5]</span>
-          </div>
-          <a
-            href="#audio-test"
-            onClick={() => window.location.reload()}
-            className="flex items-center gap-2 px-3 py-1.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 text-cyber-cyan border border-cyber-cyan/40 text-xs transition"
-          >
-            <Volume2 className="w-3.5 h-3.5" />
-            <span>SFX TEST</span>
-          </a>
-        </div>
-      </header>
+      {/* Recruiter Quick-View Grid Mode */}
+      {viewMode === 'recruiter' && <RecruiterGrid />}
 
       {/* 3D Scene Viewport */}
       <div className="w-full h-full">

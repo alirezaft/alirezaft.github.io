@@ -10,7 +10,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   const { openProject } = useUI();
-  const { playHover } = useAudio();
+  const { playHover, playClick } = useAudio();
 
   const getLinkIcon = (type: string) => {
     switch (type) {
@@ -38,11 +38,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       {/* Card Content Top */}
       <div>
         {/* Header Badges */}
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="font-mono text-[10px] tracking-widest uppercase text-slate-400">
-            {project.cartridgeVisual.serialNumber}
-          </span>
-
+        <div className="flex items-center justify-start gap-2 mb-3">
           <span className="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-amber-500/10 text-[#ffb700] border border-amber-500/30">
             {project.statsBadge}
           </span>
@@ -57,8 +53,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <span className="text-slate-300">{project.role}</span>
           <span>&bull;</span>
           <span className="text-slate-400">{project.company}</span>
-          <span>&bull;</span>
-          <span className="text-slate-500">{project.year}</span>
         </div>
 
         {/* Overview snippet */}
@@ -108,21 +102,28 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <ArrowUpRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </button>
 
-        {/* External Links */}
+        {/* External Links or Delisted Note */}
         <div className="flex items-center gap-1.5">
-          {project.links.map((link) => (
-            <a
-              key={link.url}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={playHover}
-              title={`${link.label}: ${link.url}`}
-              className="p-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition"
-            >
-              {getLinkIcon(link.type)}
-            </a>
-          ))}
+          {project.links.length > 0 ? (
+            project.links.map((link) => (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={playClick}
+                onMouseEnter={playHover}
+                title={`${link.label}: ${link.url}`}
+                className="p-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition"
+              >
+                {getLinkIcon(link.type)}
+              </a>
+            ))
+          ) : (
+            <span className="text-[11px] font-mono text-slate-500">
+              Delisted from Google Play
+            </span>
+          )}
         </div>
       </div>
     </div>

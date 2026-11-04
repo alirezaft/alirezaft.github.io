@@ -6,18 +6,18 @@
 
 ## 1. Project Overview & Client Profile
 
-* **Client:** Alireza Forghani Toosi (Unity Game & Application Developer).
+* **Client:** Alireza Forghani Toosi (Unity Developer and Game Designer).
 * **Core Credentials (from verified CV):**
   * 5+ years production experience in mobile game development, VR, and interactive systems.
   * 50M+ active users reached across commercial mobile titles (*Mr. Bean: Special Delivery*).
   * Shipped VR projects, custom Unity editor tools (UI Toolkit, IMGUI), and agentic AI workflows.
   * B.Sc. in Computer Engineering from Ferdowsi University of Mashhad.
 * **Objective:** An interactive 3D web portfolio that showcases game development capabilities while remaining blazing fast, accessible to hiring managers, and easily maintainable.
-* **Hosting Platform:** GitHub Pages (`c:\Alirezaftgithubpages`).
+* **Hosting Platform:** GitHub Pages (`c:\Projects\Personal\alirezaft.github.io`).
 * **Key Artifacts in Repository:**
-  * [`portfolio_specification.md`](file:///c:/Alirezaftgithubpages/portfolio_specification.md) — Full Product Requirements Document (PRD).
-  * [`EXECUTION_PLAN.md`](file:///c:/Alirezaftgithubpages/EXECUTION_PLAN.md) — 9-Phase Step-by-Step Execution Plan.
-  * [`Handoff.md`](file:///c:/Alirezaftgithubpages/Handoff.md) — This living handoff document.
+  * [`portfolio_specification.md`](file:///c:/Projects/Personal/alirezaft.github.io/portfolio_specification.md) — Full Product Requirements Document (PRD).
+  * [`EXECUTION_PLAN.md`](file:///c:/Projects/Personal/alirezaft.github.io/EXECUTION_PLAN.md) — 9-Phase Step-by-Step Execution Plan.
+  * [`Handoff.md`](file:///c:/Projects/Personal/alirezaft.github.io/Handoff.md) — This living handoff document.
 
 ---
 
@@ -80,29 +80,35 @@ The project was shaped through collaborative architectural planning and client r
 
 ### Phase 3 Specific Client Directives & Decisions (Detailed History)
 
-1. **Minimal Top HUD Bar:**
-   - **Omit Title & Beacon:** Keep the top bar clean and floating; removed large `ONLINE // DEV_STATION` and `CYBER_DECK` titles to maximize 3D scene immersion. Replaced with a subtle minimal `SYS_READY` indicator on the left.
-   - **Text-Only Mode Buttons:** Removed decorative icons from `3D CYBER-DECK` and `RECRUITER VIEW` buttons for a clean, minimalist profile.
-   - **Removed "FAST" Badge:** Eliminated the auxiliary label from the recruiter view button.
+1. **Top Cyber HUD Bar Background & Layout:**
+   - **Background Added for Scroll Clarity:** HUD header features `bg-[#050811]/90 backdrop-blur-md border-b border-[#1e293b]/80 shadow-[0_4px_24px_rgba(0,0,0,0.6)]` so it remains sharply distinct and prevents cards and text from visually colliding with the navigation pills when scrolling.
+   - **Omit Title & Beacon:** Kept top bar floating; minimal `SYS_READY` indicator on the left.
+   - **Text-Only Mode Buttons:** Removed decorative icons and "FAST" badge for a sleek, minimal look (`3D CYBER-DECK` ⟷ `RECRUITER VIEW`).
 2. **Media-Player Style Volume Controller:**
-   - Redesigned from a popover dropdown into an intuitive, compact inline media player widget.
-   - Features a dynamic speaker icon (`Volume2` for ≥50%, `Volume1` for <50%, `VolumeX` when muted).
+   - Redesigned into an inline media player widget with dynamic speaker icon (`Volume2`, `Volume1`, `VolumeX`).
    - Horizontal volume track with Matrix Green (`#00ff66`) progress fill and percentage text (`0%` to `100%`).
-   - Clicking speaker toggles mute; dragging the slider adjusts volume and automatically restores audio if muted.
-   - **Audio Feedback Rules for Slider:**
-     - Direct track clicks: `playClick()` sound fires **instantly**.
-     - Dragging: volume changes smoothly and silently during drag; `playClick()` fires once upon **releasing mouse** (`pointerup`).
-     - Keyboard arrow adjustments: `playClick()` fires on each arrow step.
-3. **Recruiter Quick-View Structure & Resume Download:**
-   - Prominent **"DOWNLOAD RESUME (PDF)"** button placed directly inside the recruiter header above the fold.
-   - Button uses a simple, crisp `playClick()` sound effect (reserving `playUsbPlug` exclusively for the 3D desk USB prop in Phase 5) and displays a 1.2s glowing pulse animation (`isResumeDownloading: true`).
-   - Populated with authentic resume credentials:
-     - 50M+ Shipped Players, 5+ Years Production Experience, Mashhad, Iran.
-     - Manshoor Fanavari Arya (4+ VR projects, Agentic AI productivity gains).
-     - Unbound Game Studio (10+ games, 50M+ users, 30% crash cut, 5.1% retention boost).
-     - Lodaroon Game Studio (Co-founder, ScriptableObject architecture).
-     - Ferdowsi University of Mashhad (B.Sc. in Computer Engineering).
-   - 4 Embedded View Tabs: `PROJECTS (9)`, `SKILL CIRCUITS (12)`, `CAREER LOG`, and `PUBLICATIONS`.
+   - Audio feedback rules: instant click on track vs drag-and-release upon `pointerup`.
+3. **Recruiter Quick-View Cleanups & Adjustments:**
+   - **Uniform Magenta Header Corners:** Header card corners updated to uniform Magenta (`#ff007f`) accents (`border-[#ff007f]`).
+   - **Simplified Search Input:** Search bar placeholder simplified to `Search...`.
+   - **Auditory Feedback on External Links:** Added `playClick()` sound trigger to LinkedIn, GitHub, Email, and Project Card external links upon click.
+   - **Removed Badges & Affiliations:** Removed "AVAILABLE FOR HIRE" pill and removed "Manshoor Fanavari Arya • Ex-Unbound" affiliation line next to headline.
+   - **Updated Job Title:** Changed headline to "Unity Developer and Game Designer".
+   - **Removed Time Ranges & ROM Serial Numbers:** Project cards now display role, studio, and stats badge without year date ranges or cartridge serial codes (`ROM-...`).
+   - **Kingdom Hero Role:** Updated to "Game Designer".
+   - **Verified PDF Resume:** Installed authentic, verified 2-page CV in `public/assets/resume/Alireza_Forghani_Toosi_Resume.pdf` (55,228 bytes).
+   - **Recruiter Technical Skills Section:** Replaced the hardware circuit presentation in the recruiter view with a clean, professional skills catalog. Removed synthetic IC jargon and "Inspect Telemetry" modals; skills are organized into four intuitive engineering domains (*Core Game Engine & Architecture*, *Editor Tooling & Game Design*, *AI Engineering, SDKs & Infrastructure*, *Teaching, Mentorship & Collaboration*) showing comprehensive explanations, production impact metrics, and linked project buttons directly.
+   - **Medium Profile Conformance:** Updated all Medium publication and social profile URLs to `https://alirezaft98.medium.com/`.
+   - **Curated Skill Refinements:**
+     - Simplified title to **"Unity Engine & C#"** (removed "Architecture").
+     - Renamed to **"Agentic Software Development"** (removed "LLM"), cross-linked *Mr. Bean: Special Delivery*, and highlighted application of agentic workflows and LLMs to game design (economy balancing, narrative ideation, design docs).
+     - Expanded **"Technical Teaching, Candidate Onboarding & University Workshops"** to highlight hands-on university workshops.
+     - Removed non-specialist and internal profiling items: **"Physics Algorithms & Numerical Methods"** and **"Memory Profiling & Crash Optimization"**.
+   - **Updated Live Links:**
+     - Special Delivery: `https://play.google.com/store/apps/details?id=com.goodcatchgames.mrbeanhillclimb&hl=en_US`
+     - Verlet Rope: `https://github.com/alirezaft/UnityVerletRope`
+     - Prefab Palette: `https://github.com/alirezaft/PrefabPalette`
+     - Kingdom Hero: `https://play.google.com/store/apps/details?id=com.Artronics.TowerMania&hl=en_US`
 
 ---
 
@@ -116,7 +122,7 @@ The project was shaped through collaborative architectural planning and client r
 ### Phase 1: Modular Content Architecture & Data Contracts [COMPLETED]
 * **Date:** 2026-11-02
 * Built modular schemas in `src/content/`:
-  - 9 Projects across 4 shelf categories (`src/content/projects/`)
+  - 8 Projects across 4 shelf categories (`src/content/projects/`)
   - 12 Hardware Skill Chips across 4 tiers (`src/content/skills/`)
   - Profile bio, career timeline, education, transmissions, and socials (`src/content/profile/`)
   - Companion robot lore & trivia (`src/content/companion/`)
@@ -132,31 +138,31 @@ The project was shaped through collaborative architectural planning and client r
 ### Phase 3: 2D HUD, Recruiter Grid & Slide-out Drawers [IN PROGRESS]
 * **Date:** 2026-11-04
 * **Completed in Phase 3 so far:**
-  1. **UI State & Store Architecture ([`src/context/UIContext.tsx`](file:///c:/Alirezaftgithubpages/src/context/UIContext.tsx)):**
+  1. **UI State & Store Architecture ([`src/context/UIContext.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/context/UIContext.tsx)):**
      - Managed `viewMode` (`'3d'` ⟷ `'recruiter'`).
      - Selected project and drawer state (`openProject`, `closeProject`, `selectedProject`).
      - Selected skill chip and modal state (`openSkill`, `closeSkill`, `selectedSkill`).
      - Recruiter search query, category filtering (`filteredProjects` with instant `useMemo`).
      - Resume download triggering (`triggerResumeDownload`, `isResumeDownloading`).
      - Automatic audio synchronization and global `Escape` key listener.
-  2. **Top Cyber HUD Component ([`src/components/ui/Hud.tsx`](file:///c:/Alirezaftgithubpages/src/components/ui/Hud.tsx)):**
-     - Minimal glassmorphic floating header with `SYS_READY` pulse dot.
+  2. **Top Cyber HUD Component ([`src/components/ui/Hud.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/components/ui/Hud.tsx)):**
+     - Floating header with dark glassmorphic background to separate from scrolling content.
+     - Minimal `SYS_READY` pulse dot.
      - Clean text-only mode switcher (`3D CYBER-DECK` ⟷ `RECRUITER VIEW`).
      - Media-player style compact volume widget with dynamic speaker icon and horizontal slider.
-     - Custom audio logic distinguishing instant track clicks from drag-and-release.
      - Dev-only link to `SFX_LAB`.
-  3. **Recruiter Quick-View Grid ([`src/components/ui/recruiter/`](file:///c:/Alirezaftgithubpages/src/components/ui/recruiter/)):**
-     - `RecruiterHeader.tsx`: Developer identity, 50M+ badge, contact links, and glowing Resume CTA.
-     - `RecruiterTabs.tsx`: Tabs for Projects (9), Skill Circuits (12), Career Log, and Publications.
-     - `RecruiterFilterBar.tsx`: Category pills with live project counts + real-time search bar.
-     - `ProjectCard.tsx`: High-density cyberpunk cards with serial numbers, stats badges, responsibilities, tech tags, and external action links.
-     - `RecruiterProjectsView.tsx`: Responsive 3-col/2-col/1-col card catalog with empty search state.
+  3. **Recruiter Quick-View Grid ([`src/components/ui/recruiter/`](file:///c:/Projects/Personal/alirezaft.github.io/src/components/ui/recruiter/)):**
+     - `RecruiterHeader.tsx`: Magenta corner accents, developer identity ("Unity Developer and Game Designer"), 50M+ badge, contact links with `playClick()`, and 1-click Resume download.
+     - `RecruiterTabs.tsx`: Tabs for Projects (8), Technical Skills (10), Career Log, and Publications.
+     - `RecruiterFilterBar.tsx`: Category pills with live project counts + simplified `Search...` bar.
+     - `ProjectCard.tsx`: Clean cards without time ranges, stats badges, tech tags, and external action links with click SFX.
+     - `RecruiterProjectsView.tsx`: Responsive card catalog with empty search state.
      - `RecruiterSkillsView.tsx`: Hardware chips grouped by tiers with real impact metrics and cross-linked project buttons.
      - `RecruiterCareerView.tsx`: Work experience timeline and education matching CV.
-     - `RecruiterTransmissionsView.tsx`: Medium articles and university teaching.
+     - `RecruiterTransmissionsView.tsx`: Articles and university teaching with click SFX.
      - `RecruiterGrid.tsx`: Master animated container using Framer Motion.
      - `icons.tsx`: Custom SVG icons for GitHub and LinkedIn.
-  4. **App Integration ([`src/App.tsx`](file:///c:/Alirezaftgithubpages/src/App.tsx)):**
+  4. **App Integration ([`src/App.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/App.tsx)):**
      - Wrapped with `<AudioProvider>` and `<UIProvider>`.
      - Seamless mode transition between 3D Canvas and Recruiter Quick-View.
      - Clean compilation: `npm run build` passing with code 0.
@@ -166,7 +172,7 @@ The project was shaped through collaborative architectural planning and client r
 ## 4. Current File Tree
 
 ```
-c:\Alirezaftgithubpages\
+c:\Projects\Personal\alirezaft.github.io\
 ├── public/
 │   ├── assets/
 │   │   ├── icons/
@@ -195,7 +201,7 @@ c:\Alirezaftgithubpages\
 │   │       │   ├── RecruiterSkillsView.tsx
 │   │       │   ├── RecruiterTabs.tsx
 │   │       │   └── RecruiterTransmissionsView.tsx
-│   │       └── Hud.tsx             # MINIMAL TOP CYBER HUD
+│   │       └── Hud.tsx             # TOP CYBER HUD WITH SCROLL BACKDROP
 │   ├── content/                    # MODULAR DATA ARCHITECTURE
 │   │   ├── companion/
 │   │   ├── profile/

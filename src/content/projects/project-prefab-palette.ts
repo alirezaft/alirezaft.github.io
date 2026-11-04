@@ -27,7 +27,7 @@ export const projectPrefabPalette: Project = {
   links: [
     {
       label: 'GitHub Repository',
-      url: 'https://github.com/alirezaft/Prefab-Palette',
+      url: 'https://github.com/alirezaft/PrefabPalette',
       type: 'github',
     },
   ],

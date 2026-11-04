@@ -20,7 +20,7 @@ const TABS: TabItem[] = [
   },
   {
     id: 'skills',
-    label: 'SKILL CIRCUITS',
+    label: 'TECHNICAL SKILLS',
     badge: SKILL_CIRCUIT_COMPONENTS.length,
     icon: Cpu,
   },
@@ -58,7 +58,7 @@ export default function RecruiterTabs() {
                 : 'text-slate-400 hover:text-slate-200 border border-transparent hover:bg-slate-800/40'
             }`}
           >
-            <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#00f3ff]' : 'text-slate-500'}`} />
+            <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#00f3ff]' : 'text-slate-400'}`} />
             <span>{tab.label}</span>
             {tab.badge !== undefined && (
               <span

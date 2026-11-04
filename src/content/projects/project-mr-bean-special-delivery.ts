@@ -28,7 +28,7 @@ export const projectMrBeanSpecialDelivery: Project = {
   links: [
     {
       label: 'Google Play',
-      url: 'https://play.google.com/store/apps/details?id=com.unbound.mrbeanspecialdelivery',
+      url: 'https://play.google.com/store/apps/details?id=com.goodcatchgames.mrbeanhillclimb&hl=en_US',
       type: 'google-play',
     },
   ],

@@ -3,7 +3,6 @@ import { projectMrBeanSpecialDelivery } from './project-mr-bean-special-delivery
 import { projectMrBeanSolitaire } from './project-mr-bean-solitaire';
 import { projectKingdomHero } from './project-kingdom-hero';
 import { projectVrProduction } from './project-vr-production';
-import { projectKinectVision } from './project-kinect-vision';
 import { projectUnityVerletRope } from './project-unity-verlet-rope';
 import { projectSimpleDiagnosis } from './project-simple-diagnosis';
 import { projectPrefabPalette } from './project-prefab-palette';
@@ -21,7 +20,6 @@ export const ALL_PROJECTS: Project[] = [
 
   // Shelf Row 2: VR Games & Applications
   projectVrProduction,
-  projectKinectVision,
 
   // Shelf Row 3: Open Source Experiments
   projectUnityVerletRope,

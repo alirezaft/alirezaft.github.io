@@ -27,8 +27,8 @@ export const projectVrProduction: Project = {
   },
   links: [
     {
-      label: 'LinkedIn Case Notes',
-      url: 'https://linkedin.com/in/alirezaft',
+      label: 'Products & Portfolio',
+      url: 'https://manshourfanavari.com/en/products',
       type: 'external',
     },
   ],

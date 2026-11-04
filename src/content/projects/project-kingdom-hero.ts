@@ -8,7 +8,7 @@ export const projectKingdomHero: Project = {
   shelfRow: 1,
   slotIndex: 2,
   year: '2021 – 2023',
-  role: 'Core Systems & Gameplay Programmer',
+  role: 'Game Designer',
   company: 'Unbound Game Studio',
   statsBadge: 'Shipped Title',
   overview: 'Strategic fantasy tower defense title built for mobile. Architected high-performance wave spawning systems, pathfinding logic, tower progression upgrades, and combat calculations.',
@@ -28,7 +28,7 @@ export const projectKingdomHero: Project = {
   links: [
     {
       label: 'Google Play',
-      url: 'https://play.google.com/store/apps/details?id=com.unbound.kingdomhero',
+      url: 'https://play.google.com/store/apps/details?id=com.Artronics.TowerMania&hl=en_US',
       type: 'google-play',
     },
   ],

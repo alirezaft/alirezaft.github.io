@@ -90,7 +90,7 @@ export default function RecruiterFilterBar() {
           type="text"
           value={recruiterSearchQuery}
           onChange={(e) => setRecruiterSearchQuery(e.target.value)}
-          placeholder="Search systems, C#, shaders..."
+          placeholder="Search..."
           className="w-full pl-9 pr-8 py-2 rounded-xl bg-[#0b1120]/80 border border-[#1e293b] text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-[#00f3ff] focus:shadow-[0_0_12px_rgba(0,243,255,0.25)] transition"
         />
         {recruiterSearchQuery && (

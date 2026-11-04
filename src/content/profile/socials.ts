@@ -28,8 +28,8 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     platform: 'medium',
     label: 'Medium',
-    url: 'https://medium.com/@alirezaft',
-    handle: '@alirezaft',
+    url: 'https://alirezaft98.medium.com/',
+    handle: '@alirezaft98',
   },
   {
     platform: 'resume',

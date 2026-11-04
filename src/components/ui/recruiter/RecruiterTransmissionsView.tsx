@@ -3,7 +3,7 @@ import { TRANSMISSIONS } from '../../../content/profile/transmissions';
 import { useAudio } from '../../../audio';
 
 export default function RecruiterTransmissionsView() {
-  const { playHover } = useAudio();
+  const { playHover, playClick } = useAudio();
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -58,6 +58,8 @@ export default function RecruiterTransmissionsView() {
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={playClick}
+                  onMouseEnter={playHover}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs font-bold text-[#ffb700] bg-amber-950/30 hover:bg-amber-950/70 border border-amber-500/40 hover:border-[#ffb700] transition"
                 >
                   <span>READ ON {item.platform.toUpperCase()}</span>

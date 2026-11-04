@@ -3,7 +3,7 @@ import { ProfileBio } from './types';
 export const PROFILE_BIO: ProfileBio = {
   fullName: 'Alireza Forghani Toosi',
   callsign: 'alirezaft',
-  headline: 'Unity Game & Application Developer',
+  headline: 'Unity Developer and Game Designer',
   currentRole: 'Mid-Level Unity Developer @ Manshoor Fanavari Arya',
   location: 'Mashhad, Razavi Khorasan, Iran',
   summary: 'Computer Engineering graduate with 5+ years of production experience in mobile game development, VR, and interactive systems using Unity and C#. Proficient in architecting scalable gameplay loops for the global market, with direct experience maintaining and shipping titles enjoyed by over 50M+ active players.',

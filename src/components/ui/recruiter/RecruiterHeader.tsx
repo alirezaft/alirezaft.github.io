@@ -6,14 +6,14 @@ import { PROFILE_BIO } from '../../../content/profile/bio';
 
 export default function RecruiterHeader() {
   const { triggerResumeDownload, isResumeDownloading } = useUI();
-  const { playHover } = useAudio();
+  const { playHover, playClick } = useAudio();
 
   return (
     <div className="relative p-5 sm:p-7 rounded-2xl bg-[#0b1120]/90 border border-[#1e293b] shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md mb-6">
-      {/* Decorative Cyber Corner Accents */}
-      <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#00f3ff] rounded-tl-sm pointer-events-none" />
+      {/* Decorative Cyber Corner Accents - Uniform Magenta */}
+      <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#ff007f] rounded-tl-sm pointer-events-none" />
       <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-[#ff007f] rounded-tr-sm pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-[#00f3ff] rounded-bl-sm pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-[#ff007f] rounded-bl-sm pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-[#ff007f] rounded-br-sm pointer-events-none" />
 
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -23,17 +23,10 @@ export default function RecruiterHeader() {
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white font-mono">
               {PROFILE_BIO.fullName}
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-cyan-500/10 text-[#00f3ff] border border-cyan-500/30">
-              AVAILABLE FOR HIRE
-            </span>
           </div>
 
           <p className="text-sm sm:text-base font-mono text-[#00f3ff] font-semibold flex items-center gap-2">
             <span>{PROFILE_BIO.headline}</span>
-            <span className="text-slate-600">|</span>
-            <span className="text-slate-300 font-normal text-xs sm:text-sm">
-              Manshoor Fanavari Arya &bull; Ex-Unbound
-            </span>
           </p>
 
           {/* Quick Metrics Badges */}
@@ -62,6 +55,7 @@ export default function RecruiterHeader() {
               href="https://github.com/alirezaft"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={playClick}
               onMouseEnter={playHover}
               className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300 hover:text-[#00f3ff] hover:border-cyan-500/40 transition"
             >
@@ -73,6 +67,7 @@ export default function RecruiterHeader() {
               href="https://linkedin.com/in/alirezaft"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={playClick}
               onMouseEnter={playHover}
               className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300 hover:text-[#00f3ff] hover:border-cyan-500/40 transition"
             >
@@ -82,6 +77,7 @@ export default function RecruiterHeader() {
 
             <a
               href="mailto:alirezaft98@gmail.com"
+              onClick={playClick}
               onMouseEnter={playHover}
               className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300 hover:text-[#00f3ff] hover:border-cyan-500/40 transition"
             >

@@ -16,7 +16,7 @@ export default function Hud() {
   const isDev = import.meta.env.DEV;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 pointer-events-none px-4 py-3 sm:px-6 sm:py-4">
+    <header className="fixed top-0 left-0 right-0 z-30 pointer-events-none px-4 py-3 sm:px-6 sm:py-3.5 bg-[#050811]/90 backdrop-blur-md border-b border-[#1e293b]/80 shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left Side: Subtle minimal status dot indicating scene engine live */}
         <div className="flex-1 pointer-events-auto flex items-center">
@@ -99,43 +99,43 @@ export default function Hud() {
                 startXRef.current = e.clientX;
                 hasDraggedRef.current = false;
                 clickSoundPlayedRef.current = false;
+
+                // Set initial volume on click
+                const rect = e.currentTarget.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const newVol = Math.max(0, Math.min(1, clickX / rect.width));
+                setVolume(newVol);
               }}
               onPointerMove={(e) => {
-                if (isPointerDownRef.current) {
-                  if (Math.abs(e.clientX - startXRef.current) > 3) {
-                    hasDraggedRef.current = true;
-                  }
+                if (!isPointerDownRef.current) return;
+                const deltaX = Math.abs(e.clientX - startXRef.current);
+                if (deltaX > 3) {
+                  hasDraggedRef.current = true;
                 }
+                const rect = e.currentTarget.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const newVol = Math.max(0, Math.min(1, clickX / rect.width));
+                setVolume(newVol);
               }}
               onPointerUp={() => {
-                if (isPointerDownRef.current) {
-                  isPointerDownRef.current = false;
-                  // If user dragged the slider, play click on release
-                  if (hasDraggedRef.current) {
-                    playClick();
-                  }
-                  hasDraggedRef.current = false;
-                  clickSoundPlayedRef.current = false;
-                }
-              }}
-              onPointerCancel={() => {
+                if (!isPointerDownRef.current) return;
                 isPointerDownRef.current = false;
+
+                // If user dragged, play click on release
+                if (hasDraggedRef.current) {
+                  playClick();
+                } else if (!clickSoundPlayedRef.current) {
+                  // If it was a stationary click that hasn't fired yet
+                  playClick();
+                }
                 hasDraggedRef.current = false;
                 clickSoundPlayedRef.current = false;
               }}
               onChange={(e) => {
                 const newVol = parseFloat(e.target.value);
-                if (muted && newVol > 0) {
-                  toggleMute();
-                }
                 setVolume(newVol);
-
-                // If clicked directly without dragging, play click sound immediately
-                if (
-                  isPointerDownRef.current &&
-                  !hasDraggedRef.current &&
-                  !clickSoundPlayedRef.current
-                ) {
+                // For direct input changes without drag (fallback)
+                if (!isPointerDownRef.current && !clickSoundPlayedRef.current) {
                   playClick();
                   clickSoundPlayedRef.current = true;
                 }

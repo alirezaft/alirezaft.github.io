@@ -28,7 +28,7 @@ export const projectUnityVerletRope: Project = {
   links: [
     {
       label: 'GitHub Repository',
-      url: 'https://github.com/alirezaft/Unity-Verlet-Rope',
+      url: 'https://github.com/alirezaft/UnityVerletRope',
       type: 'github',
     },
   ],

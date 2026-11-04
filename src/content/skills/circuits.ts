@@ -1,10 +1,10 @@
 import { SkillChip } from './types';
 
 export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
-  // TIER 1: VITAL MAIN PROCESSOR (Central Core)
+  // 1. Core Engine
   {
     id: 'unity-engine-core',
-    name: 'Unity Engine & C# Architecture',
+    name: 'Unity Engine & C#',
     componentRole: 'main-cpu',
     importanceLevel: 1,
     category: 'engine-core',
@@ -13,31 +13,33 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     linkedProjectIds: ['mr-bean-special-delivery', 'mr-bean-solitaire-adventure', 'kingdom-hero-tower-defense', 'vr-interactive-applications'],
     specs: {
       frequencyOrRating: 'Unity 6 & C# 12 / Multi-Threaded',
-      footprint: 'BGA-2048 Core CPU',
+      footprint: 'Core Engine & Systems',
       pinCount: 2048,
       status: 'boosted',
     },
     circuitColor: '#00f3ff', // Cyan
   },
 
-  // TIER 2: HEAVY INTEGRATED CIRCUITS (Major Pillars)
+  // 2. Clean Architecture
   {
     id: 'clean-architecture-solid',
     name: 'Clean Code & SOLID Design Patterns',
     componentRole: 'heavy-ic',
-    importanceLevel: 2,
+    importanceLevel: 1,
     category: 'architecture',
     summary: 'Rigorous application of SOLID, decoupled event buses, state machines, and modular ScriptableObject architectures.',
     realWorldImpact: 'Cut legacy engineering task turnaround times by 30% across studio codebases.',
     linkedProjectIds: ['mr-bean-special-delivery', 'kingdom-hero-tower-defense'],
     specs: {
-      frequencyOrRating: 'Zero-Coupling Bus Architecture',
-      footprint: 'QFP-144 High-Density IC',
+      frequencyOrRating: 'Decoupled Systems Architecture',
+      footprint: 'Clean Architecture & SOLID',
       pinCount: 144,
       status: 'active',
     },
     circuitColor: '#ff007f', // Magenta
   },
+
+  // 3. Custom Editor Tooling
   {
     id: 'custom-editor-ui-toolkit',
     name: 'Custom Editor Tooling & UI Toolkit',
@@ -49,31 +51,33 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     linkedProjectIds: ['prefab-palette', 'unity-chart', 'mr-bean-special-delivery'],
     specs: {
       frequencyOrRating: 'Reactive UXML Data Binding',
-      footprint: 'QFP-128 Dedicated Controller',
+      footprint: 'Editor Scripting & Tools',
       pinCount: 128,
       status: 'active',
     },
     circuitColor: '#ffb700', // Amber
   },
+
+  // 4. Agentic Software Development & Game Design
   {
-    id: 'performance-profiling-optimization',
-    name: 'Memory Profiling & Crash/ANR Optimization',
-    componentRole: 'heavy-ic',
+    id: 'agentic-ai-llm-workflows',
+    name: 'Agentic Software Development',
+    componentRole: 'medium-ic',
     importanceLevel: 2,
-    category: 'optimization',
-    summary: 'Deep profiling via Unity Memory Profiler, Deep Profiler, and Android logcat to eliminate GC spikes, leaks, and draw call bottlenecks.',
-    realWorldImpact: 'Reduced crash/ANR rates by 30% and improved 30-day player retention by 5.1%.',
-    linkedProjectIds: ['mr-bean-special-delivery', 'kingdom-hero-tower-defense'],
+    category: 'workflow',
+    summary: 'Integrating cutting-edge Agentic AI workflows and LLMs into daily development to accelerate prototyping, code review, and tooling. Actively applying AI agents and LLMs in game design for narrative ideation, economy balancing, and design documentation.',
+    realWorldImpact: 'Boosted engineering team productivity by 1.5x at Manshoor Fanavari Arya and streamlined live title features.',
+    linkedProjectIds: ['mr-bean-special-delivery', 'vr-interactive-applications'],
     specs: {
-      frequencyOrRating: 'Zero-Allocation Hot Loops / 60-90 FPS',
-      footprint: 'QFP-100 Profiling DSP',
-      pinCount: 100,
-      status: 'active',
+      frequencyOrRating: 'Autonomous Coding Agents & Automation',
+      footprint: 'Agentic AI & LLMs',
+      pinCount: 14,
+      status: 'boosted',
     },
-    circuitColor: '#00ff66', // Green
+    circuitColor: '#ec4899', // Hot Pink
   },
 
-  // TIER 3: MEDIUM ICS (Platforms, Integrations & Systems)
+  // 5. WebGL Porting
   {
     id: 'webgl-porting-js-wrappers',
     name: 'WebGL Porting & JavaScript Wrappers',
@@ -85,12 +89,14 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     linkedProjectIds: ['mr-bean-special-delivery'],
     specs: {
       frequencyOrRating: 'WASM WebGL Bridge / Low-Memory',
-      footprint: 'SOIC-28 Bridge Controller',
+      footprint: 'WebGL & Web Platforms',
       pinCount: 28,
       status: 'active',
     },
     circuitColor: '#38bdf8', // Sky Blue
   },
+
+  // 6. Mobile SDKs & Analytics
   {
     id: 'mobile-sdks-analytics',
     name: 'SDK Integration (GameAnalytics, Firebase, Ads)',
@@ -102,12 +108,14 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     linkedProjectIds: ['mr-bean-special-delivery', 'mr-bean-solitaire-adventure'],
     specs: {
       frequencyOrRating: 'Async Telemetry Ingestion Pipeline',
-      footprint: 'SOIC-24 Telemetry IC',
+      footprint: 'Analytics & Monetization SDKs',
       pinCount: 24,
       status: 'active',
     },
     circuitColor: '#a855f7', // Purple
   },
+
+  // 7. Telemetry & Economy Balancing
   {
     id: 'telemetry-game-design',
     name: 'Telemetry Analysis & Economy Balancing',
@@ -119,46 +127,14 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     linkedProjectIds: ['mr-bean-solitaire-adventure', 'mr-bean-special-delivery'],
     specs: {
       frequencyOrRating: 'Cohort Funnel & Churn Analysis',
-      footprint: 'SOIC-20 Analytics Chip',
+      footprint: 'Game Design & Balancing',
       pinCount: 20,
       status: 'active',
     },
     circuitColor: '#f43f5e', // Rose
   },
-  {
-    id: 'physics-verlet-sim',
-    name: 'Physics Algorithms & Numerical Methods',
-    componentRole: 'medium-ic',
-    importanceLevel: 3,
-    category: 'engine-core',
-    summary: 'Developing custom physics solvers, Verlet numerical integration, spring relaxation, and procedural mesh generation in Unity.',
-    realWorldImpact: 'Created top-rated open-source simulation package with 65+ GitHub stars.',
-    linkedProjectIds: ['unity-verlet-rope'],
-    specs: {
-      frequencyOrRating: 'Verlet Position-Based Dynamics',
-      footprint: 'SOIC-16 Physics Math Coprocessor',
-      pinCount: 16,
-      status: 'active',
-    },
-    circuitColor: '#10b981', // Emerald
-  },
-  {
-    id: 'agentic-ai-llm-workflows',
-    name: 'LLM & Agentic Software Development',
-    componentRole: 'medium-ic',
-    importanceLevel: 3,
-    category: 'workflow',
-    summary: 'Integrating cutting-edge Agentic AI workflows and LLMs into daily development to accelerate prototyping, code review, and tooling.',
-    realWorldImpact: 'Boosted engineering team productivity by 1.5x at Manshoor Fanavari Arya.',
-    linkedProjectIds: ['vr-interactive-applications'],
-    specs: {
-      frequencyOrRating: 'Autonomous Coding Agents & Automation',
-      footprint: 'DIP-14 Neural Coprocessor',
-      pinCount: 14,
-      status: 'boosted',
-    },
-    circuitColor: '#ec4899', // Hot Pink
-  },
+
+  // 8. Git Version Control
   {
     id: 'git-version-control',
     name: 'Git Version Control & CI/CD Pipelines',
@@ -167,17 +143,36 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'workflow',
     summary: 'Proficient with complex Git branching workflows (GitFlow, trunk-based), CLI, SourceTree, SmartGit, and LFS asset management.',
     realWorldImpact: 'Smooth multi-developer merges across multi-gigabyte project repos.',
-    linkedProjectIds: ['mr-bean-special-delivery', 'prefab-palette', 'unity-verlet-rope'],
+    linkedProjectIds: ['mr-bean-special-delivery', 'prefab-palette', 'unity-chart'],
     specs: {
       frequencyOrRating: 'Git LFS / Multi-Branch Integrity',
-      footprint: 'SOIC-16 Version Bus',
+      footprint: 'Version Control & DevOps',
       pinCount: 16,
       status: 'active',
     },
     circuitColor: '#e2e8f0', // Silver
   },
 
-  // TIER 4: PASSIVE / SUPPORTING MODULES
+  // 9. Technical Teaching, Onboarding & University Workshops
+  {
+    id: 'mentoring-workshops',
+    name: 'Technical Teaching, Candidate Onboarding & University Workshops',
+    componentRole: 'passive-module',
+    importanceLevel: 4,
+    category: 'workflow',
+    summary: 'Conducted hands-on university workshops at Ferdowsi University instructing students on game architecture and loop design. Evaluated technical candidates and mentored junior programmers in team conventions.',
+    realWorldImpact: 'Onboarded 3 engineering/design hires and instructed 50+ students in university workshops.',
+    linkedProjectIds: [],
+    specs: {
+      frequencyOrRating: 'Knowledge Transfer & Workshops',
+      footprint: 'Mentoring & Teaching',
+      pinCount: 3,
+      status: 'online',
+    },
+    circuitColor: '#cbd5e1', // Light Gray
+  },
+
+  // 10. Agile / Scrum
   {
     id: 'agile-scrum-leadership',
     name: 'Agile / Scrum & Cross-Discipline Collaboration',
@@ -188,29 +183,12 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     realWorldImpact: 'Shortened cross-team alignment meetings through dual technical-design fluency.',
     linkedProjectIds: ['mr-bean-special-delivery', 'vr-interactive-applications'],
     specs: {
-      frequencyOrRating: 'Sprint Clock Synchronizer',
-      footprint: 'Crystal Oscillator 32.768kHz',
+      frequencyOrRating: 'Sprint Velocity & Sync',
+      footprint: 'Agile & Team Collaboration',
       pinCount: 4,
       status: 'online',
     },
     circuitColor: '#94a3b8', // Slate
-  },
-  {
-    id: 'mentoring-workshops',
-    name: 'Technical Teaching & Candidate Onboarding',
-    componentRole: 'passive-module',
-    importanceLevel: 4,
-    category: 'workflow',
-    summary: 'Instructed university game design workshops, evaluated technical candidates, and mentored junior programmers in team conventions.',
-    realWorldImpact: 'Onboarded 3 engineering/design hires and taught university lab courses.',
-    linkedProjectIds: ['kinect-interactive-vision'],
-    specs: {
-      frequencyOrRating: 'Knowledge Transfer Bus',
-      footprint: 'SMD Voltage Regulator',
-      pinCount: 3,
-      status: 'online',
-    },
-    circuitColor: '#cbd5e1', // Light Gray
   },
 ];
 

@@ -7,7 +7,7 @@ export const TRANSMISSIONS: TransmissionItem[] = [
     platform: 'Medium',
     date: 'Ongoing',
     summary: 'Authoring deep-dive English articles exploring mobile game engineering, architecture post-mortems, and telemetry-driven game design insights.',
-    url: 'https://medium.com/@alirezaft',
+    url: 'https://alirezaft98.medium.com/',
     tags: ['Game Development', 'Technical Writing', 'Post-Mortems', 'Architecture'],
   },
   {

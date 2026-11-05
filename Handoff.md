@@ -114,6 +114,12 @@ The project was shaped through collaborative architectural planning and client r
      - Prefab Palette: `https://github.com/alirezaft/PrefabPalette`
      - Kingdom Hero: `https://play.google.com/store/apps/details?id=com.Artronics.TowerMania&hl=en_US`
      - Enterprise VR: `https://manshourfanavari.com/en/products`
+      - A Simple Diagnosis (itch.io): `https://alirezaft.itch.io/a-simple-diagnosis`
+      - Pluggable Strategy Pattern (Medium): `https://alirezaft98.medium.com/pluggable-strategy-design-pattern-with-scriptable-object-c1cdcd427e45`
+    - **"A Simple Diagnosis" Authentic Alignment & Technical Synthesis:**
+      - Corrected narrative and game design: Atmospheric psychological analog horror game revolving around "Red Fever", auditory hallucinations, diagnostic hearing tests, and branching endings.
+      - Integrated architectural innovation: Pluggable Strategy Design Pattern leveraging Unity `ScriptableObject` assets (`[CreateAssetMenu]`) to decouple algorithms from MonoBehaviours and empower non-technical designers to swap evaluation logic in the Inspector.
+      - Added direct links to both the itch.io playable build and the published Medium architectural deep dive in both project drawer/card and transmissions list.
 
 ---
 

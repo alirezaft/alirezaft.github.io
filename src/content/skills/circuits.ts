@@ -29,7 +29,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'architecture',
     summary: 'Rigorous application of SOLID, decoupled event buses, state machines, and modular ScriptableObject architectures.',
     realWorldImpact: 'Cut legacy engineering task turnaround times by 30% across studio codebases.',
-    linkedProjectIds: ['mr-bean-special-delivery', 'kingdom-hero-tower-defense'],
+    linkedProjectIds: ['mr-bean-special-delivery', 'a-simple-diagnosis', 'kingdom-hero-tower-defense'],
     specs: {
       frequencyOrRating: 'Decoupled Systems Architecture',
       footprint: 'Clean Architecture & SOLID',

@@ -1,4 +1,4 @@
-import { ArrowUpRight, Play, ExternalLink, Code2 } from 'lucide-react';
+import { ArrowUpRight, Play, ExternalLink, Code2, BookOpen } from 'lucide-react';
 import { GithubIcon } from './icons';
 import { type Project } from '../../../content/projects';
 import { useUI } from '../../../context';
@@ -20,6 +20,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         return <GithubIcon className="w-3.5 h-3.5 text-slate-300" />;
       case 'itch':
         return <ExternalLink className="w-3.5 h-3.5 text-[#ff007f]" />;
+      case 'medium':
+        return <BookOpen className="w-3.5 h-3.5 text-[#ffb700]" />;
       default:
         return <ArrowUpRight className="w-3.5 h-3.5 text-[#00f3ff]" />;
     }

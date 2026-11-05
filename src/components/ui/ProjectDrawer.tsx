@@ -10,6 +10,7 @@ import {
   Sparkles,
   ArrowUpRight,
   Layers,
+  BookOpen,
 } from 'lucide-react';
 import { GithubIcon } from './recruiter/icons';
 import { useUI } from '../../context';
@@ -33,6 +34,8 @@ export default function ProjectDrawer() {
         return <GithubIcon className="w-4 h-4 text-slate-300" />;
       case 'itch':
         return <ExternalLink className="w-4 h-4 text-[#ff007f]" />;
+      case 'medium':
+        return <BookOpen className="w-4 h-4 text-[#ffb700]" />;
       default:
         return <ArrowUpRight className="w-4 h-4 text-[#00f3ff]" />;
     }

@@ -2,6 +2,15 @@ import { TransmissionItem } from './types';
 
 export const TRANSMISSIONS: TransmissionItem[] = [
   {
+    id: 'pluggable-strategy-scriptable-object',
+    title: 'Pluggable Strategy Design Pattern with Scriptable Object in Unity',
+    platform: 'Medium',
+    date: 'Published',
+    summary: 'Architectural case study from "A Simple Diagnosis" detailing how to implement the Strategy design pattern using Unity ScriptableObjects as modular assets, enabling non-technical designers to swap runtime behaviors and algorithms in the Inspector.',
+    url: 'https://alirezaft98.medium.com/pluggable-strategy-design-pattern-with-scriptable-object-c1cdcd427e45',
+    tags: ['Software Architecture', 'Unity', 'Design Patterns', 'ScriptableObjects', 'C#'],
+  },
+  {
     id: 'medium-technical-articles',
     title: 'Technical Post-Mortems & Game Design Breakdowns on Medium',
     platform: 'Medium',

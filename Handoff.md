@@ -7,13 +7,14 @@
 ## 1. Project Overview & Client Profile
 
 * **Client:** Alireza Forghani Toosi (Unity Developer and Game Designer).
+* **Location & Availability:** Mashhad, Iran (Open to Remote).
 * **Core Credentials (from verified CV):**
   * 5+ years production experience in mobile game development, VR, and interactive systems.
   * 50M+ active users reached across commercial mobile titles (*Mr. Bean: Special Delivery*).
   * Shipped VR projects, custom Unity editor tools (UI Toolkit, IMGUI), and agentic AI workflows.
   * B.Sc. in Computer Engineering from Ferdowsi University of Mashhad.
 * **Objective:** An interactive 3D web portfolio that showcases game development capabilities while remaining blazing fast, accessible to hiring managers, and easily maintainable.
-* **Hosting Platform:** GitHub Pages (`c:\Projects\Personal\alirezaft.github.io`).
+* **Hosting Platform:** GitHub Pages (`https://alirezaft.github.io/`).
 * **Key Artifacts in Repository:**
   * [`portfolio_specification.md`](file:///c:/Projects/Personal/alirezaft.github.io/portfolio_specification.md) — Full Product Requirements Document (PRD).
   * [`EXECUTION_PLAN.md`](file:///c:/Projects/Personal/alirezaft.github.io/EXECUTION_PLAN.md) — 9-Phase Step-by-Step Execution Plan.
@@ -60,17 +61,17 @@ The project was shaped through collaborative architectural planning and client r
 * **Selected Decision:** **"Byte" the Desk Robot Companion + Microchip Feeding Mechanic**.
 * **Mechanics:** A compact desktop robot with an expressive digital screen face. Visitors can pet/click it or drag microchips to feed it. Upon feeding, it spins, chirps, and displays speech bubbles with game-dev trivia.
 
-### Decision 8: Technical Skills Architecture (Cyber Chipset Rack)
-* **Visual:** An angled matte-black PCB test-bench with illuminated copper bus traces.
+### Decision 8: Technical Skills Architecture
+* **Visual:** An angled matte-black PCB test-bench with illuminated copper bus traces in 3D, paired with an accessible, domain-categorized card view in the Recruiter Quick-View.
 * **Component Breakdown:**
-  * **Central CPU:** Unity Engine & C# (large chip with glowing Unity emblem).
-  * **GPU Coprocessor:** Shaders, HLSL, URP/HDRP, VFX Graph.
-  * **RAM Modules:** DOTS/ECS, Memory Profiling, Addressables.
-  * **Expansion ICs:** Physics, NavMesh AI, WebGL porting, Git CI/CD, Teaching.
+  * **Core Game Engine & Architecture:** Unity Engine & C#, Clean Code & SOLID Design Patterns, WebGL Porting & JS Wrappers.
+  * **Editor Tooling & Game Design:** Custom Editor Tooling & UI Toolkit, Telemetry Analysis & Economy Balancing.
+  * **AI Engineering, SDKs & Infrastructure:** Agentic Software Development (software + game design application), Mobile SDK Integration & Analytics, Git Version Control & CI/CD.
+  * **Teaching, Mentorship & Collaboration:** Technical Teaching, Candidate Onboarding & University Workshops, Agile / Scrum & Cross-Discipline Collaboration.
 
 ### Decision 9: Engineering Stack & Hosting Requirements
 * **Selected Decision:** **React 19 + Vite 6 + TypeScript 5.7 + React Three Fiber v9 + Drei v10 + Tailwind CSS v3 + Framer Motion v12 + Tone.js v15**.
-* **Hosting:** Configured for GitHub Pages (`base: './'`).
+* **Hosting:** Configured for GitHub Pages (`base: './'`) via automated GitHub Actions CI/CD (`.github/workflows/deploy.yml`).
 
 ### Decision 10: Content Architecture Strategy
 * **Client Mandate:** **Never bundle content into a single monolithic file.**
@@ -93,22 +94,26 @@ The project was shaped through collaborative architectural planning and client r
    - **Simplified Search Input:** Search bar placeholder simplified to `Search...`.
    - **Auditory Feedback on External Links:** Added `playClick()` sound trigger to LinkedIn, GitHub, Email, and Project Card external links upon click.
    - **Removed Badges & Affiliations:** Removed "AVAILABLE FOR HIRE" pill and removed "Manshoor Fanavari Arya • Ex-Unbound" affiliation line next to headline.
-   - **Updated Job Title:** Changed headline to "Unity Developer and Game Designer".
-   - **Removed Time Ranges & ROM Serial Numbers:** Project cards now display role, studio, and stats badge without year date ranges or cartridge serial codes (`ROM-...`).
-   - **Kingdom Hero Role:** Updated to "Game Designer".
+   - **Location Tag:** Updated to `"Mashhad, Iran (Open to Remote)"` (removed `/ Relo`).
+   - **Updated Job Title:** Changed headline to `"Unity Developer and Game Designer"`.
+   - **Left-Aligned Accomplishment Badges:** Moved amber badges to the left (`justify-start`) on all project cards to balance negative space.
+   - **Removed Time Ranges & ROM Serial Numbers:** Project cards display role, studio, and accomplishment badge without year date ranges or cartridge serial codes (`ROM-...`).
+   - **Curated 8-Project Showcase:** Removed Kinect academic project from standalone project showcase (retaining the story naturally in Career/Teaching log as a university computer vision teaching aid).
+   - **Mr. Bean: Solitaire Adventure Delisted Handling:** Removed dead Google Play URL; card clearly displays `50K+ Shipped (Archived)` badge and `Delisted from Google Play` store note.
    - **Verified PDF Resume:** Installed authentic, verified 2-page CV in `public/assets/resume/Alireza_Forghani_Toosi_Resume.pdf` (55,228 bytes).
-   - **Recruiter Technical Skills Section:** Replaced the hardware circuit presentation in the recruiter view with a clean, professional skills catalog. Removed synthetic IC jargon and "Inspect Telemetry" modals; skills are organized into four intuitive engineering domains (*Core Game Engine & Architecture*, *Editor Tooling & Game Design*, *AI Engineering, SDKs & Infrastructure*, *Teaching, Mentorship & Collaboration*) showing comprehensive explanations, production impact metrics, and linked project buttons directly.
+   - **Recruiter Technical Skills Section:** Replaced synthetic IC jargon and "Inspect Telemetry" modals with four intuitive engineering domains (*Core Game Engine & Architecture*, *Editor Tooling & Game Design*, *AI Engineering, SDKs & Infrastructure*, *Teaching, Mentorship & Collaboration*) showing comprehensive explanations, production impact metrics, and linked project buttons directly.
    - **Medium Profile Conformance:** Updated all Medium publication and social profile URLs to `https://alirezaft98.medium.com/`.
    - **Curated Skill Refinements:**
      - Simplified title to **"Unity Engine & C#"** (removed "Architecture").
      - Renamed to **"Agentic Software Development"** (removed "LLM"), cross-linked *Mr. Bean: Special Delivery*, and highlighted application of agentic workflows and LLMs to game design (economy balancing, narrative ideation, design docs).
      - Expanded **"Technical Teaching, Candidate Onboarding & University Workshops"** to highlight hands-on university workshops.
      - Removed non-specialist and internal profiling items: **"Physics Algorithms & Numerical Methods"** and **"Memory Profiling & Crash Optimization"**.
-   - **Updated Live Links:**
+   - **Verified Live Links:**
      - Special Delivery: `https://play.google.com/store/apps/details?id=com.goodcatchgames.mrbeanhillclimb&hl=en_US`
      - Verlet Rope: `https://github.com/alirezaft/UnityVerletRope`
      - Prefab Palette: `https://github.com/alirezaft/PrefabPalette`
      - Kingdom Hero: `https://play.google.com/store/apps/details?id=com.Artronics.TowerMania&hl=en_US`
+     - Enterprise VR: `https://manshourfanavari.com/en/products`
 
 ---
 
@@ -123,7 +128,7 @@ The project was shaped through collaborative architectural planning and client r
 * **Date:** 2026-11-02
 * Built modular schemas in `src/content/`:
   - 8 Projects across 4 shelf categories (`src/content/projects/`)
-  - 12 Hardware Skill Chips across 4 tiers (`src/content/skills/`)
+  - 10 Curated Skill Chips across 4 engineering domains (`src/content/skills/`)
   - Profile bio, career timeline, education, transmissions, and socials (`src/content/profile/`)
   - Companion robot lore & trivia (`src/content/companion/`)
 * Verified build code 0.
@@ -136,12 +141,12 @@ The project was shaped through collaborative architectural planning and client r
 * Verified build code 0.
 
 ### Phase 3: 2D HUD, Recruiter Grid & Slide-out Drawers [IN PROGRESS]
-* **Date:** 2026-11-04
+* **Date:** 2026-11-04 – 2026-11-05
 * **Completed in Phase 3 so far:**
   1. **UI State & Store Architecture ([`src/context/UIContext.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/context/UIContext.tsx)):**
      - Managed `viewMode` (`'3d'` ⟷ `'recruiter'`).
      - Selected project and drawer state (`openProject`, `closeProject`, `selectedProject`).
-     - Selected skill chip and modal state (`openSkill`, `closeSkill`, `selectedSkill`).
+     - Selected skill chip state (`openSkill`, `closeSkill`, `selectedSkill`).
      - Recruiter search query, category filtering (`filteredProjects` with instant `useMemo`).
      - Resume download triggering (`triggerResumeDownload`, `isResumeDownloading`).
      - Automatic audio synchronization and global `Escape` key listener.
@@ -152,17 +157,20 @@ The project was shaped through collaborative architectural planning and client r
      - Media-player style compact volume widget with dynamic speaker icon and horizontal slider.
      - Dev-only link to `SFX_LAB`.
   3. **Recruiter Quick-View Grid ([`src/components/ui/recruiter/`](file:///c:/Projects/Personal/alirezaft.github.io/src/components/ui/recruiter/)):**
-     - `RecruiterHeader.tsx`: Magenta corner accents, developer identity ("Unity Developer and Game Designer"), 50M+ badge, contact links with `playClick()`, and 1-click Resume download.
+     - `RecruiterHeader.tsx`: Magenta corner accents, developer identity ("Unity Developer and Game Designer"), 50M+ badge, location (`Mashhad, Iran (Open to Remote)`), contact links with `playClick()`, and 1-click verified Resume download.
      - `RecruiterTabs.tsx`: Tabs for Projects (8), Technical Skills (10), Career Log, and Publications.
      - `RecruiterFilterBar.tsx`: Category pills with live project counts + simplified `Search...` bar.
-     - `ProjectCard.tsx`: Clean cards without time ranges, stats badges, tech tags, and external action links with click SFX.
+     - `ProjectCard.tsx`: Left-aligned accomplishment badges, clean cards without time ranges or ROM serials, and external action links with click SFX.
      - `RecruiterProjectsView.tsx`: Responsive card catalog with empty search state.
-     - `RecruiterSkillsView.tsx`: Hardware chips grouped by tiers with real impact metrics and cross-linked project buttons.
+     - `RecruiterSkillsView.tsx`: Grouped by 4 engineering domains with direct summaries, impact metrics, and project cross-links.
      - `RecruiterCareerView.tsx`: Work experience timeline and education matching CV.
      - `RecruiterTransmissionsView.tsx`: Articles and university teaching with click SFX.
      - `RecruiterGrid.tsx`: Master animated container using Framer Motion.
      - `icons.tsx`: Custom SVG icons for GitHub and LinkedIn.
-  4. **App Integration ([`src/App.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/App.tsx)):**
+  4. **CI/CD Deployment Automation ([`.github/workflows/deploy.yml`](file:///c:/Projects/Personal/alirezaft.github.io/.github/workflows/deploy.yml)):**
+     - Automated GitHub Actions workflow on `master` branch.
+     - Node 20 runner runs `npm ci` and `npm run build`, uploading `dist/` directly to GitHub Pages.
+  5. **App Integration ([`src/App.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/App.tsx)):**
      - Wrapped with `<AudioProvider>` and `<UIProvider>`.
      - Seamless mode transition between 3D Canvas and Recruiter Quick-View.
      - Clean compilation: `npm run build` passing with code 0.
@@ -173,12 +181,15 @@ The project was shaped through collaborative architectural planning and client r
 
 ```
 c:\Projects\Personal\alirezaft.github.io\
+├── .github/
+│   └── workflows/
+│       └── deploy.yml              # GITHUB ACTIONS CI/CD DEPLOYMENT
 ├── public/
 │   ├── assets/
 │   │   ├── icons/
 │   │   ├── models/
 │   │   ├── resume/
-│   │   │   └── Alireza_Forghani_Toosi_Resume.pdf
+│   │   │   └── Alireza_Forghani_Toosi_Resume.pdf  # AUTHENTIC 2-PAGE RESUME
 │   │   ├── textures/
 │   │   └── videos/
 │   └── vite.svg
@@ -226,16 +237,13 @@ c:\Projects\Personal\alirezaft.github.io\
 
 ---
 
-## 5. Immediate Next Steps in Phase 3
+## 5. Immediate Next Steps
 
-When continuing work on Phase 3:
 1. **Step 4: Slide-out Project Case Study Drawer (`src/components/ui/ProjectDrawer.tsx`):**
    - Connects to `isProjectDrawerOpen` and `selectedProject` in `useUI()`.
    - Right-anchored glassmorphic drawer with Framer Motion slide-in animation.
    - Shows gameplay video player / screenshot carousel, technical C# architecture breakdown, shaders/graphics, performance metrics, and direct action buttons (Google Play, WebGL demo, GitHub).
-2. **Step 5: Hardware Skill Telemetry Modal (`src/components/ui/SkillModal.tsx`):**
-   - Connects to `isSkillModalOpen` and `selectedSkill` in `useUI()`.
-   - Displays AR schematic with chip pinouts, socket diagnostics, authentic engineering metrics, and direct jump to cross-linked project drawer.
-3. **Step 6: Refinement & Mobile Ergonomics:**
-   - Review drawer and modal responsiveness on narrow mobile viewports.
-   - Ensure all touch gestures and keyboard accessibility (`Escape`) work consistently.
+2. **Phase 4: 3D Scene Base, Lighting & Post-Processing:**
+   - Build cyber-deck desk surface geometry and cable bundles.
+   - Cyan/Magenta/Amber three-point lighting rig.
+   - Post-processing pipeline with selective bloom and scanlines.

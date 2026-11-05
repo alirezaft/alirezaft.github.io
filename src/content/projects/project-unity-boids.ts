@@ -46,10 +46,5 @@ export const projectUnityBoids: Project = {
       url: 'https://blog.devgenius.io/boids-algorithm-simulating-bird-flocks-in-unity-ec733d529a92',
       type: 'medium',
     },
-    {
-      label: 'LinkedIn Showcase',
-      url: 'https://www.linkedin.com/posts/alirezaft_unity-gamedevelpment-gamedev-activity-7203364160867307520-N3U9',
-      type: 'external',
-    },
   ],
 };

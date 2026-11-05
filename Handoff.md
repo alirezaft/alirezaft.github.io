@@ -114,7 +114,6 @@ The project was shaped through collaborative architectural planning and client r
      - Verlet Rope Physics (Medium): `https://alirezaft98.medium.com/verlet-integration-simulating-rope-physics-in-unity-b4f0ffde38fb`
      - Unity BOIDS (GitHub): https://github.com/alirezaft/UnityBOIDS
      - Unity BOIDS Flocking (Medium): https://blog.devgenius.io/boids-algorithm-simulating-bird-flocks-in-unity-ec733d529a92
-     - Unity BOIDS Showcase (LinkedIn): https://www.linkedin.com/posts/alirezaft_unity-gamedevelpment-gamedev-activity-7203364160867307520-N3U9
      - Prefab Palette: `https://github.com/alirezaft/PrefabPalette`
      - Kingdom Hero: `https://play.google.com/store/apps/details?id=com.Artronics.TowerMania&hl=en_US`
      - Enterprise VR: `https://manshourfanavari.com/en/products`

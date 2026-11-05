@@ -111,7 +111,7 @@ export const ROBOT_DIALOGUES: RobotDialogueItem[] = [
   {
     id: 'proj-verlet-rope',
     category: 'project-commentary',
-    text: '65+ stars on GitHub! Verlet integration means zero spring explosion glitches.',
+    text: '70+ stars on GitHub! Verlet integration means zero spring explosion glitches.',
     mood: 'happy',
     soundCue: 'chirp',
     relatedProjectId: 'unity-verlet-rope',

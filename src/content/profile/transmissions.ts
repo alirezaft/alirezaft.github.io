@@ -2,6 +2,15 @@ import { TransmissionItem } from './types';
 
 export const TRANSMISSIONS: TransmissionItem[] = [
   {
+    id: 'verlet-integration-rope-physics',
+    title: 'Verlet Integration: Simulating Rope Physics in Unity',
+    platform: 'Medium',
+    date: 'Published',
+    summary: 'Technical breakdown of numerical Verlet integration, distance constraint relaxation, and procedural mesh extrusion for stable rope and cable physics in Unity without spring explosions.',
+    url: 'https://alirezaft98.medium.com/verlet-integration-simulating-rope-physics-in-unity-b4f0ffde38fb',
+    tags: ['Physics Simulation', 'Unity', 'Numerical Methods', 'Verlet Integration', 'C#'],
+  },
+  {
     id: 'pluggable-strategy-scriptable-object',
     title: 'Pluggable Strategy Design Pattern with Scriptable Object in Unity',
     platform: 'Medium',

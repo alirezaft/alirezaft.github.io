@@ -110,7 +110,8 @@ The project was shaped through collaborative architectural planning and client r
      - Removed non-specialist and internal profiling items: **"Physics Algorithms & Numerical Methods"** and **"Memory Profiling & Crash Optimization"**.
    - **Verified Live Links:**
      - Special Delivery: `https://play.google.com/store/apps/details?id=com.goodcatchgames.mrbeanhillclimb&hl=en_US`
-     - Verlet Rope: `https://github.com/alirezaft/UnityVerletRope`
+     - Verlet Rope (GitHub): `https://github.com/alirezaft/UnityVerletRope`
+     - Verlet Rope Physics (Medium): `https://alirezaft98.medium.com/verlet-integration-simulating-rope-physics-in-unity-b4f0ffde38fb`
      - Prefab Palette: `https://github.com/alirezaft/PrefabPalette`
      - Kingdom Hero: `https://play.google.com/store/apps/details?id=com.Artronics.TowerMania&hl=en_US`
      - Enterprise VR: `https://manshourfanavari.com/en/products`

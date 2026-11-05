@@ -100,9 +100,11 @@ export default function ProjectDrawer() {
               <div className="flex items-center justify-between gap-3 mb-3">
                 {/* Category & Badge */}
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded text-[10px] font-mono font-bold tracking-wider uppercase bg-cyan-950/60 text-[#00f3ff] border border-cyan-500/30">
-                    {getCategoryLabel(project.category)}
-                  </span>
+                  {project.id !== 'a-simple-diagnosis' && (
+                    <span className="px-2.5 py-1 rounded text-[10px] font-mono font-bold tracking-wider uppercase bg-cyan-950/60 text-[#00f3ff] border border-cyan-500/30">
+                      {getCategoryLabel(project.category)}
+                    </span>
+                  )}
                   <span className="px-2.5 py-1 rounded text-[10px] font-mono font-bold tracking-wider uppercase bg-amber-500/10 text-[#ffb700] border border-amber-500/30">
                     {project.statsBadge}
                   </span>

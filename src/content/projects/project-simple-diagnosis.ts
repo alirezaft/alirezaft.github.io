@@ -10,9 +10,9 @@ export const projectSimpleDiagnosis: Project = {
   year: '2022',
   role: 'Solo Game Designer & Developer',
   company: 'Independent Release',
-  statsBadge: 'Available on itch.io • 2 Endings',
+  statsBadge: 'Available on itch.io',
   overview:
-    'An atmospheric psychological analog horror game set inside a quarantined diagnostic medical center during the outbreak of "Red Fever" — a deadly, incurable virus causing auditory hallucinations, violent behavior, and death. Suspected of being infected, the player undergoes an intense auditory hearing test, analyzing ambiguous sounds and answering multiple-choice queries to prove their sanity before symptoms take hold, branching into two psychological endings.',
+    'Atmospheric psychological analog horror game featuring 2 distinct narrative endings. Set inside a quarantined diagnostic medical center during the outbreak of "Red Fever" — a deadly, incurable virus causing auditory hallucinations and madness — the player undergoes an intense auditory hearing test, analyzing ambiguous sounds and answering multiple-choice queries to prove their sanity before symptoms take hold.',
   responsibilities: [
     'Designed the complete tension curve, auditory diagnostic mechanics, and psychological horror loop — weaponizing subtle audio distortions, misleading hearing tests, and branching narrative outcomes into two distinct endings.',
     'Pioneered a Pluggable Strategy Design Pattern leveraging Unity ScriptableObjects — turning abstract algorithmic strategies and test evaluation behaviors into modular, drag-and-drop Inspector assets rather than hardcoded C# MonoBehaviours.',

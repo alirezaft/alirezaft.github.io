@@ -120,6 +120,7 @@ The project was shaped through collaborative architectural planning and client r
       - Corrected narrative and game design: Atmospheric psychological analog horror game revolving around "Red Fever", auditory hallucinations, diagnostic hearing tests, and branching endings.
       - Integrated architectural innovation: Pluggable Strategy Design Pattern leveraging Unity `ScriptableObject` assets (`[CreateAssetMenu]`) to decouple algorithms from MonoBehaviours and empower non-technical designers to swap evaluation logic in the Inspector.
       - Added direct links to both the itch.io playable build and the published Medium architectural deep dive in both project drawer/card and transmissions list.
+      - Refined Recruiter Quick View badges & short description: Removed `OPEN SOURCE` category tag, cleaned amber badge to `Available on itch.io`, and elevated the 2 distinct endings directly to the front of the short description for immediate recruiter visibility.
 
 ---
 

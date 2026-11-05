@@ -1,8 +1,9 @@
-export type ProjectCategory = 
-  | 'shipped-commercial' 
-  | 'vr-applications' 
-  | 'open-source' 
-  | 'tools';
+export type ProjectCategory =
+  | 'shipped-commercial'
+  | 'vr-applications'
+  | 'open-source'
+  | 'tools'
+  | 'indie';
 
 export interface CategoryShelfInfo {
   id: ProjectCategory;
@@ -13,12 +14,12 @@ export interface CategoryShelfInfo {
   glowColor: string;
 }
 
-export type ProjectLinkType = 
-  | 'google-play' 
-  | 'github' 
-  | 'itch' 
-  | 'medium' 
-  | 'webgl' 
+export type ProjectLinkType =
+  | 'google-play'
+  | 'github'
+  | 'itch'
+  | 'medium'
+  | 'webgl'
   | 'external';
 
 export interface ProjectLink {

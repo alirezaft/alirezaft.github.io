@@ -4,7 +4,7 @@ export const projectSimpleDiagnosis: Project = {
   id: 'a-simple-diagnosis',
   title: 'A Simple Diagnosis',
   subtitle: 'Psychological Analog Horror Game & ScriptableObject Strategy Pattern',
-  category: 'open-source',
+  category: 'indie',
   shelfRow: 3,
   slotIndex: 1,
   year: '2022',

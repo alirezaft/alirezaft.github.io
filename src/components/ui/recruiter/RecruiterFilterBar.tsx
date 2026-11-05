@@ -30,6 +30,11 @@ export default function RecruiterFilterBar() {
       count: ALL_PROJECTS.filter((p) => p.category === 'shipped-commercial').length,
     },
     {
+      id: 'indie',
+      label: 'INDIE GAMES',
+      count: ALL_PROJECTS.filter((p) => p.category === 'indie').length,
+    },
+    {
       id: 'vr-applications',
       label: 'VR & SPATIAL',
       count: ALL_PROJECTS.filter((p) => p.category === 'vr-applications').length,

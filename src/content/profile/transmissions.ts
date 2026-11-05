@@ -2,6 +2,15 @@ import { TransmissionItem } from './types';
 
 export const TRANSMISSIONS: TransmissionItem[] = [
   {
+    id: 'boids-algorithm-flock-simulation',
+    title: 'Boids Algorithm: Simulating Bird Flocks in Unity',
+    platform: 'Medium',
+    date: 'Published',
+    summary: "Technical breakdown of implementing Craig Reynolds' Boids flocking algorithm in Unity — detailing vector mathematics for cohesion, separation, alignment, border containment, and low-pass filter trajectory smoothing.",
+    url: 'https://blog.devgenius.io/boids-algorithm-simulating-bird-flocks-in-unity-ec733d529a92',
+    tags: ['Swarm Intelligence', 'Unity', 'Algorithms', 'Steering Behaviors', 'C#'],
+  },
+  {
     id: 'verlet-integration-rope-physics',
     title: 'Verlet Integration: Simulating Rope Physics in Unity',
     platform: 'Medium',

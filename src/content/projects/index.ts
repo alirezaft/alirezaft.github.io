@@ -5,6 +5,7 @@ import { projectKingdomHero } from './project-kingdom-hero';
 import { projectVrProduction } from './project-vr-production';
 import { projectUnityVerletRope } from './project-unity-verlet-rope';
 import { projectSimpleDiagnosis } from './project-simple-diagnosis';
+import { projectUnityBoids } from './project-unity-boids';
 import { projectPrefabPalette } from './project-prefab-palette';
 import { projectEditorBalancingTools, projectUnityChart } from './project-editor-balancing-tools';
 
@@ -21,9 +22,10 @@ export const ALL_PROJECTS: Project[] = [
   // Shelf Row 2: VR Games & Applications
   projectVrProduction,
 
-  // Shelf Row 3: Open Source Experiments
+  // Shelf Row 3: Open Source & Indie Games
   projectUnityVerletRope,
   projectSimpleDiagnosis,
+  projectUnityBoids,
 
   // Shelf Row 4: Tools & Editor Extensions
   projectPrefabPalette,

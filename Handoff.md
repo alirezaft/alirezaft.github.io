@@ -140,9 +140,9 @@ The project was shaped through collaborative architectural planning and client r
 * Dev test harness at `/#audio-test` with polyphony and pitch variation.
 * Verified build code 0.
 
-### Phase 3: 2D HUD, Recruiter Grid & Slide-out Drawers [IN PROGRESS]
+### Phase 3: 2D HUD, Recruiter Grid & Slide-out Drawers [COMPLETED]
 * **Date:** 2026-11-04 – 2026-11-05
-* **Completed in Phase 3 so far:**
+* **Completed in Phase 3:**
   1. **UI State & Store Architecture ([`src/context/UIContext.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/context/UIContext.tsx)):**
      - Managed `viewMode` (`'3d'` ⟷ `'recruiter'`).
      - Selected project and drawer state (`openProject`, `closeProject`, `selectedProject`).
@@ -167,12 +167,20 @@ The project was shaped through collaborative architectural planning and client r
      - `RecruiterTransmissionsView.tsx`: Articles and university teaching with click SFX.
      - `RecruiterGrid.tsx`: Master animated container using Framer Motion.
      - `icons.tsx`: Custom SVG icons for GitHub and LinkedIn.
-  4. **CI/CD Deployment Automation ([`.github/workflows/deploy.yml`](file:///c:/Projects/Personal/alirezaft.github.io/.github/workflows/deploy.yml)):**
+  4. **Slide-out Project Case Study Drawer ([`src/components/ui/ProjectDrawer.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/components/ui/ProjectDrawer.tsx)):**
+     - Built responsive slide-in case study panel powered by Framer Motion (`x: '100%'` ⟷ `0%`).
+     - Dark glassmorphic backdrop (`bg-[#070b16]/95 backdrop-blur-2xl`) with emissive top accent bar keyed to project cartridge colors.
+     - Uniform Magenta (`#ff007f`) corner brackets.
+     - Telemetry preview HUD terminal for gameplay media/render fallback.
+     - Executive overview, structured engineering impact bullets with CV accomplishments, and tooling badges.
+     - Sticky footer with verified store/repo links (`playClick()` audio feedback) or archived delisted indicator for *Mr. Bean: Solitaire Adventure*.
+     - Dismissable via backdrop click, top-right `X` button, or global `Escape` key.
+  5. **CI/CD Deployment Automation ([`.github/workflows/deploy.yml`](file:///c:/Projects/Personal/alirezaft.github.io/.github/workflows/deploy.yml)):**
      - Automated GitHub Actions workflow on `master` branch.
      - Node 20 runner runs `npm ci` and `npm run build`, uploading `dist/` directly to GitHub Pages.
-  5. **App Integration ([`src/App.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/App.tsx)):**
+  6. **App Integration ([`src/App.tsx`](file:///c:/Projects/Personal/alirezaft.github.io/src/App.tsx)):**
      - Wrapped with `<AudioProvider>` and `<UIProvider>`.
-     - Seamless mode transition between 3D Canvas and Recruiter Quick-View.
+     - Seamless mode transition between 3D Canvas, Recruiter Quick-View, and `<ProjectDrawer />`.
      - Clean compilation: `npm run build` passing with code 0.
 
 ---
@@ -212,7 +220,9 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │       │   ├── RecruiterSkillsView.tsx
 │   │       │   ├── RecruiterTabs.tsx
 │   │       │   └── RecruiterTransmissionsView.tsx
-│   │       └── Hud.tsx             # TOP CYBER HUD WITH SCROLL BACKDROP
+│   │       ├── Hud.tsx             # TOP CYBER HUD WITH SCROLL BACKDROP
+│   │       ├── ProjectDrawer.tsx   # SLIDE-OUT CASE STUDY DRAWER
+│   │       └── index.ts            # UI EXPORTS
 │   ├── content/                    # MODULAR DATA ARCHITECTURE
 │   │   ├── companion/
 │   │   ├── profile/
@@ -239,11 +249,14 @@ c:\Projects\Personal\alirezaft.github.io\
 
 ## 5. Immediate Next Steps
 
-1. **Step 4: Slide-out Project Case Study Drawer (`src/components/ui/ProjectDrawer.tsx`):**
-   - Connects to `isProjectDrawerOpen` and `selectedProject` in `useUI()`.
-   - Right-anchored glassmorphic drawer with Framer Motion slide-in animation.
-   - Shows gameplay video player / screenshot carousel, technical C# architecture breakdown, shaders/graphics, performance metrics, and direct action buttons (Google Play, WebGL demo, GitHub).
-2. **Phase 4: 3D Scene Base, Lighting & Post-Processing:**
-   - Build cyber-deck desk surface geometry and cable bundles.
-   - Cyan/Magenta/Amber three-point lighting rig.
-   - Post-processing pipeline with selective bloom and scanlines.
+1. **Phase 4: 3D Scene Base, Lighting & Post-Processing:**
+   - Build cyber-deck desk surface geometry and cable bundles (`DeskStation.tsx`).
+   - Cyan/Magenta/Amber three-point lighting rig with ambient fill.
+   - Post-processing pipeline with selective bloom and CRT scanlines using `@react-three/postprocessing`.
+2. **Phase 5: Interactive 3D CRT Monitor & Hologram:**
+   - 3D CRT Monitor running Canvas/video texture for project showcase.
+   - Hologram datapad for bio & career timeline.
+3. **Phase 6: 3D Cartridge System, Skills Rack & Resume USB Key:**
+   - 3D project cartridges that plug into the cyber-deck reader to trigger project drawer & CRT playback.
+   - Interactive PCB skills rack with illuminated copper bus traces.
+   - Tactile USB drive with power-surge click animation triggering direct resume download.

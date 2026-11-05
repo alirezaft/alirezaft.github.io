@@ -4,8 +4,7 @@ import { OrbitControls, Grid, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { Sparkles } from 'lucide-react';
 import AudioTestPage from './AudioTestPage';
-import Hud from './components/ui/Hud';
-import { RecruiterGrid } from './components/ui/recruiter';
+import { Hud, ProjectDrawer, RecruiterGrid } from './components/ui';
 import { useUI } from './context';
 
 // ---------------------------------------------------------------------------
@@ -67,6 +66,9 @@ export default function App() {
 
       {/* Recruiter Quick-View Grid Mode */}
       {viewMode === 'recruiter' && <RecruiterGrid />}
+
+      {/* Slide-out Technical Case Study Drawer (shared across 3D & 2D) */}
+      <ProjectDrawer />
 
       {/* 3D Scene Viewport */}
       <div className="w-full h-full">

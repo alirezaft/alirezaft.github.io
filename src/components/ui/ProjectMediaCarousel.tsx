@@ -389,11 +389,17 @@ export default function ProjectMediaCarousel({
                     : 'border-slate-800 hover:border-slate-600 opacity-60 hover:opacity-100'
                 }`}
               >
-                <img
-                  src={item.url}
-                  alt={item.title || `Thumbnail ${idx + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                {item.type === 'video' && !item.thumbnailUrl ? (
+                  <div className="w-full h-full bg-slate-900 flex items-center justify-center text-slate-400">
+                    <Film className="w-5 h-5 text-[#ff007f]" />
+                  </div>
+                ) : (
+                  <img
+                    src={item.thumbnailUrl || item.url}
+                    alt={item.title || `Thumbnail ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                )}
                 <span className="absolute bottom-0.5 right-1 px-1 rounded text-[9px] font-mono bg-black/80 text-slate-300 uppercase">
                   {item.type}
                 </span>

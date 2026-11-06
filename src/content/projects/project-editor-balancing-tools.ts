@@ -11,7 +11,8 @@ export const projectUnityChart: Project = {
   role: 'Creator & Maintainer',
   company: 'Open Source (GitHub / UPM)',
   statsBadge: 'UI Toolkit / Vector Charting',
-  overview: 'A lightweight vector-based charting library for Unity Editor tools, fully integrated with UI Toolkit (UXML/USS). Enables game designers and programmers to visualize real-time data directly inside custom editor windows, inspectors, and economy balancing interfaces.',
+  overview:
+    'A lightweight vector-based charting library for Unity Editor tools, fully integrated with UI Toolkit (UXML/USS). Enables game designers and programmers to visualize real-time data directly inside custom editor windows, inspectors, and economy balancing interfaces.',
   responsibilities: [
     'Engineered vector-based chart rendering for high-DPI custom Unity Editor windows and inspectors.',
     'Integrated natively with modern UI Toolkit, providing custom UXML tags (<chart:LineChart>) and USS styling support.',
@@ -19,6 +20,26 @@ export const projectUnityChart: Project = {
     'Published complete API documentation and interactive samples for custom inspector and window integration.',
   ],
   techTags: ['Unity', 'C#', 'UI Toolkit', 'UXML / USS', 'Data Visualization', 'Editor Scripting', 'Vector Graphics'],
+  thumbnailUrl: './assets/projects/unity-chart/chart-overview.png',
+  media: [
+    {
+      id: 'unity-chart-video-demo',
+      type: 'video',
+      url: './assets/projects/unity-chart/demo.mp4',
+      thumbnailUrl: './assets/projects/unity-chart/chart-overview.png',
+      title: 'Real-Time Play-Mode Vector Charting Demo',
+      caption: 'Dynamic DataProvider stream plotting high-frequency variable telemetry in a custom UI Toolkit editor window.',
+      alt: 'UnityChart real-time data plotting demonstration video',
+    },
+    {
+      id: 'unity-chart-overview',
+      type: 'image',
+      url: './assets/projects/unity-chart/chart-overview.png',
+      title: 'UI Toolkit Vector Chart Integration',
+      caption: 'Native UXML tag <chart:LineChart> with responsive scaling and clean inspector data visualization.',
+      alt: 'UnityChart line chart overview in Unity editor',
+    },
+  ],
   cartridgeVisual: {
     primaryColor: '#2b2108',
     accentColor: '#f59e0b',

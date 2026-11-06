@@ -29,6 +29,33 @@ export const projectSimpleDiagnosis: Project = {
     'Audacity',
     'itch.io',
   ],
+  thumbnailUrl: './assets/projects/a-simple-diagnosis/title-screen.jpg',
+  media: [
+    {
+      id: 'simple-diag-title',
+      type: 'image',
+      url: './assets/projects/a-simple-diagnosis/title-screen.jpg',
+      title: 'Analog Horror Title Screen',
+      caption: 'Minimalist CRT title card featuring diegetic audio sensory iconography.',
+      alt: 'A Simple Diagnosis retro CRT title screen with pixelated ear',
+    },
+    {
+      id: 'simple-diag-hearing-test',
+      type: 'image',
+      url: './assets/projects/a-simple-diagnosis/hearing-test.jpg',
+      title: 'Red Fever Auditory Diagnostic Test',
+      caption: 'Subjective multiple-choice psychological queries evaluating patient perception and sanity.',
+      alt: 'Auditory diagnostic evaluation gameplay with response options',
+    },
+    {
+      id: 'simple-diag-chapter-briefing',
+      type: 'image',
+      url: './assets/projects/a-simple-diagnosis/chapter-briefing.jpg',
+      title: 'Diagnostic Center Protocol Briefing',
+      caption: 'CRT terminal instructions guiding the suspect through distorted sound identification phases.',
+      alt: 'Chapter 2 quarantine diagnostic instructions screen',
+    },
+  ],
   cartridgeVisual: {
     primaryColor: '#0c2419',
     accentColor: '#10b981',

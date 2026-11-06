@@ -36,6 +36,19 @@ export interface ProjectCartridgeVisual {
   serialNumber: string;
 }
 
+export type ProjectMediaType = 'image' | 'video' | 'gif';
+
+export interface ProjectMediaItem {
+  id: string;
+  type: ProjectMediaType;
+  url: string;
+  thumbnailUrl?: string; // Optional poster for video or small preview
+  title?: string;
+  caption?: string;
+  alt?: string;
+  aspectRatio?: string; // e.g. '16/9', '4/3', '1/1'
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -50,8 +63,9 @@ export interface Project {
   overview: string;
   responsibilities: string[];
   techTags: string[];
+  thumbnailUrl?: string; // Primary card & rack thumbnail
+  media?: ProjectMediaItem[]; // Rich media carousel items (images, gifs, clips)
   videoPreviewUrl?: string;
-  thumbnailUrl?: string;
   cartridgeVisual: ProjectCartridgeVisual;
   links: ProjectLink[];
   featured?: boolean;

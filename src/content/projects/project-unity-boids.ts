@@ -29,6 +29,33 @@ export const projectUnityBoids: Project = {
     'Autonomous Agents',
     'Physics Simulation',
   ],
+  thumbnailUrl: './assets/projects/unity-boids/demo.gif',
+  media: [
+    {
+      id: 'boids-demo-gif',
+      type: 'gif',
+      url: './assets/projects/unity-boids/demo.gif',
+      title: '500-Agent Boids Flocking Simulation',
+      caption: 'Real-time autonomous flocking with dynamic obstacle avoidance and boundary containment.',
+      alt: 'Demonstration of 500 autonomous drones flocking in Unity',
+    },
+    {
+      id: 'flock-manager-inspector',
+      type: 'image',
+      url: './assets/projects/unity-boids/flock-inspector.png',
+      title: 'Flock Manager Inspector',
+      caption: 'Global flock controls for agent count, containment radius, and behavioral rule weights.',
+      alt: 'Unity inspector view for FlockManager component',
+    },
+    {
+      id: 'drone-inspector',
+      type: 'image',
+      url: './assets/projects/unity-boids/drone-inspector.png',
+      title: 'Autonomous Drone Agent Inspector',
+      caption: 'Per-agent neighborhood sensing, cohesion coefficients, and direction low-pass filter cutoff.',
+      alt: 'Unity inspector view for Drone agent component',
+    },
+  ],
   cartridgeVisual: {
     primaryColor: '#0a1d2e',
     accentColor: '#00f3ff',

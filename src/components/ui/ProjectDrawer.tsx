@@ -4,7 +4,6 @@ import {
   Play,
   ExternalLink,
   CheckCircle2,
-  Terminal,
   Cpu,
   Building2,
   Sparkles,
@@ -13,6 +12,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { GithubIcon } from './recruiter/icons';
+import ProjectMediaCarousel from './ProjectMediaCarousel';
 import { useUI } from '../../context';
 import { useAudio } from '../../audio';
 
@@ -146,54 +146,15 @@ export default function ProjectDrawer() {
 
             {/* Drawer Body (Scrollable) */}
             <div className="flex-1 overflow-y-auto px-6 py-5 space-y-6">
-              {/* Media Preview Monitor */}
-              <div className="relative rounded-2xl overflow-hidden bg-[#050811] border border-[#1e293b] shadow-inner p-4">
-                {/* Scanline CRT overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/[0.02] to-transparent pointer-events-none" />
-
-                {project.thumbnailUrl ? (
-                  <img
-                    src={project.thumbnailUrl}
-                    alt={project.title}
-                    className="w-full h-48 object-cover rounded-xl"
-                  />
-                ) : (
-                  /* Cyberpunk Terminal HUD Screen */
-                  <div
-                    className="relative w-full h-44 rounded-xl flex flex-col justify-between p-4 overflow-hidden"
-                    style={{
-                      background: `radial-gradient(circle at center, ${project.cartridgeVisual?.primaryColor || '#0a1d2e'}, #050811)`,
-                    }}
-                  >
-                    <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
-                      <div className="flex items-center gap-2">
-                        <Terminal className="w-3.5 h-3.5 text-[#00f3ff]" />
-                        <span className="text-[#00f3ff] font-bold tracking-widest uppercase">
-                          TELEMETRY VIEW
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-[#00ff66] animate-pulse" />
-                        <span className="text-[#00ff66] uppercase text-[10px]">VERIFIED ASSET</span>
-                      </div>
-                    </div>
-
-                    <div className="text-center my-auto">
-                      <div className="text-2xl font-black font-mono tracking-wider text-white/90 drop-shadow-[0_0_12px_rgba(0,243,255,0.4)]">
-                        {project.title.toUpperCase()}
-                      </div>
-                      <div className="text-xs font-mono text-slate-400 mt-1">
-                        {project.company} &bull; Unity Engine
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 border-t border-slate-800/80 pt-2">
-                      <span>CORE ENGINE: UNITY & C#</span>
-                      <span>STATUS: DEPLOYED</span>
-                    </div>
-                  </div>
-                )}
-              </div>
+              {/* Media Preview Monitor & Carousel */}
+              <ProjectMediaCarousel
+                media={project.media}
+                thumbnailUrl={project.thumbnailUrl}
+                projectTitle={project.title}
+                company={project.company}
+                primaryColor={project.cartridgeVisual?.primaryColor}
+                mode="drawer"
+              />
 
               {/* Section 1: Executive Overview */}
               <div>

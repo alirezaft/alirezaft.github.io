@@ -3,6 +3,7 @@ import { GithubIcon } from './icons';
 import { type Project } from '../../../content/projects';
 import { useUI } from '../../../context';
 import { useAudio } from '../../../audio';
+import ProjectMediaCarousel from '../ProjectMediaCarousel';
 
 interface ProjectCardProps {
   project: Project;
@@ -45,6 +46,17 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             {project.statsBadge}
           </span>
         </div>
+
+        {/* Media Thumbnail Carousel Preview */}
+        <ProjectMediaCarousel
+          media={project.media}
+          thumbnailUrl={project.thumbnailUrl}
+          projectTitle={project.title}
+          company={project.company}
+          primaryColor={project.cartridgeVisual?.primaryColor}
+          mode="card"
+          onMediaClick={() => openProject(project.id)}
+        />
 
         {/* Project Title & Role */}
         <h3 className="text-lg font-bold font-mono text-white group-hover:text-[#00f3ff] transition-colors mb-1">

@@ -19,6 +19,33 @@ export const projectKingdomHero: Project = {
     'Implemented clean decoupled event architectures for audio triggers, VFX spawning, and UI synchronization.',
   ],
   techTags: ['Unity', 'C#', 'Tower Defense', 'AI Pathfinding', 'State Machines', 'Performance Profiling'],
+  thumbnailUrl: './assets/projects/kingdom-hero-tower-defense/grid-summon-defense.webp',
+  media: [
+    {
+      id: 'kh-grid-defense',
+      type: 'image',
+      url: './assets/projects/kingdom-hero-tower-defense/grid-summon-defense.webp',
+      title: 'Grid-Based Hero Summoning & Merge Defense',
+      caption: 'Dynamic tile placement and hero tier merging with perimeter creep pathfinding around the castle ramparts.',
+      alt: 'Tactical grid showing hero summoning and enemy lane pathfinding',
+    },
+    {
+      id: 'kh-pvp-arena',
+      type: 'image',
+      url: './assets/projects/kingdom-hero-tower-defense/pvp-battle-arena.webp',
+      title: 'Real-Time Split-Screen PvP Duels',
+      caption: 'Competitive head-to-head multiplayer arenas featuring synchronous creep pressure, hero abilities, and spell counterplays.',
+      alt: 'Real-time PvP tower defense duel between two players',
+    },
+    {
+      id: 'kh-hero-deck',
+      type: 'image',
+      url: './assets/projects/kingdom-hero-tower-defense/hero-deck-collection.webp',
+      title: 'Battle Deck Roster & Hero Progression',
+      caption: 'Customizable 5-card battle decks featuring collectible fantasy hero classes, level progression, and elemental synergies.',
+      alt: 'Battle deck loadout interface and hero army collection',
+    },
+  ],
   cartridgeVisual: {
     primaryColor: '#12192c',
     accentColor: '#e01a4f',

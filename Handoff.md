@@ -46,6 +46,11 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
      - Ensures all cards in the recruiter catalog maintain consistent height, alignment, and aesthetic balance without empty holes.
 
 4. **Authentic Project Reclassifications & Data Refinements:**
+   - **Kingdom Hero: Tower Defense TD:**
+     - Ingested 3 authentic gameplay captures in `public/assets/projects/kingdom-hero-tower-defense/`:
+       - `grid-summon-defense.webp`: Grid-based hero summoning & merge defense mechanics with lane pathfinding around castle ramparts. Assigned as primary card thumbnail.
+       - `pvp-battle-arena.webp`: Real-time split-screen PvP duel mode ("PVP PLAY") with lane defenses, spell barrages, hero summons, and health tug-of-war.
+       - `hero-deck-collection.webp`: Battle deck roster builder and hero army collection screen ("YOUR ARMY") displaying elemental synergies and card progression.
    - **Mr. Bean – Special Delivery:**
      - Ingested 3 authentic gameplay captures in `public/assets/projects/mr-bean-special-delivery/`:
        - `delivery-finish-line.webp`: Physics-based delivery racing crossing the finish line with precarious rooftop cargo and timer countdown. Assigned as primary card thumbnail.
@@ -122,12 +127,13 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
 * **Date:** 2026-11-06 – 2026-11-07
 * **Standardized Media Folder Architecture:**
   - Created `public/assets/projects/<project-id>/` hierarchy.
-  - Ingested authentic media assets for 7 projects (`mr-bean-special-delivery`, `mr-bean-solitaire-adventure`, `unity-boids`, `unity-verlet-rope`, `prefab-palette`, `unity-chart`, `a-simple-diagnosis`).
+  - Ingested authentic media assets for 8 projects (`kingdom-hero-tower-defense`, `mr-bean-special-delivery`, `mr-bean-solitaire-adventure`, `unity-boids`, `unity-verlet-rope`, `prefab-palette`, `unity-chart`, `a-simple-diagnosis`).
 * **Interactive Media Carousel Component ([ProjectMediaCarousel.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/ui/ProjectMediaCarousel.tsx)):**
   - Integrated into both `ProjectCard.tsx` (compact card preview with inline flip controls) and `ProjectDrawer.tsx` (expanded monitor with captions and filmstrip).
   - Handles images, animated GIFs, and HTML5 video playback seamlessly with CRT scanline overlays.
   - Provides uniform fallback terminal HUD for projects awaiting visual media.
 * **Content & Narrative Alignments:**
+  - Added *Kingdom Hero: Tower Defense TD* media suite (Tactical grid summoning & merge defense, split-screen PvP duels, hero battle deck army).
   - Added *Mr. Bean – Special Delivery* media suite (High-stakes delivery racing, world biomes, and hilarious vehicle boosts).
   - Added *Mr. Bean – Solitaire Adventure* media suite (Travel progression in NYC, Solitaire face cards, and dynamic puzzle obstacles).
   - Added *Unity BOIDS* (`project-unity-boids.ts`) with Medium breakdown link and transmission entry.
@@ -153,6 +159,10 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │   │   │   ├── chapter-briefing.jpg
 │   │   │   │   ├── hearing-test.jpg
 │   │   │   │   └── title-screen.jpg
+│   │   │   ├── kingdom-hero-tower-defense/
+│   │   │   │   ├── grid-summon-defense.webp
+│   │   │   │   ├── hero-deck-collection.webp
+│   │   │   │   └── pvp-battle-arena.webp
 │   │   │   ├── mr-bean-solitaire-adventure/
 │   │   │   │   ├── puzzle-mechanics-obstacles.webp
 │   │   │   │   ├── solitaire-gameplay.webp

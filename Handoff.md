@@ -46,6 +46,10 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
      - Ensures all cards in the recruiter catalog maintain consistent height, alignment, and aesthetic balance without empty holes.
 
 4. **Authentic Project Reclassifications & Data Refinements:**
+   - **Enterprise VR & Interactive Simulations:**
+     - Ingested 2 high-fidelity simulation captures in `public/assets/projects/vr-interactive-applications/`:
+       - `industrial-plant-simulation.png`: Large-scale steel smelting and foundry simulation featuring molten metal rail transport, gantry operations, and hazardous procedure training. Assigned as primary card thumbnail.
+       - `laboratory-simulation.png`: Precision chemical cleanroom laboratory workbench with glassware physics, chemical compound testing, and hot plate apparatus.
    - **Kingdom Hero: Tower Defense TD:**
      - Ingested 3 authentic gameplay captures in `public/assets/projects/kingdom-hero-tower-defense/`:
        - `grid-summon-defense.webp`: Grid-based hero summoning & merge defense mechanics with lane pathfinding around castle ramparts. Assigned as primary card thumbnail.
@@ -127,12 +131,13 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
 * **Date:** 2026-11-06 – 2026-11-07
 * **Standardized Media Folder Architecture:**
   - Created `public/assets/projects/<project-id>/` hierarchy.
-  - Ingested authentic media assets for 8 projects (`kingdom-hero-tower-defense`, `mr-bean-special-delivery`, `mr-bean-solitaire-adventure`, `unity-boids`, `unity-verlet-rope`, `prefab-palette`, `unity-chart`, `a-simple-diagnosis`).
+  - Ingested authentic media assets for all 9 projects (`vr-interactive-applications`, `kingdom-hero-tower-defense`, `mr-bean-special-delivery`, `mr-bean-solitaire-adventure`, `unity-boids`, `unity-verlet-rope`, `prefab-palette`, `unity-chart`, `a-simple-diagnosis`).
 * **Interactive Media Carousel Component ([ProjectMediaCarousel.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/ui/ProjectMediaCarousel.tsx)):**
   - Integrated into both `ProjectCard.tsx` (compact card preview with inline flip controls) and `ProjectDrawer.tsx` (expanded monitor with captions and filmstrip).
   - Handles images, animated GIFs, and HTML5 video playback seamlessly with CRT scanline overlays.
   - Provides uniform fallback terminal HUD for projects awaiting visual media.
 * **Content & Narrative Alignments:**
+  - Added *Enterprise VR & Interactive Simulations* media suite (Industrial smelting plant foundry simulation and precision chemistry laboratory cleanroom).
   - Added *Kingdom Hero: Tower Defense TD* media suite (Tactical grid summoning & merge defense, split-screen PvP duels, hero battle deck army).
   - Added *Mr. Bean – Special Delivery* media suite (High-stakes delivery racing, world biomes, and hilarious vehicle boosts).
   - Added *Mr. Bean – Solitaire Adventure* media suite (Travel progression in NYC, Solitaire face cards, and dynamic puzzle obstacles).
@@ -183,10 +188,13 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │   │   ├── unity-chart/
 │   │   │   │   ├── chart-overview.png
 │   │   │   │   └── demo.mp4        # PLAY-MODE VECTOR CHARTING VIDEO
-│   │   │   └── unity-verlet-rope/
-│   │   │       ├── demo.gif
-│   │   │       ├── rope-renderer-inspector.png
-│   │   │       └── verlet-rope-inspector.png
+│   │   │   ├── unity-verlet-rope/
+│   │   │   │   ├── demo.gif
+│   │   │   │   ├── rope-renderer-inspector.png
+│   │   │   │   └── verlet-rope-inspector.png
+│   │   │   └── vr-interactive-applications/
+│   │   │       ├── industrial-plant-simulation.png
+│   │   │       └── laboratory-simulation.png
 │   │   └── resume/
 │   │       └── Alireza_Forghani_Toosi_Resume.pdf  # AUTHENTIC 2-PAGE RESUME
 │   └── vite.svg

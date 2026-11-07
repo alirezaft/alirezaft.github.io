@@ -46,6 +46,11 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
      - Ensures all cards in the recruiter catalog maintain consistent height, alignment, and aesthetic balance without empty holes.
 
 4. **Authentic Project Reclassifications & Data Refinements:**
+   - **Mr. Bean – Special Delivery:**
+     - Ingested 3 authentic gameplay captures in `public/assets/projects/mr-bean-special-delivery/`:
+       - `delivery-finish-line.webp`: Physics-based delivery racing crossing the finish line with precarious rooftop cargo and timer countdown. Assigned as primary card thumbnail.
+       - `world-biomes.webp`: Diverse worldwide delivery environments (city, countryside, snowy mountain bridge, desert canyon).
+       - `vehicle-boosts.webp`: Dynamic upgrades and power-ups (scissor wheels, parachute gliders, rocket turbos, fragile glass stacks).
    - **Mr. Bean – Solitaire Adventure:**
      - Ingested 3 authentic gameplay & metagame captures in `public/assets/projects/mr-bean-solitaire-adventure/`:
        - `travel-progression.webp`: City journey & level progression showing Mr. Bean in his green Mini Cooper in NYC (Level 1, Piggy Bank). Assigned as primary card thumbnail.
@@ -117,12 +122,13 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
 * **Date:** 2026-11-06 – 2026-11-07
 * **Standardized Media Folder Architecture:**
   - Created `public/assets/projects/<project-id>/` hierarchy.
-  - Ingested authentic media assets for 6 projects (`mr-bean-solitaire-adventure`, `unity-boids`, `unity-verlet-rope`, `prefab-palette`, `unity-chart`, `a-simple-diagnosis`).
+  - Ingested authentic media assets for 7 projects (`mr-bean-special-delivery`, `mr-bean-solitaire-adventure`, `unity-boids`, `unity-verlet-rope`, `prefab-palette`, `unity-chart`, `a-simple-diagnosis`).
 * **Interactive Media Carousel Component ([ProjectMediaCarousel.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/ui/ProjectMediaCarousel.tsx)):**
   - Integrated into both `ProjectCard.tsx` (compact card preview with inline flip controls) and `ProjectDrawer.tsx` (expanded monitor with captions and filmstrip).
   - Handles images, animated GIFs, and HTML5 video playback seamlessly with CRT scanline overlays.
   - Provides uniform fallback terminal HUD for projects awaiting visual media.
 * **Content & Narrative Alignments:**
+  - Added *Mr. Bean – Special Delivery* media suite (High-stakes delivery racing, world biomes, and hilarious vehicle boosts).
   - Added *Mr. Bean – Solitaire Adventure* media suite (Travel progression in NYC, Solitaire face cards, and dynamic puzzle obstacles).
   - Added *Unity BOIDS* (`project-unity-boids.ts`) with Medium breakdown link and transmission entry.
   - Updated *Verlet Rope* to 70+ GitHub stars with Medium breakdown link and transmission entry.
@@ -151,6 +157,10 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │   │   │   ├── puzzle-mechanics-obstacles.webp
 │   │   │   │   ├── solitaire-gameplay.webp
 │   │   │   │   └── travel-progression.webp
+│   │   │   ├── mr-bean-special-delivery/
+│   │   │   │   ├── delivery-finish-line.webp
+│   │   │   │   ├── vehicle-boosts.webp
+│   │   │   │   └── world-biomes.webp
 │   │   │   ├── prefab-palette/
 │   │   │   │   ├── context-menu.png
 │   │   │   │   ├── corner-menu.png

@@ -19,6 +19,33 @@ export const projectMrBeanSpecialDelivery: Project = {
     'Monitored live telemetry via GameAnalytics to identify player drop-off funnels and optimize retention.',
   ],
   techTags: ['Unity', 'C#', 'Editor Tooling', 'Clean Architecture', 'GameAnalytics', 'Mobile Optimization'],
+  thumbnailUrl: './assets/projects/mr-bean-special-delivery/delivery-finish-line.webp',
+  media: [
+    {
+      id: 'bean-delivery-finish-line',
+      type: 'image',
+      url: './assets/projects/mr-bean-special-delivery/delivery-finish-line.webp',
+      title: 'High-Stakes Delivery & Physics Racing',
+      caption: 'Physics-based hill climb delivery racing with precarious rooftop cargo balancing, speed controls, and countdown timers.',
+      alt: 'Mr. Bean crossing the finish line with packages on roof and timer countdown',
+    },
+    {
+      id: 'bean-delivery-world-biomes',
+      type: 'image',
+      url: './assets/projects/mr-bean-special-delivery/world-biomes.webp',
+      title: 'Global Delivery Biomes & Level Environments',
+      caption: 'Diverse worldwide delivery zones including city streets, countryside hills, icy winter mountain bridges, and desert canyons.',
+      alt: 'Four game biomes: city, countryside, snowy mountains, and desert canyon',
+    },
+    {
+      id: 'bean-delivery-vehicle-boosts',
+      type: 'image',
+      url: './assets/projects/mr-bean-special-delivery/vehicle-boosts.webp',
+      title: 'Hilarious Vehicle Boosts & Power-Ups',
+      caption: 'Dynamic vehicle upgrades including scissor-lift suspension wheels, parachute gliders, rocket turbos, and fragile cargo modifiers.',
+      alt: 'Vehicle boosts showing scissor wheels, parachute, rocket boosters, and glass cargo',
+    },
+  ],
   cartridgeVisual: {
     primaryColor: '#12192c',
     accentColor: '#ff007f',

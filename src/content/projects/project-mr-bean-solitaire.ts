@@ -19,6 +19,33 @@ export const projectMrBeanSolitaire: Project = {
     'Maintained high framerates and memory safety across broad ranges of low-end mobile hardware.',
   ],
   techTags: ['Unity', 'C#', 'Puzzle Design', 'Game Balancing', 'Telemetry', 'Retention Optimization'],
+  thumbnailUrl: './assets/projects/mr-bean-solitaire-adventure/travel-progression.webp',
+  media: [
+    {
+      id: 'bean-solitaire-journey',
+      type: 'image',
+      url: './assets/projects/mr-bean-solitaire-adventure/travel-progression.webp',
+      title: 'City Journey & Level Progression',
+      caption: 'Mr. Bean travels through iconic global landmarks with milestone stages, piggy bank rewards, and narrative unlocks.',
+      alt: 'Mr. Bean driving green Mini Cooper in New York City level progression',
+    },
+    {
+      id: 'bean-solitaire-gameplay',
+      type: 'image',
+      url: './assets/projects/mr-bean-solitaire-adventure/solitaire-gameplay.webp',
+      title: 'Solitaire Card Mechanics & Face Cards',
+      caption: 'Custom illustrated face cards featuring Teddy (Jack), Irma Gobb (Queen), and Mr. Bean (King) with streak multipliers and wild cards.',
+      alt: 'Solitaire card board with Teddy, Irma Gobb, and Mr. Bean illustrated cards',
+    },
+    {
+      id: 'bean-solitaire-obstacles',
+      type: 'image',
+      url: './assets/projects/mr-bean-solitaire-adventure/puzzle-mechanics-obstacles.webp',
+      title: 'Dynamic Puzzle Obstacles & Level Balancing',
+      caption: 'Lock-and-key gate mechanics, golden breaking blocks, and card sequence constraints balancing hundreds of handcrafted stages.',
+      alt: 'Advanced puzzle obstacle level with locks, streak bonuses, and wild cards',
+    },
+  ],
   cartridgeVisual: {
     primaryColor: '#12192c',
     accentColor: '#ff2a5f',

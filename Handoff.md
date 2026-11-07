@@ -4,7 +4,7 @@
 * **Repository:** https://github.com/alirezaft/alirezaft.github.io
 * **Target Audience:** Technical Recruiters, Lead Engine Programmers, Studio Technical Directors
 * **Production Build:** Vite + React 19 + TypeScript + Tailwind CSS + Three.js / React Three Fiber + Tone.js
-* **Deployment Target:** GitHub Pages (ase: './') via automated GitHub Actions CI/CD (.github/workflows/deploy.yml)
+* **Deployment Target:** GitHub Pages (base: './') via automated GitHub Actions CI/CD (.github/workflows/deploy.yml)
 
 ---
 
@@ -19,53 +19,58 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
 ## 2. Key Architectural Decisions (ADRs)
 
 1. **Dual-Mode Shell Architecture ([src/context/UIContext.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/context/UIContext.tsx)):**
-   - Single reactive context stores iewMode ('3d' ⟷ 'recruiter'), active project drawer state, active skill chip state, recruiter category filters, search queries, and audio state.
+   - Single reactive context stores `viewMode` ('3d' ⟷ 'recruiter'), active project drawer state, active skill chip state, recruiter category filters, search queries, and audio state.
    - Zero routing overhead; state transitions are handled seamlessly via Framer Motion without page reloads.
 
 2. **Standardized Project Media Asset Architecture:**
-   - **Directory Structure:** All project media assets reside under public/assets/projects/<project-id>/.
-   - **Relative Path Compatibility:** URLs are stored as ./assets/projects/<project-id>/<filename>, guaranteeing 100% resolution across both local dev (localhost:3000) and GitHub Pages deployment subpaths.
-   - **Supported Media Formats:** .png, .jpg, .jpeg, .webp, .gif, .mp4, .webm.
+   - **Directory Structure:** All project media assets reside under `public/assets/projects/<project-id>/`.
+   - **Relative Path Compatibility:** URLs are stored as `./assets/projects/<project-id>/<filename>`, guaranteeing 100% resolution across both local dev (localhost:3000) and GitHub Pages deployment subpaths.
+   - **Supported Media Formats:** `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, `.mp4`, `.webm`.
    - **TypeScript Data Contracts ([src/content/projects/types.ts](file:///c:/Projects/Personal/alirezaft.github.io/src/content/projects/types.ts)):**
-     - ProjectMediaType: 'image' | 'video' | 'gif'
-     - ProjectMediaItem: { id, type, url, thumbnailUrl?, title?, caption?, alt?, aspectRatio? }
-     - Extended Project interface with 	humbnailUrl?: string and media?: ProjectMediaItem[].
+     - `ProjectMediaType`: `'image' | 'video' | 'gif'`
+     - `ProjectMediaItem`: `{ id, type, url, thumbnailUrl?, title?, caption?, alt?, aspectRatio? }`
+     - Extended `Project` interface with `thumbnailUrl?: string` and `media?: ProjectMediaItem[]`.
 
 3. **Dual-Mode Interactive Project Media Carousel ([src/components/ui/ProjectMediaCarousel.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/ui/ProjectMediaCarousel.tsx)):**
-   - **Card Mode:** Compact monitor preview (h-44) with CRT scanline effect.
+   - **Card Mode:** Compact monitor preview (`h-44`) with CRT scanline effect.
      - Displays current active media (supports animated GIFs, autolooping muted videos, and screenshots).
-     - Multiple assets show slide counter badge (e.g. 1/3), media type icon (GIF, VIDEO, IMG), hover navigation arrows (stopPropagation ensures clicks cycle media without opening modal), and clickable bottom indicator dots.
-     - Direct media click triggers openProject(project.id).
-   - **Drawer Mode:** Expanded high-res monitor viewport (h-60 sm:h-72).
-     - Real-time telemetry header showing feed number (FEED 01 / 03) and capture type.
-     - Audio-reactive Next/Prev controls + global keyboard navigation (← / →).
+     - Multiple assets show slide counter badge (e.g. `1/3`), media type icon (`GIF`, `VIDEO`, `IMG`), hover navigation arrows (`stopPropagation` ensures clicks cycle media without opening modal), and clickable bottom indicator dots.
+     - Direct media click triggers `openProject(project.id)`.
+   - **Drawer Mode:** Expanded high-res monitor viewport (`h-60 sm:h-72`).
+     - Real-time telemetry header showing feed number (`FEED 01 / 03`) and capture type.
+     - Audio-reactive Next/Prev controls + global keyboard navigation (`←` / `→`).
      - Technical caption banner displaying item title and engineering context.
      - Mini thumbnail filmstrip underneath for one-click jump across screenshots/videos.
    - **Graceful Zero-Media Fallback:**
-     - When a project lacks media/thumbnails, renders a sleek Cyberpunk Terminal HUD banner keyed to the cartridge visual\'s primary color.
+     - When a project lacks media/thumbnails, renders a sleek Cyberpunk Terminal HUD banner keyed to the cartridge visual's primary color.
      - Ensures all cards in the recruiter catalog maintain consistent height, alignment, and aesthetic balance without empty holes.
 
 4. **Authentic Project Reclassifications & Data Refinements:**
+   - **Mr. Bean – Solitaire Adventure:**
+     - Ingested 3 authentic gameplay & metagame captures in `public/assets/projects/mr-bean-solitaire-adventure/`:
+       - `travel-progression.webp`: City journey & level progression showing Mr. Bean in his green Mini Cooper in NYC (Level 1, Piggy Bank). Assigned as primary card thumbnail.
+       - `solitaire-gameplay.webp`: Solitaire card mechanics with custom illustrated face cards (Teddy as Jack, Irma Gobb as Queen, Mr. Bean as King) with streak multipliers and wild cards.
+       - `puzzle-mechanics-obstacles.webp`: Dynamic puzzle mechanics showing lock-and-key gate obstacles, golden breaking blocks, and progressive difficulty balancing.
    - **A Simple Diagnosis:**
-     - Re-classified category from 'open-source' to 'indie' in data contracts.
-     - Removed hardcoded component exclusions (project.id !== 'a-simple-diagnosis') so category badges render dynamically (INDIE GAME).
-     - Added dedicated INDIE GAMES filter tab in RecruiterFilterBar.tsx.
-     - Cleaned amber badge from 'Available on itch.io • 2 Endings' to 'Available on itch.io'.
+     - Re-classified category from `'open-source'` to `'indie'` in data contracts.
+     - Removed hardcoded component exclusions (`project.id !== 'a-simple-diagnosis'`) so category badges render dynamically (`INDIE GAME`).
+     - Added dedicated `INDIE GAMES` filter tab in `RecruiterFilterBar.tsx`.
+     - Cleaned amber badge from `'Available on itch.io • 2 Endings'` to `'Available on itch.io'`.
      - Elevated the 2 branching endings to the opening sentence of overview for immediate visibility in 2-line clamped recruiter cards.
-     - Populated with 3 authentic CRT screenshots (	itle-screen.jpg, hearing-test.jpg, chapter-briefing.jpg).
+     - Populated with 3 authentic CRT screenshots (`title-screen.jpg`, `hearing-test.jpg`, `chapter-briefing.jpg`).
    - **Unity Verlet Rope Physics:**
      - Upgraded star count to 70+ GitHub Stars across subtitle, badge, CV impact bullets, and companion lore.
-     - Linked published Medium architectural breakdown (/verlet-integration-simulating-rope-physics-in-unity-b4f0ffde38fb) with BookOpen icon.
+     - Linked published Medium architectural breakdown (`/verlet-integration-simulating-rope-physics-in-unity-b4f0ffde38fb`) with BookOpen icon.
      - Populated with real-time simulation GIF and 2 inspector captures.
    - **Unity BOIDS Flocking Simulation:**
-     - Ingested as a 9th showcase project (project-unity-boids.ts, Shelf Row 3, Slot 2, open-source, 20+ GitHub Stars).
-     - Linked GitHub repository and published Dev Genius / Medium breakdown (/boids-algorithm-simulating-bird-flocks-in-unity-ec733d529a92).
+     - Ingested as a 9th showcase project (`project-unity-boids.ts`, Shelf Row 3, Slot 2, `open-source`, 20+ GitHub Stars).
+     - Linked GitHub repository and published Dev Genius / Medium breakdown (`/boids-algorithm-simulating-bird-flocks-in-unity-ec733d529a92`).
      - Intentionally omitted temporary LinkedIn post URL from public recruiter cards per client directive.
      - Populated with 500-agent flocking demo GIF and 2 component inspector captures.
    - **Prefab Palette:**
      - Populated with drag-and-drop workflow GIF, instant search indexing GIF, corner menu capture, and context menu capture.
    - **UnityChart:**
-     - Integrated user-uploaded demo.mp4 video (real-time play-mode vector charting) + repository chart-overview.png interface capture.
+     - Integrated user-uploaded `demo.mp4` video (real-time play-mode vector charting) + repository `chart-overview.png` interface capture.
 
 5. **Verified Live Links Directory:**
    - *Mr. Bean: Special Delivery:* https://play.google.com/store/apps/details?id=com.goodcatchgames.mrbeanhillclimb&hl=en_US
@@ -93,44 +98,44 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
 ### Phase 1: Modular Content Architecture & Data Contracts [COMPLETED]
 * **Date:** 2026-11-02
 * Built modular schemas in src/content/:
-  - 8 Initial Projects across 4 shelf categories (src/content/projects/)
-  - 10 Curated Skill Chips across 4 engineering domains (src/content/skills/)
-  - Profile bio, career timeline, education, transmissions, and socials (src/content/profile/)
-  - Companion robot lore & trivia (src/content/companion/)
+  - 8 Initial Projects across 4 shelf categories (`src/content/projects/`)
+  - 10 Curated Skill Chips across 4 engineering domains (`src/content/skills/`)
+  - Profile bio, career timeline, education, transmissions, and socials (`src/content/profile/`)
+  - Companion robot lore & trivia (`src/content/companion/`)
 
 ### Phase 2: Procedural Web Audio Engine [COMPLETED]
 * **Date:** 2026-11-03
-* Built real-time synthesized procedural sound engine in src/audio/soundEngine.ts using Tone.js.
-* Single useAudio React hook with localStorage persistence and dev harness at /#audio-test.
+* Built real-time synthesized procedural sound engine in `src/audio/soundEngine.ts` using Tone.js.
+* Single `useAudio` React hook with localStorage persistence and dev harness at `/#audio-test`.
 
 ### Phase 3: Recruiter Quick View Mode & Project Drawer [COMPLETED]
 * **Date:** 2026-11-04 – 2026-11-05
 * Implemented Recruiter 2D dashboard, top floating cyber HUD with volume slider and mode switcher, responsive skill domains, career timeline, verified 2-page PDF resume download, and Framer Motion slide-out project case study drawer.
-* Configured automated GitHub Actions workflow (.github/workflows/deploy.yml) deploying production builds to GitHub Pages.
+* Configured automated GitHub Actions workflow (`.github/workflows/deploy.yml`) deploying production builds to GitHub Pages.
 
 ### Phase 3.5: Project Media Architecture, Video Integration & Content Enhancements [COMPLETED]
-* **Date:** 2026-11-06
+* **Date:** 2026-11-06 – 2026-11-07
 * **Standardized Media Folder Architecture:**
-  - Created public/assets/projects/<project-id>/ hierarchy.
-  - Ingested authentic media assets for 5 projects (unity-boids, unity-verlet-rope, prefab-palette, unity-chart, -simple-diagnosis).
+  - Created `public/assets/projects/<project-id>/` hierarchy.
+  - Ingested authentic media assets for 6 projects (`mr-bean-solitaire-adventure`, `unity-boids`, `unity-verlet-rope`, `prefab-palette`, `unity-chart`, `a-simple-diagnosis`).
 * **Interactive Media Carousel Component ([ProjectMediaCarousel.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/ui/ProjectMediaCarousel.tsx)):**
-  - Integrated into both ProjectCard.tsx (compact card preview with inline flip controls) and ProjectDrawer.tsx (expanded monitor with captions and filmstrip).
+  - Integrated into both `ProjectCard.tsx` (compact card preview with inline flip controls) and `ProjectDrawer.tsx` (expanded monitor with captions and filmstrip).
   - Handles images, animated GIFs, and HTML5 video playback seamlessly with CRT scanline overlays.
   - Provides uniform fallback terminal HUD for projects awaiting visual media.
 * **Content & Narrative Alignments:**
-  - Added *Unity BOIDS* (project-unity-boids.ts) with Medium breakdown link and transmission entry.
+  - Added *Mr. Bean – Solitaire Adventure* media suite (Travel progression in NYC, Solitaire face cards, and dynamic puzzle obstacles).
+  - Added *Unity BOIDS* (`project-unity-boids.ts`) with Medium breakdown link and transmission entry.
   - Updated *Verlet Rope* to 70+ GitHub stars with Medium breakdown link and transmission entry.
-  - Reclassified *A Simple Diagnosis* to category: 'indie' with dedicated filter tab and elevated 2-ending short description.
+  - Reclassified *A Simple Diagnosis* to `category: 'indie'` with dedicated filter tab and elevated 2-ending short description.
   - Added video demo and overview capture for *UnityChart*.
 * **Build Verification:**
-  - 
-pm run build passing with code 0.
+  - `npm run build` passing with code 0.
 
 ---
 
 ## 4. Current File Tree
 
-`
+```
 c:\Projects\Personal\alirezaft.github.io\
 ├── .github/
 │   └── workflows/
@@ -142,6 +147,10 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │   │   │   ├── chapter-briefing.jpg
 │   │   │   │   ├── hearing-test.jpg
 │   │   │   │   └── title-screen.jpg
+│   │   │   ├── mr-bean-solitaire-adventure/
+│   │   │   │   ├── puzzle-mechanics-obstacles.webp
+│   │   │   │   ├── solitaire-gameplay.webp
+│   │   │   │   └── travel-progression.webp
 │   │   │   ├── prefab-palette/
 │   │   │   │   ├── context-menu.png
 │   │   │   │   ├── corner-menu.png
@@ -194,26 +203,26 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │   ├── index.ts
 │   │   └── UIContext.tsx
 │   ├── App.tsx                     # Master Root & Dual-Mode Shell
-│   ├── AudioTestPage.tsx           # Dev audio harness (/ #audio-test)
+│   ├── AudioTestPage.tsx           # Dev audio harness (/#audio-test)
 │   ├── index.css                   # Custom scrollbars & Tailwind base
 │   ├── main.tsx                    # Root React 19 entry
 │   └── vite-env.d.ts
 ├── EXECUTION_PLAN.md
-├── Handoff.md                      # This living handoff document
+├── handoff.md                      # This living handoff document
 ├── index.html
 ├── package.json
 ├── tailwind.config.js
 └── vite.config.ts
-`
+```
 
 ---
 
 ## 5. Immediate Next Steps
 
 1. **Phase 4: 3D Scene Base, Lighting & Post-Processing:**
-   - Build cyber-deck desk surface geometry and cable bundles (DeskStation.tsx).
+   - Build cyber-deck desk surface geometry and cable bundles (`DeskStation.tsx`).
    - Cyan/Magenta/Amber three-point lighting rig with ambient fill.
-   - Post-processing pipeline with selective bloom and CRT scanlines using @react-three/postprocessing.
+   - Post-processing pipeline with selective bloom and CRT scanlines using `@react-three/postprocessing`.
 2. **Phase 5: Interactive 3D CRT Monitor & Hologram:**
    - 3D CRT Monitor running Canvas/video texture for project showcase.
    - Hologram datapad for bio & career timeline.

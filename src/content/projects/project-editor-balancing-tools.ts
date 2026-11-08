@@ -19,7 +19,7 @@ export const projectUnityChart: Project = {
     'Designed reactive DataProvider architecture enabling real-time play-mode data streaming for AI telemetry and variable monitoring.',
     'Published complete API documentation and interactive samples for custom inspector and window integration.',
   ],
-  techTags: ['Unity', 'C#', 'UI Toolkit', 'UXML / USS', 'Data Visualization', 'Editor Scripting', 'Vector Graphics'],
+  techTags: ['Unity', 'C#', 'UI Toolkit', 'Data Visualization', 'Editor Tooling', 'Vector Graphics'],
   thumbnailUrl: './assets/projects/unity-chart/chart-overview.png',
   media: [
     {

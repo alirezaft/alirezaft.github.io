@@ -22,12 +22,9 @@ export const projectSimpleDiagnosis: Project = {
   techTags: [
     'Unity',
     'C#',
-    'ScriptableObjects',
-    'Strategy Pattern',
+    'Scriptable Object Oriented Architecture',
     'Horror Game Design',
-    'Audio Systems',
     'Audacity',
-    'itch.io',
   ],
   thumbnailUrl: './assets/projects/a-simple-diagnosis/title-screen.jpg',
   media: [

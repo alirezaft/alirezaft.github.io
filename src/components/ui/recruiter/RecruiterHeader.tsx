@@ -88,31 +88,33 @@ export default function RecruiterHeader() {
         </div>
 
         {/* Right Column: Prominent 1-Click Resume Download Button */}
-        <div className="flex flex-col sm:flex-row lg:flex-col items-stretch lg:items-end justify-center gap-2">
-          <button
-            type="button"
-            onClick={triggerResumeDownload}
-            onMouseEnter={playHover}
-            title="Download verified Alireza Forghani Toosi Resume PDF"
-            className={`group relative flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl font-mono text-sm font-bold tracking-wider uppercase transition-all duration-300 select-none ${
-              isResumeDownloading
-                ? 'bg-cyan-500 text-black border-2 border-[#00f3ff] shadow-[0_0_30px_rgba(0,243,255,0.8)] scale-[1.02]'
-                : 'bg-cyan-950/60 hover:bg-cyan-900/50 text-[#00f3ff] hover:text-white border border-[#00f3ff] hover:border-cyan-400 shadow-[0_0_16px_rgba(0,243,255,0.3)] hover:shadow-[0_0_24px_rgba(0,243,255,0.5)] active:scale-[0.98]'
-            }`}
-          >
-            <Download
-              className={`w-4 h-4 transition-transform duration-200 ${
-                isResumeDownloading ? 'animate-bounce text-black' : 'group-hover:-translate-y-0.5 text-[#00f3ff]'
+        <div className="flex flex-col items-center sm:items-end justify-center">
+          <div className="flex flex-col items-center gap-2 w-full sm:w-auto">
+            <button
+              type="button"
+              onClick={triggerResumeDownload}
+              onMouseEnter={playHover}
+              title="Download verified Alireza Forghani Toosi Resume PDF"
+              className={`group relative flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl font-mono text-sm font-bold tracking-wider uppercase transition-all duration-300 select-none w-full sm:w-auto ${
+                isResumeDownloading
+                  ? 'bg-cyan-500 text-black border-2 border-[#00f3ff] shadow-[0_0_30px_rgba(0,243,255,0.8)] scale-[1.02]'
+                  : 'bg-cyan-950/60 hover:bg-cyan-900/50 text-[#00f3ff] hover:text-white border border-[#00f3ff] hover:border-cyan-400 shadow-[0_0_16px_rgba(0,243,255,0.3)] hover:shadow-[0_0_24px_rgba(0,243,255,0.5)] active:scale-[0.98]'
               }`}
-            />
-            <span>
-              {isResumeDownloading ? 'FETCHING RESUME...' : 'DOWNLOAD RESUME (PDF)'}
-            </span>
-          </button>
+            >
+              <Download
+                className={`w-4 h-4 transition-transform duration-200 ${
+                  isResumeDownloading ? 'animate-bounce text-black' : 'group-hover:-translate-y-0.5 text-[#00f3ff]'
+                }`}
+              />
+              <span>
+                {isResumeDownloading ? 'FETCHING RESUME...' : 'DOWNLOAD RESUME (PDF)'}
+              </span>
+            </button>
 
-          <div className="flex items-center justify-center lg:justify-end gap-1.5 text-[11px] font-mono text-slate-400">
-            <CheckCircle2 className="w-3 h-3 text-[#00ff66]" />
-            <span>Updated 2026 &bull; Direct 1-Click Access</span>
+            <div className="flex items-center justify-center gap-1.5 text-[11px] font-mono text-slate-400">
+              <CheckCircle2 className="w-3 h-3 text-[#00ff66]" />
+              <span>Updated 2026</span>
+            </div>
           </div>
         </div>
       </div>

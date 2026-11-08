@@ -17,8 +17,9 @@ export const projectVrProduction: Project = {
     'Extended internal proprietary tools and pipelines, boosting team asset ingestion and test turnaround.',
     'Integrated LLM and Agentic AI software workflows into the production pipeline, increasing engineering velocity by 1.5x.',
     'Maintained strict 90fps stereo rendering budgets through aggressive draw call batching and shader optimizations.',
+    'Designed and wrote documentation system for conventions and project specific technical and design documents.'
   ],
-  techTags: ['Unity VR', 'XR Interaction Toolkit', 'C#', 'Spatial Audio', 'LLM Agentic Workflows', 'Performance Optimization'],
+  techTags: ['Unity', 'XR Interaction Toolkit', 'C#', 'LLM Agentic Workflows', 'Performance Optimization', 'Editor Tooling', 'Technical Documentation'],
   thumbnailUrl: './assets/projects/vr-interactive-applications/industrial-plant-simulation.png',
   media: [
     {

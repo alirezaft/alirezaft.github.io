@@ -10,7 +10,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'engine-core',
     summary: 'Deep expertise in full-cycle game development, custom editor tooling, modern C# paradigms, UI Toolkit, ECS, and Job System.',
     realWorldImpact: 'Powered 50M+ active users across commercial mobile & WebGL releases.',
-    linkedProjectIds: ['mr-bean-special-delivery', 'mr-bean-solitaire-adventure', 'kingdom-hero-tower-defense', 'vr-interactive-applications'],
+    linkedProjectIds: ['mr-bean-special-delivery', 'mr-bean-solitaire-adventure', 'vr-interactive-applications'],
     specs: {
       frequencyOrRating: 'Unity 6 & C# 12 / Multi-Threaded',
       footprint: 'Core Engine & Systems',
@@ -29,7 +29,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'architecture',
     summary: 'Rigorous application of SOLID, decoupled event buses, state machines, and modular ScriptableObject architectures.',
     realWorldImpact: 'Cut legacy engineering task turnaround times by 30% across studio codebases.',
-    linkedProjectIds: ['mr-bean-special-delivery', 'a-simple-diagnosis', 'kingdom-hero-tower-defense'],
+    linkedProjectIds: ['a-simple-diagnosis'],
     specs: {
       frequencyOrRating: 'Decoupled Systems Architecture',
       footprint: 'Clean Architecture & SOLID',
@@ -48,7 +48,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'tooling-sdks',
     summary: 'Designing modern editor utilities, UXML/USS panels, property drawers, and automated pipeline tooling for game designers.',
     realWorldImpact: 'Streamlined designer workflows and reduced level production time by 10%.',
-    linkedProjectIds: ['prefab-palette', 'unity-chart', 'mr-bean-special-delivery'],
+    linkedProjectIds: ['prefab-palette', 'unity-chart', 'mr-bean-special-delivery', 'vr-interactive-applications'],
     specs: {
       frequencyOrRating: 'Reactive UXML Data Binding',
       footprint: 'Editor Scripting & Tools',
@@ -58,7 +58,26 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     circuitColor: '#ffb700', // Amber
   },
 
-  // 4. Agentic Software Development & Game Design
+  // 4. Game Design
+  {
+    id: 'game-design',
+    name: 'Game Design & Core Mechanics',
+    componentRole: 'heavy-ic',
+    importanceLevel: 2,
+    category: 'design-analytics',
+    summary: 'Designing engaging gameplay loops, interactive mechanics, level progression, and player experience curves. Experienced in balancing systems, crafting wave pacing, and structuring multi-branching narrative outcomes across commercial and indie releases.',
+    realWorldImpact: 'Crafted core gameplay loops, mechanics, and systems for 50M+ player commercial mobile titles and independent releases.',
+    linkedProjectIds: ['mr-bean-special-delivery', 'kingdom-hero-tower-defense', 'a-simple-diagnosis'],
+    specs: {
+      frequencyOrRating: 'Core Loop & Progression Systems',
+      footprint: 'Game Design & Systems',
+      pinCount: 128,
+      status: 'active',
+    },
+    circuitColor: '#10b981', // Emerald
+  },
+
+  // 5. Agentic Software Development
   {
     id: 'agentic-ai-llm-workflows',
     name: 'Agentic Software Development',
@@ -67,7 +86,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'workflow',
     summary: 'Integrating cutting-edge Agentic AI workflows and LLMs into daily development to accelerate prototyping, code review, and tooling. Actively applying AI agents and LLMs in game design for narrative ideation, economy balancing, and design documentation.',
     realWorldImpact: 'Boosted engineering team productivity by 1.5x at Manshoor Fanavari Arya and streamlined live title features.',
-    linkedProjectIds: ['mr-bean-special-delivery', 'vr-interactive-applications'],
+    linkedProjectIds: ['vr-interactive-applications'],
     specs: {
       frequencyOrRating: 'Autonomous Coding Agents & Automation',
       footprint: 'Agentic AI & LLMs',
@@ -77,7 +96,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     circuitColor: '#ec4899', // Hot Pink
   },
 
-  // 5. WebGL Porting
+  // 6. WebGL Porting
   {
     id: 'webgl-porting-js-wrappers',
     name: 'WebGL Porting & JavaScript Wrappers',
@@ -86,7 +105,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'engine-core',
     summary: 'Porting high-end mobile titles to browser canvas, writing custom JS library plugins, and managing web audio/memory constraints.',
     realWorldImpact: 'Captured 20K+ new browser players for live mobile IP.',
-    linkedProjectIds: ['mr-bean-special-delivery'],
+    linkedProjectIds: [],
     specs: {
       frequencyOrRating: 'WASM WebGL Bridge / Low-Memory',
       footprint: 'WebGL & Web Platforms',
@@ -96,7 +115,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     circuitColor: '#38bdf8', // Sky Blue
   },
 
-  // 6. Mobile SDKs & Analytics
+  // 7. Mobile SDKs & Analytics
   {
     id: 'mobile-sdks-analytics',
     name: 'SDK Integration (GameAnalytics, Firebase, Ads)',
@@ -105,7 +124,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'tooling-sdks',
     summary: 'Seamless integration of monetization and analytics stacks: GameAnalytics, Firebase, AppLovin MAX, CrazyGames SDK across Android & WebGL.',
     realWorldImpact: 'Accurate live telemetry tracking across millions of daily active sessions.',
-    linkedProjectIds: ['mr-bean-special-delivery', 'mr-bean-solitaire-adventure'],
+    linkedProjectIds: ['mr-bean-special-delivery'],
     specs: {
       frequencyOrRating: 'Async Telemetry Ingestion Pipeline',
       footprint: 'Analytics & Monetization SDKs',
@@ -115,7 +134,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     circuitColor: '#a855f7', // Purple
   },
 
-  // 7. Telemetry & Economy Balancing
+  // 8. Telemetry & Economy Balancing
   {
     id: 'telemetry-game-design',
     name: 'Telemetry Analysis & Economy Balancing',
@@ -124,7 +143,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     category: 'design-analytics',
     summary: 'Bridging engineering with game design: analyzing in-game drop-off funnels, balancing virtual economies (IAA & IAP), and authoring GDDs.',
     realWorldImpact: 'Directly reduced player churn by 10% through data-driven balance passes.',
-    linkedProjectIds: ['mr-bean-solitaire-adventure', 'mr-bean-special-delivery'],
+    linkedProjectIds: ['mr-bean-solitaire-adventure', 'mr-bean-special-delivery', 'kingdom-hero-tower-defense'],
     specs: {
       frequencyOrRating: 'Cohort Funnel & Churn Analysis',
       footprint: 'Game Design & Balancing',
@@ -134,7 +153,7 @@ export const SKILL_CIRCUIT_COMPONENTS: SkillChip[] = [
     circuitColor: '#f43f5e', // Rose
   },
 
-  // 8. Git Version Control
+  // 9. Git Version Control
   {
     id: 'git-version-control',
     name: 'Git Version Control & CI/CD Pipelines',

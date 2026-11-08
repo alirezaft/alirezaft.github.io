@@ -14,8 +14,10 @@ export const CAREER_TIMELINE: ExperienceItem[] = [
       'Extended capabilities of proprietary internal tools utilized across production pipelines.',
       'Leveraged LLMs and Agentic software development workflows to boost team productivity by 1.5x.',
       'Communicated proactively with cross-functional teams and management to consistently ensure on-time delivery.',
+      'Designed a documentations system to maintain and write technical and project specific documentation to boost productivity, reduce turn-over, and improve communiation.',
+      'Incorporated documentation system into agentic software development workflows to improve productivity and AI agent output quality.'
     ],
-    technologies: ['Unity VR', 'XR Interaction Toolkit', 'C#', 'Agentic Workflows', 'Internal Tools', 'Profiling'],
+    technologies: ['Unity', 'XR Interaction Toolkit', 'C#', 'Agentic Workflows', 'Internal Tools', 'Profiling', 'Technical Documentation'],
   },
   {
     id: 'unbound-game-studio',
@@ -52,7 +54,7 @@ export const CAREER_TIMELINE: ExperienceItem[] = [
       'Architected and implemented game mechanics using a modular architecture based on ScriptableObjects in Unity.',
       'Designed and documented mobile game concepts and mechanics, utilizing prototyping tools for seamless team communication.',
     ],
-    technologies: ['Unity', 'C#', 'ScriptableObjects', 'Roadmap Planning', 'Game Design', 'Rapid Prototyping'],
+    technologies: ['Unity', 'C#', 'ScriptableObjects', 'Roadmap Planning', 'Game Design'],
   },
 ];
 

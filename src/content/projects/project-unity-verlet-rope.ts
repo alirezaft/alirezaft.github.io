@@ -14,6 +14,7 @@ export const projectUnityVerletRope: Project = {
   overview: 'A lightweight, numerically stable rope and cable physics simulation for Unity utilizing Verlet integration and distance constraints. Solves spring instability issues common in classic hinge-joint setups.',
   responsibilities: [
     'Implemented iterative Verlet integration with relaxation solver for realistic rope droop and tension.',
+    'Implemented Sweep Collision Detection and resolving collisions effectively.',
     'Engineered custom procedural mesh generation that wraps cylinder topology along simulation nodes.',
     'Packaged with intuitive inspector gizmos, collision handling, and performance benchmark test scenes.',
     'Adopted by indie game developers worldwide with 70+ GitHub stars and active forks.',

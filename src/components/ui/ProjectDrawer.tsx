@@ -215,12 +215,7 @@ export default function ProjectDrawer() {
 
             {/* Drawer Footer Actions (Sticky at bottom) */}
             <div className="p-5 border-t border-[#1e293b] bg-[#070b16]/95 backdrop-blur-xl shrink-0">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="text-[11px] font-mono text-slate-400">
-                  <span className="text-slate-500">Verified Project Case Study &bull; </span>
-                  <span className="text-[#00ff66]">Direct Link Access</span>
-                </div>
-
+              <div className="flex items-center justify-end gap-3">
                 <div className="flex items-center gap-2">
                   {project.links.length > 0 ? (
                     project.links.map((link) => (

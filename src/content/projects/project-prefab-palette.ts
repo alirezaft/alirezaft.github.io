@@ -17,7 +17,7 @@ export const projectPrefabPalette: Project = {
     'Integrated quick tag filtering, search indexing, and favorite presets for rapid scene dressing.',
     'Adopted by commercial studio teams to streamline level dressing and environment composition.',
   ],
-  techTags: ['Unity', 'C#', 'UI Toolkit', 'UXML / USS', 'Editor Scripting', 'Level Design Tools'],
+  techTags: ['Unity', 'C#', 'UI Toolkit', 'Editor Tooling'],
   thumbnailUrl: './assets/projects/prefab-palette/demo.gif',
   media: [
     {

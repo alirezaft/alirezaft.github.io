@@ -9,6 +9,7 @@ import {
   GitBranch,
   GraduationCap,
   Users,
+  Gamepad2,
   CheckCircle2,
   ArrowUpRight,
 } from 'lucide-react';
@@ -35,7 +36,7 @@ const SKILL_GROUPS: SkillGroup[] = [
     title: 'Editor Tooling & Game Design',
     subtitle: 'Workflow optimization, custom designer tools, and data-driven game balancing',
     icon: Wrench,
-    skillIds: ['custom-editor-ui-toolkit', 'telemetry-game-design'],
+    skillIds: ['game-design', 'custom-editor-ui-toolkit', 'telemetry-game-design'],
   },
   {
     title: 'AI Engineering, SDKs & Infrastructure',
@@ -63,6 +64,8 @@ export default function RecruiterSkillsView() {
         return <Boxes className="w-4 h-4 text-[#ff007f]" />;
       case 'custom-editor-ui-toolkit':
         return <Wrench className="w-4 h-4 text-[#ffb700]" />;
+      case 'game-design':
+        return <Gamepad2 className="w-4 h-4 text-[#10b981]" />;
       case 'agentic-ai-llm-workflows':
         return <Bot className="w-4 h-4 text-[#ec4899]" />;
       case 'webgl-porting-js-wrappers':

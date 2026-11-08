@@ -67,7 +67,7 @@ export default function RecruiterFilterBar() {
                 playClick();
               }}
               onMouseEnter={playHover}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs font-medium whitespace-nowrap transition-all duration-200 select-none ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs font-medium whitespace-nowrap transition-[color,border-color,box-shadow,background-color] duration-200 select-none ${
                 isSelected
                   ? 'bg-pink-950/50 text-[#ff007f] border border-[#ff007f] shadow-[0_0_12px_rgba(255,0,127,0.3)]'
                   : 'bg-[#0b1120]/70 text-slate-400 hover:text-slate-200 border border-[#1e293b] hover:border-slate-700'

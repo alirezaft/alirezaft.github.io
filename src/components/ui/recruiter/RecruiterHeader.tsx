@@ -9,7 +9,7 @@ export default function RecruiterHeader() {
   const { playHover, playClick } = useAudio();
 
   return (
-    <div className="relative p-5 sm:p-7 rounded-2xl bg-[#0b1120]/90 border border-[#1e293b] shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md mb-6">
+    <div className="relative p-5 sm:p-7 rounded-2xl bg-[#0b1120]/90 border border-[#1e293b] shadow-[0_8px_32px_rgba(0,0,0,0.4)] mb-6">
       {/* Decorative Cyber Corner Accents - Uniform Magenta */}
       <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#ff007f] rounded-tl-sm pointer-events-none" />
       <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-[#ff007f] rounded-tr-sm pointer-events-none" />

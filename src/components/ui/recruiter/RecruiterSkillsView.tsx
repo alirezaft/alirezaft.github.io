@@ -116,7 +116,7 @@ export default function RecruiterSkillsView() {
               {skills.map((skill) => (
                 <div
                   key={skill.id}
-                  className="group relative flex flex-col justify-between p-5 rounded-2xl bg-[#0b1120]/90 border border-[#1e293b] hover:border-cyan-500/50 shadow-md hover:shadow-[0_8px_30px_rgba(0,243,255,0.08)] transition-all duration-300 backdrop-blur-md"
+                  className="group relative flex flex-col justify-between p-5 rounded-2xl bg-[#0b1120]/90 border border-[#1e293b] hover:border-cyan-500/50 shadow-md hover:shadow-[0_8px_30px_rgba(0,243,255,0.08)] transition-[border-color,box-shadow] duration-300"
                 >
                   <div>
                     {/* Header: Skill Name & Icon */}

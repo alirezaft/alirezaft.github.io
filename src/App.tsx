@@ -70,11 +70,12 @@ export default function App() {
       {/* Slide-out Technical Case Study Drawer (shared across 3D & 2D) */}
       <ProjectDrawer />
 
-      {/* 3D Scene Viewport */}
-      <div className="w-full h-full">
+      {/* 3D Scene Viewport — hidden (not unmounted) when in recruiter mode to halt the render loop */}
+      <div className={`w-full h-full ${viewMode === 'recruiter' ? 'invisible' : ''}`}>
         <Canvas
           dpr={[1, 1.5]}
           camera={{ position: [3, 3, 5], fov: 45 }}
+          frameloop={viewMode === 'recruiter' ? 'never' : 'always'}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         >
           <color attach="background" args={['#050811']} />

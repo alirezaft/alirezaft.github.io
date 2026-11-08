@@ -41,7 +41,7 @@ export default function RecruiterTabs() {
   const { playHover } = useAudio();
 
   return (
-    <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0b1120]/80 border border-[#1e293b] backdrop-blur-md overflow-x-auto no-scrollbar mb-4">
+    <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0b1120] border border-[#1e293b] overflow-x-auto no-scrollbar mb-4">
       {TABS.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeRecruiterTab === tab.id;

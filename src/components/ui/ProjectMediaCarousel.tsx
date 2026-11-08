@@ -215,13 +215,13 @@ export default function ProjectMediaCarousel({
               src={currentItem.url}
               alt={currentItem.alt || currentItem.title || projectTitle}
               loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="w-full h-full object-cover will-change-transform"
             />
           )}
         </div>
 
         {/* Counter & Format Pill (Top Right) */}
-        <div className="absolute top-2 right-2 z-20 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md border border-slate-800 text-[10px] font-mono text-slate-300">
+        <div className="absolute top-2 right-2 z-20 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-950/80 border border-slate-800 text-[10px] font-mono text-slate-300">
           {currentItem.type === 'gif' ? (
             <Film className="w-3 h-3 text-[#00f3ff]" />
           ) : currentItem.type === 'video' ? (
@@ -244,7 +244,7 @@ export default function ProjectMediaCarousel({
               onClick={handlePrev}
               onMouseEnter={playHover}
               aria-label="Previous Slide"
-              className="absolute left-1.5 top-1/2 -translate-y-1/2 z-20 p-1 rounded-full bg-slate-950/70 hover:bg-cyan-950/90 text-slate-400 hover:text-[#00f3ff] border border-slate-800 hover:border-cyan-500/50 backdrop-blur-sm opacity-0 group-hover/carousel:opacity-100 transition-all duration-200"
+              className="absolute left-1.5 top-1/2 -translate-y-1/2 z-20 p-1 rounded-full bg-slate-950/70 hover:bg-cyan-950/90 text-slate-400 hover:text-[#00f3ff] border border-slate-800 hover:border-cyan-500/50 opacity-0 group-hover/carousel:opacity-100 transition-all duration-200"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
@@ -254,7 +254,7 @@ export default function ProjectMediaCarousel({
               onClick={handleNext}
               onMouseEnter={playHover}
               aria-label="Next Slide"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 z-20 p-1 rounded-full bg-slate-950/70 hover:bg-cyan-950/90 text-slate-400 hover:text-[#00f3ff] border border-slate-800 hover:border-cyan-500/50 backdrop-blur-sm opacity-0 group-hover/carousel:opacity-100 transition-all duration-200"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 z-20 p-1 rounded-full bg-slate-950/70 hover:bg-cyan-950/90 text-slate-400 hover:text-[#00f3ff] border border-slate-800 hover:border-cyan-500/50 opacity-0 group-hover/carousel:opacity-100 transition-all duration-200"
             >
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
@@ -292,7 +292,7 @@ export default function ProjectMediaCarousel({
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/[0.025] to-transparent pointer-events-none z-10" />
 
         {/* Top Monitor Status Bar */}
-        <div className="relative z-20 flex items-center justify-between px-4 py-2 border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-md text-[11px] font-mono text-slate-400">
+        <div className="relative z-20 flex items-center justify-between px-4 py-2 border-b border-slate-800/80 bg-slate-950/70 text-[11px] font-mono text-slate-400">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#00ff66] animate-pulse" />
             <span className="text-[#00f3ff] font-bold tracking-widest uppercase">

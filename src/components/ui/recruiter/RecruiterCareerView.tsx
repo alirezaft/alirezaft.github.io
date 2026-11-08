@@ -21,7 +21,7 @@ export default function RecruiterCareerView() {
             <div
               key={exp.id}
               onMouseEnter={playHover}
-              className="relative p-6 rounded-2xl bg-[#0b1120]/80 border border-[#1e293b] hover:border-slate-700 shadow-md transition-all duration-200"
+              className="relative p-6 rounded-2xl bg-[#0b1120]/80 border border-[#1e293b] hover:border-slate-700 shadow-md transition-[border-color] duration-200"
             >
               {/* Timeline Node Dot */}
               <div

@@ -29,7 +29,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   };
 
   return (
-    <div className="group relative flex flex-col justify-between p-5 rounded-2xl bg-[#0b1120]/90 border border-[#1e293b] hover:border-cyan-500/50 shadow-lg hover:shadow-[0_8px_30px_rgba(0,243,255,0.12)] transition-all duration-300 backdrop-blur-md">
+    <div className="group relative flex flex-col justify-between p-5 rounded-2xl bg-[#0b1120]/90 border border-[#1e293b] hover:border-cyan-500/50 shadow-lg hover:shadow-[0_8px_30px_rgba(0,243,255,0.08)] transition-[border-color,box-shadow] duration-300">
       {/* Top Cyber Emissive Accent Line */}
       <div
         className="absolute top-0 left-6 right-6 h-[2px] transition-opacity duration-300 opacity-60 group-hover:opacity-100"

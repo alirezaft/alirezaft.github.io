@@ -70,7 +70,7 @@ export default function ProjectDrawer() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={closeProject}
-            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-black/70"
             aria-hidden="true"
           />
 
@@ -82,7 +82,7 @@ export default function ProjectDrawer() {
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 260 }}
             aria-label={`Case Study: ${project.title}`}
-            className="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[580px] lg:w-[640px] max-w-full bg-[#070b16]/95 backdrop-blur-2xl border-l border-[#1e293b] shadow-[-20px_0_50px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden text-slate-200"
+            className="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[580px] lg:w-[640px] max-w-full bg-[#070b16] border-l border-[#1e293b] shadow-[-20px_0_50px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden text-slate-200"
           >
             {/* Top Emissive Glow Accent Bar */}
             <div
@@ -214,7 +214,7 @@ export default function ProjectDrawer() {
             </div>
 
             {/* Drawer Footer Actions (Sticky at bottom) */}
-            <div className="p-5 border-t border-[#1e293b] bg-[#070b16]/95 backdrop-blur-xl shrink-0">
+            <div className="p-5 border-t border-[#1e293b] bg-[#070b16] shrink-0">
               <div className="flex items-center justify-end gap-3">
                 <div className="flex items-center gap-2">
                   {project.links.length > 0 ? (

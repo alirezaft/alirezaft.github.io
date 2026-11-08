@@ -16,7 +16,7 @@ export default function Hud() {
   const isDev = import.meta.env.DEV;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 pointer-events-none px-4 py-3 sm:px-6 sm:py-3.5 bg-[#050811]/90 backdrop-blur-md border-b border-[#1e293b]/80 shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
+    <header className="fixed top-0 left-0 right-0 z-30 pointer-events-none px-4 py-3 sm:px-6 sm:py-3.5 bg-[#050811] border-b border-[#1e293b]/80 shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left Side: Subtle minimal status dot indicating scene engine live */}
         <div className="flex-1 pointer-events-auto flex items-center">
@@ -31,7 +31,7 @@ export default function Hud() {
         {/* Center: Clean Text-Only Mode Switcher (Icons & Fast label removed) */}
         <nav
           aria-label="Navigation Mode"
-          className="pointer-events-auto flex items-center p-1 rounded-xl bg-[#0b1120]/85 backdrop-blur-md border border-[#1e293b] shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
+          className="pointer-events-auto flex items-center p-1 rounded-xl bg-[#0b1120] border border-[#1e293b] shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
         >
           {/* 3D Cyber-Deck Pill */}
           <button
@@ -68,7 +68,7 @@ export default function Hud() {
         {/* Right Side: Media-Player Style Compact Volume Control */}
         <div className="flex-1 pointer-events-auto flex items-center justify-end gap-2.5">
           {/* Compact Media Player Volume Pill */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0b1120]/85 backdrop-blur-md border border-[#1e293b] shadow-lg">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0b1120] border border-[#1e293b] shadow-lg">
             {/* Speaker Icon (Click to toggle mute) */}
             <button
               type="button"

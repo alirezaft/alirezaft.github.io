@@ -19,7 +19,7 @@ export default function RecruiterTransmissionsView() {
           <div
             key={item.id}
             onMouseEnter={playHover}
-            className="p-6 rounded-2xl bg-[#0b1120]/80 border border-[#1e293b] hover:border-amber-500/40 shadow-md flex flex-col justify-between transition-all duration-200"
+            className="p-6 rounded-2xl bg-[#0b1120]/80 border border-[#1e293b] hover:border-amber-500/40 shadow-md flex flex-col justify-between transition-[border-color] duration-200"
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-2">

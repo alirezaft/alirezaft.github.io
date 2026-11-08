@@ -11,7 +11,7 @@ export default function RecruiterGrid() {
   const { activeRecruiterTab } = useUI();
 
   return (
-    <div className="absolute inset-0 z-20 overflow-y-auto bg-[#050811]/95 backdrop-blur-xl pointer-events-auto">
+    <div className="absolute inset-0 z-20 overflow-y-auto bg-[#050811] pointer-events-auto">
       {/* Top padding to account for fixed HUD */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-16">
         {/* Recruiter Header & 1-Click Resume Download */}

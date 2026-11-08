@@ -3,7 +3,7 @@ import { Project } from './types';
 export const projectKingdomHero: Project = {
   id: 'kingdom-hero-tower-defense',
   title: 'Kingdom Hero: Tower Defense TD',
-  subtitle: 'Tactical Mobile Strategy & Wave-Based Tower Defense',
+  subtitle: 'Mobile Strategy & Wave-Based Tower Defense',
   category: 'shipped-commercial',
   shelfRow: 1,
   slotIndex: 2,
@@ -11,14 +11,13 @@ export const projectKingdomHero: Project = {
   role: 'Game Designer',
   company: 'Unbound Game Studio',
   statsBadge: 'Shipped Title',
-  overview: 'Strategic fantasy tower defense title built for mobile. Architected high-performance wave spawning systems, pathfinding logic, tower progression upgrades, and combat calculations.',
+  overview: 'Strategic fantasy tower defense title built for mobile. Designed high-performance wave spawning systems, tower progression upgrades, and combat calculations.',
   responsibilities: [
-    'Engineered core gameplay systems, tower targeting heuristics, and wave spawning state machines.',
-    'Optimized unit physics and pathfinding queries to sustain high FPS during massive enemy swarms.',
-    'Collaborated closely with game designers to balance tower DPS, enemy armor curves, and player progression.',
-    'Implemented clean decoupled event architectures for audio triggers, VFX spawning, and UI synchronization.',
+    'Designed core gameplay systems and wave spawning mechanics and calculations.',
+    'Collaborated closely with developers to test and ensure correct implementation of game mechanics, enemy armor curves, and player progression.',
+    'Performed market analysis to identify competitors and their strengths to improve game design and KPIs',
   ],
-  techTags: ['Unity', 'C#', 'Tower Defense', 'AI Pathfinding', 'State Machines', 'Performance Profiling'],
+  techTags: ['Game Design', 'Game Balance', 'Market Research', 'Documentation'],
   thumbnailUrl: './assets/projects/kingdom-hero-tower-defense/grid-summon-defense.webp',
   media: [
     {

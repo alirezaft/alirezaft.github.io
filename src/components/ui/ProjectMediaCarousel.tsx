@@ -282,7 +282,7 @@ export default function ProjectMediaCarousel({
   }
 
   // ---------------------------------------------------------------------------
-  // DRAWER MODE: Expanded high-res monitor with filmstrip & technical captions
+  // DRAWER MODE: Expanded high-res monitor with filmstrip
   // ---------------------------------------------------------------------------
   return (
     <div className={`space-y-3 ${className}`}>
@@ -360,15 +360,7 @@ export default function ProjectMediaCarousel({
           )}
         </div>
 
-        {/* Caption Bar (Bottom) */}
-        {currentItem.caption && (
-          <div className="relative z-20 px-4 py-2.5 border-t border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
-            <p className="text-xs font-mono text-slate-300 leading-relaxed">
-              <span className="text-[#00f3ff] mr-1.5">&rsaquo;</span>
-              {currentItem.caption}
-            </p>
-          </div>
-        )}
+        {/* Caption Bar (Bottom) - Hidden from UI for now, preserved in data files */}
       </div>
 
       {/* Filmstrip Mini Thumbnails (Only when multiple items exist) */}

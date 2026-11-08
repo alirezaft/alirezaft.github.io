@@ -39,8 +39,8 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
    - **Drawer Mode:** Expanded high-res monitor viewport (`h-60 sm:h-72`).
      - Real-time telemetry header showing feed number (`FEED 01 / 03`) and capture type.
      - Audio-reactive Next/Prev controls + global keyboard navigation (`←` / `→`).
-     - Technical caption banner displaying item title and engineering context.
      - Mini thumbnail filmstrip underneath for one-click jump across screenshots/videos.
+     - Caption banner hidden on UI for clean, unobstructed graphics viewing while keeping descriptions preserved in data files.
    - **Graceful Zero-Media Fallback:**
      - When a project lacks media/thumbnails, renders a sleek Cyberpunk Terminal HUD banner keyed to the cartridge visual's primary color.
      - Ensures all cards in the recruiter catalog maintain consistent height, alignment, and aesthetic balance without empty holes.
@@ -145,6 +145,9 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
   - Updated *Verlet Rope* to 70+ GitHub stars with Medium breakdown link and transmission entry.
   - Reclassified *A Simple Diagnosis* to `category: 'indie'` with dedicated filter tab and elevated 2-ending short description.
   - Added video demo and overview capture for *UnityChart*.
+* **UI Streamlining:**
+  - Hidden the bottom caption bar overlay (`currentItem.caption`) from `ProjectMediaCarousel.tsx` across all project media viewers so screenshots, GIFs, and video captures are displayed cleanly and unobstructed.
+  - All `caption` and `overview` metadata are 100% preserved in the data files (`src/content/projects/*.ts`).
 * **Build Verification:**
   - `npm run build` passing with code 0.
 

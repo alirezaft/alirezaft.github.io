@@ -11,7 +11,7 @@ export const projectMrBeanSpecialDelivery: Project = {
   role: 'Game Developer & Designer',
   company: 'Unbound Game Studio',
   statsBadge: '50M+ Downloads',
-  overview: 'The official Mr. Bean mobile title published globally. Spearheaded game design, legacy codebase refactoring, level design pipelines, and custom in-engine tooling to sustain massive active player engagement.',
+  overview: 'The official Mr. Bean mobile title published globally. Spearheaded game design, legacy codebase documentation, level design pipelines, and contribution on custom in-engine tooling to sustain massive active player engagement.',
   responsibilities: [
     'Conducted full-scale legacy code audit and comprehensive architecture documentation, cutting feature turnaround times by 30%.',
     'Designed, balanced, and iterated core gameplay delivery mechanics and level layouts.',

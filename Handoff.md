@@ -109,6 +109,21 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
 
 ---
 
+
+7. **Phase 4 Seated 1st-Person Cyber-Deck & Hybrid Asset Architecture:**
+   - **Locomotion & Viewport Model:** Seated developer chair first-person perspective. Mouse look with Pointer Lock (document.requestPointerLock()) and center reticle dot; clamped pitch (-40 deg .. +50 deg) and yaw (-75 deg .. +75 deg) to keep the player naturally within reach of the desk.
+   - **Right-Click Inspection Zoom:** Holding Right-Click smoothly interpolates Camera FOV from 45 deg to 22 deg with a gentle camera nudge forward toward the aiming target.
+   - **Mobile / Touch Fallback:** Single touch drag for camera orientation, tap to interact/pick up, and dedicated on-screen zoom toggle button.
+   - **Zero-Content Drift Guarantee:** All 3D props and CRT interfaces bind directly to modular data contracts in src/content/ (projects, skillChips, profile, companionBot). No duplicate or stale data.
+   - **Interactive CRT Monitor (<Html transform>):** Embedded 3D-transformed HTML screen within a retro curved CRT bezel. Default state renders a Cyberpunk Boot Terminal CLI (CYBER-DECK KERNEL v4.2 // AWAITING MEDIA). Supports native mouse wheel scrolling and clickable DOM buttons.
+   - **Data Cartridge Deck System:** Left-click hold smoothly lerps cartridges into hand; releasing near the computer drive magnetically snaps the cartridge into the slot with mechanical latch SFX, powering on the CRT and rendering the project's tech spec card. Computer features a physical EJECT button to release cartridges.
+   - **PCB Motherboard & Multimeter Logic Probe:** Handheld diagnostic probe connected via flexible coiled cable to a benchtop multimeter unit. Probing IC pins triggers spark/electric SFX, illuminates glowing copper bus traces to the CPU, and syncs live telemetry to both the benchtop meter LCD and the CRT monitor.
+   - **Encrypted USB Key & Resume Decryption:** Tactile USB drive on desk. Plugging into the computer's USB port plays a power-surge SFX, triggers CRT decryption terminal animation, and initiates authentic download of Alireza_Forghani_Toosi_Resume.pdf.
+   - **Byte the Companion Pet Robot:** Articulated desktop pet with head tracking player reticle, dynamic pixel emoticon screen face (( ^ _ ^ ), ( > ᗢ < ), etc.), petting interactions, microchip snack feeding dish with crunch SFX, and contextual developer trivia speech bubbles.
+   - **Hybrid 3D Asset Strategy:** Four dedicated hero props (cartridge.glb, byte.glb, probe.glb, usb.glb) located in public/assets/models/, generated via automated Blender 5.2 headless Python scripts and fully editable in Blender 5.2. Environmental desk, housing, and substrate constructed with high-performance Three.js primitives.
+
+---
+
 ## 3. Implementation Progress & Activity Log
 
 ### Phase 0: Environment Setup & Scaffolding [COMPLETED]
@@ -163,6 +178,19 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
 * Mapped 309 nodes and 598 edges across 21 functional communities with 0 token extraction overhead.
 * Generated interactive visualizer (`graphify-out/graph.html`), GraphRAG data schema (`graphify-out/graph.json`), and comprehensive architectural audit (`graphify-out/GRAPH_REPORT.md`).
 * Established project policy to query and traverse this knowledge graph for future code inspection and feature expansion.
+
+
+### Phase 4: Seated 1st-Person Cyber-Deck Experience [IN PROGRESS]
+* **Date:** 2026-11-09
+* Finalized /grill-me architectural specifications and blindspot resolution:
+  - Seated 1st-person controller with Pointer Lock, center reticle, and Right-Click FOV zoom (45° -> 22°).
+  - Mobile touch drag and on-screen zoom toggle fallback.
+  - Interactive CRT Monitor with <Html transform>, default Boot Terminal CLI state, and native wheel scroll.
+  - Cartridge pickup, magnetic slot snapping, and physical computer Eject button.
+  - PCB Motherboard and Multimeter Logic Probe tool with dual LCD + CRT diagnostics readout.
+  - Tactile Encrypted USB Key triggering power-surge SFX, decryption animation, and direct resume PDF download.
+  - Desktop companion pet robot 'Byte' with emoticon face screen, reticle head tracking, petting, microchip feeding dish, and reactive commentary.
+  - Hybrid 3D asset architecture leveraging Blender 5.2 headless generation for hero props (cartridge.glb, byte.glb, probe.glb, usb.glb) in public/assets/models/.
 
 ---
 
@@ -269,14 +297,17 @@ c:\Projects\Personal\alirezaft.github.io\
 
 ## 5. Immediate Next Steps
 
-1. **Phase 4: 3D Scene Base, Lighting & Post-Processing:**
-   - Build cyber-deck desk surface geometry and cable bundles (`DeskStation.tsx`).
-   - Cyan/Magenta/Amber three-point lighting rig with ambient fill.
-   - Post-processing pipeline with selective bloom and CRT scanlines using `@react-three/postprocessing`.
-2. **Phase 5: Interactive 3D CRT Monitor & Hologram:**
-   - 3D CRT Monitor running Canvas/video texture for project showcase.
-   - Hologram datapad for bio & career timeline.
-3. **Phase 6: 3D Cartridge System, Skills Rack & Resume USB Key:**
-   - 3D project cartridges that plug into the cyber-deck reader to trigger project drawer & CRT playback.
-   - Interactive PCB skills rack with illuminated copper bus traces.
-   - Tactile USB drive with power-surge click animation triggering direct resume download.
+1. **Step 4.1: First-Person Desk Camera & Pointer Lock Controller:**
+   - Implement DeskCameraControls.tsx (Pointer Lock, reticle dot, clamped pitch/yaw, Right-Click FOV zoom lerp, touch fallback).
+2. **Step 4.2: Cyber-Deck Workstation & 3-Point Neon Lighting:**
+   - Implement CyberDeskStation.tsx (desk surface, casing, drive bays, post-processing bloom, ambient fill).
+3. **Step 4.3: Hero 3D Models Generation via Blender 5.2:**
+   - Generate cartridge.glb, yte.glb, probe.glb, and usb.glb in public/assets/models/.
+4. **Step 4.4: Interactive CRT Monitor Screen (<Html transform>):**
+   - Implement CrtMonitor.tsx with Boot Terminal default state, native wheel scroll, and zero-drift project card renderer.
+5. **Step 4.5: Cartridge Physics & USB Resume Decryption:**
+   - Implement CartridgeRack.tsx, ComputerDeck.tsx, and UsbKey.tsx with lerp grab, snap insertion, and CV download.
+6. **Step 4.6: PCB Motherboard & Multimeter Logic Probe Tool:**
+   - Implement CircuitTestBench.tsx and MultimeterProbe.tsx with spark SFX, bus pulses, and CRT telemetry sync.
+7. **Step 4.7: Byte Companion Pet Behaviors:**
+   - Implement ByteCompanion.tsx with pixel emoticon face canvas, reticle head tracking, microchip feeding, and speech bubbles.

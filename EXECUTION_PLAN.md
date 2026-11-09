@@ -95,90 +95,40 @@ flowchart TD
 
 ---
 
-### Phase 4: 3D Scene Base, Lighting & Post-Processing
-* **Objective:** Create the visual cyberpunk atmosphere and 3D foundation.
-* **Tasks:**
-  1. **Lighting Rig:**
-     * Dark ambient base (`#050811`).
-     * Cyan key light (`#00f3ff`) illuminating the left work area.
-     * Magenta rim light (`#ff007f`) highlighting edges from behind.
-     * Warm amber accent light (`#ffb700`) for the companion robot.
-  2. **Post-Processing Pipeline (`src/components/3d/PostProcessing.tsx`):**
-     * Selective Bloom on emissive materials (intensity: 1.2, luminanceThreshold: 0.8).
-     * Subtle CRT scanlines and vignette for cinematic depth.
-     * Performance check: Disables bloom on devices with low GPU benchmark.
-  3. **Desk Base Geometry:**
-     * Angled cyber-deck work surface with metallic edge trims, cable bundles, and rubberized desk mat.
-
----
-
-### Phase 5: Interactive 3D Props Development & Assembly
-* **Objective:** Build and assemble the physical interactive props on the desk.
-* **Component Assembly Sequence:**
-
-#### 1. Interactive CRT Monitor (`CrtMonitor.tsx`)
-* Curved retro CRT housing with front knobs and vents.
-* Dynamic screen texture:
-  * When off: Black glossy phosphor reflection with green standby LED.
-  * When on: Active video canvas texture (streaming project gameplay clips) with scanline shader overlay.
-* Click/power switch toggles playback.
-
-#### 2. Cartridge Deck (`CartridgeRack.tsx`)
-* Angled slot rack holding 3–4 glowing cyber cartridges.
-* Each cartridge labeled with project title and emissive accent strip.
-* Interaction: Hover lifts cartridge slightly; click triggers smooth animation path into the cyber-deck reader, turning on the CRT monitor.
-
-#### 3. Cyber Chipset Rack (`ChipsetRack.tsx`)
-* Matte-black PCB test-bench mounted at a 25-degree angle.
-* Copper bus traces using procedural line geometries with glowing pulse shaders.
-* Socketed chips:
-  * **CPU:** Unity / C# with central illuminated heatsink.
-  * **GPU:** Shaders / HLSL with copper heat-pipes.
-  * **RAM:** DOTS / Addressables DIMMs with blinking SMD LEDs.
-  * **Expansion:** AI, Physics, Blender, Git.
-* Interactive `[OVERCLOCK TEST]` toggle switch that triggers an amber surge across all traces.
-
-#### 4. Encrypted USB Chip (`UsbResumeChip.tsx`)
-* Futuristic transparent cyber-key with golden contact pins resting next to an exposed USB port.
-* Interaction: Click animates the chip into the port -> triggers power surge sound and neon flash -> downloads `resume.pdf`.
-
-#### 5. Holographic Datapad & Comms Terminal (`Datapad.tsx`, `CommsTerminal.tsx`)
-* Datapad: Tablet with glowing blue display for About Me and career experience.
-* Comms Terminal: Rugged transceiver with antenna and status beacon for contact links and email copying.
-
----
-
-### Phase 6: "Byte" Companion Robot & Feeding Mechanic
-* **Objective:** Bring the desk to life with the interactive robot mini-game.
-* **Tasks:**
-  1. **Robot Mesh (`CyberRobot.tsx`):**
-     * Charming low-poly chassis with articulated head and ears/antennas.
-     * Front digital OLED eye-screen rendered via dynamic HTML5 canvas (supports blinking, squinting with joy, looking around, heart eyes `^ _ ^`).
-  2. **Microchip Tray & Feeding Logic:**
-     * Small tray of glowing mini microchips next to Byte.
-     * Click or drag a microchip to Byte's mouth:
-       * Bite animation with cute crunch/synthesized chirp.
-       * Byte does a 360-degree joyful bounce.
-       * Eye-screen transforms to hearts/stars.
-       * Floating speech bubble appears with random game-dev easter eggs (e.g. *"Did you know? My human baked custom compute shaders for that water effect!"* or *"0 allocations in update loops make me happy!"*).
-  3. **Idle Behaviors:**
-     * Idle breathing animation, head tilts toward the user's cursor, occasional curiosity scan.
-
----
-
-### Phase 7: Camera Choreography & State Orchestration
-* **Objective:** Connect all 3D props, camera movements, and 2D UI panels into a cohesive experience.
-* **Tasks:**
-  1. **Camera Rig (`useCameraRig.ts`):**
-     * State: `DEFAULT` (isometric overview of entire desk).
-     * State: `FOCUS_CRT` (smooth dolly towards CRT monitor and cartridge deck).
-     * State: `FOCUS_CHIPSET` (macro zoom onto the hardware skill test-bench).
-     * State: `FOCUS_DATAPAD` (top-down view of bio datapad).
-     * State: `FOCUS_ROBOT` (close-up on Byte).
-  2. **Camera Transitions:**
-     * Use `@react-three/drei` `CameraControls` or smooth lerp vectors with easing for smooth cinematic transitions.
-  3. **Event Bus / Global State:**
-     * Clicking an in-scene prop updates the active view state, triggers camera transition, plays sound, and opens the corresponding 2D overlay if applicable.
+### Phase 4: Seated 1st-Person Cyber-Deck Experience [IN PROGRESS]
+* **Objective:** Deliver an authentic, immersive, high-signal 3D cyber-deck workspace featuring tactile physics, real-time CRT rendering, PCB diagnostics, and an interactive pet companion robot.
+* **Architecture & Mechanics:**
+  1. **Seated 1st-Person Camera & Pointer Lock Controller:**
+     - Pointer Lock API (document.requestPointerLock()) with center reticle crosshair dot.
+     - Clamped pitch ($-40^\circ \dots +50^\circ$) and yaw ($-75^\circ \dots +75^\circ$) keeping player anchored at developer chair.
+     - Right-Click inspection zoom smoothly interpolating camera FOV (^\circ \rightarrow 22^\circ$) with forward nudge.
+     - Mobile touch-drag camera look and on-screen zoom toggle fallback.
+  2. **Cyber-Deck Station & Atmospheric Lighting Rig:**
+     - Matte carbon desk surface, cable bundles, cyber-deck casing with drive bays and physical eject button.
+     - Selective bloom on neon emissives, cyan key, magenta rim, and warm amber accent lights.
+  3. **Hybrid 3D Asset Pipeline (Blender 5.2):**
+     - Procedural Three.js geometry for desk architecture, frames, and substrate.
+     - Dedicated hero props generated in Blender 5.2 to public/assets/models/:
+       * cartridge.glb: Molded shell, grip ridges, gold pins, dynamic artwork face.
+       * yte.glb: Pet robot with articulated head tracking and emoticon screen face.
+       * probe.glb: Knurled multimeter logic probe with needle tip and cable.
+       * usb.glb: Encrypted cyber USB drive with metal plug and activity LED.
+  4. **Interactive CRT Monitor (<Html transform>):**
+     - Default Boot Terminal CLI (CYBER-DECK KERNEL v4.2 // AWAITING MEDIA).
+     - Native mouse wheel scrolling over monitor surface.
+     - Zero-drift project tech spec rendering matching Recruiter Quick View.
+  5. **Tactile Cartridge Drive & USB Resume Decryption:**
+     - Left-click hold smooth lerp float pickup.
+     - Magnetic snapping into computer drive bay with mechanical latch SFX.
+     - Eject button pops cartridge back to desk.
+     - USB drive insertion triggers power-surge SFX, decryption terminal animation, and authentic PDF CV download.
+  6. **PCB Test Bench & Multimeter Logic Probe:**
+     - Motherboard with CPU, GPU, RAM, and expansion ICs.
+     - Probing pins triggers spark SFX, pulses copper bus traces, and shows dual telemetry on benchtop meter LCD + CRT monitor.
+  7. **Byte Companion Pet Robot:**
+     - Swivel head tracking player reticle.
+     - Dynamic pixel emoticon face canvas (( ^ _ ^ ), ( > ᗢ < ), ( ♡ _ ♡ )).
+     - Microchip snack tray for feeding + petting interactions + contextual developer lore bubbles.
 
 ---
 

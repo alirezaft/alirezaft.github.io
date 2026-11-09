@@ -1,12 +1,18 @@
 import { useCallback, useRef, useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { Grid, Text } from '@react-three/drei';
-import * as THREE from 'three';
 import { Sparkles } from 'lucide-react';
 import AudioTestPage from './AudioTestPage';
 import { Hud, ProjectDrawer, RecruiterGrid } from './components/ui';
-import { DeskCameraControls, ReticleOverlay } from './components/3d';
+import {
+  DeskCameraControls,
+  ReticleOverlay,
+  CyberDesk,
+  CyberLighting,
+  CyberPostProcessing,
+} from './components/3d';
 import { useUI } from './context';
+import DevPerfMonitor from './components/dev/DevPerfMonitor';
 
 // ---------------------------------------------------------------------------
 // DEV-ONLY: show audio test page when URL hash is #audio-test
@@ -16,48 +22,6 @@ const IS_AUDIO_TEST =
   import.meta.env.DEV && window.location.hash === '#audio-test';
 
 // ---------------------------------------------------------------------------
-// 3D scene helpers (Placeholder test element before full desk load)
-// ---------------------------------------------------------------------------
-
-function RotatingCyberCube({ onHover }: { onHover: (hovered: boolean) => void }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const [hovered, setHover] = useState(false);
-
-  useFrame((_, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x += delta * 0.5;
-      meshRef.current.rotation.y += delta * 0.8;
-    }
-  });
-
-  return (
-    <mesh
-      ref={meshRef}
-      position={[0, 1.2, 0]}
-      onPointerOver={() => {
-        setHover(true);
-        onHover(true);
-      }}
-      onPointerOut={() => {
-        setHover(false);
-        onHover(false);
-      }}
-      scale={hovered ? 0.75 : 0.65}
-    >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial
-        color={hovered ? '#00f3ff' : '#ff007f'}
-        emissive={hovered ? '#00f3ff' : '#ff007f'}
-        emissiveIntensity={0.6}
-        roughness={0.2}
-        metalness={0.8}
-        wireframe={false}
-      />
-    </mesh>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Main App
 // ---------------------------------------------------------------------------
 
@@ -65,7 +29,7 @@ export default function App() {
   const { viewMode } = useUI();
   const [isLocked, setIsLocked] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
-  const [hoverPrompt, setHoverPrompt] = useState<string | null>(null);
+  const [hoverPrompt] = useState<string | null>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
 
@@ -142,18 +106,11 @@ export default function App() {
             onZoomChange={setIsZooming}
           />
 
-          {/* Ambient & Directional Cyber Lighting */}
-          <ambientLight intensity={0.3} />
-          <pointLight position={[3, 4, 3]} color="#00f3ff" intensity={30} />
-          <pointLight position={[-3, 3, -2]} color="#ff007f" intensity={25} />
-          <pointLight position={[0, 1, 1]} color="#ffb700" intensity={15} />
+          {/* 3-Point Cyber Lighting Rig & Ground Contact Shadows */}
+          <CyberLighting />
 
-          {/* Interactive Test Element */}
-          <RotatingCyberCube
-            onHover={(h) =>
-              setHoverPrompt(h ? 'CYBER DATA CORE // RETICLE ACTIVE' : null)
-            }
-          />
+          {/* Seated Cyberpunk Workstation Desk */}
+          <CyberDesk />
 
           {/* Cyberpunk Ground Grid */}
           <Grid
@@ -170,7 +127,7 @@ export default function App() {
           />
 
           <Text
-            position={[0, 0.2, 0]}
+            position={[0, 0.2, -1.0]}
             fontSize={0.2}
             color="#00f3ff"
             anchorX="center"
@@ -178,6 +135,15 @@ export default function App() {
           >
             CYBER-DECK CONTROLLER: ACTIVE
           </Text>
+
+          {/* Post-Processing: Bloom and Vignette */}
+          <CyberPostProcessing />
+
+          {/* Dev-only Performance Monitor (Triangles, Vertices, Draw Calls, FPS) */}
+          {/* TO REMOVE: Simply delete this block and the import at the top */}
+          {import.meta.env.DEV && (
+            <DevPerfMonitor hidden={viewMode === 'recruiter'} />
+          )}
         </Canvas>
       </div>
 

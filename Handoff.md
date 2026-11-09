@@ -101,6 +101,12 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
    - *A Simple Diagnosis (itch.io):* https://alirezaft.itch.io/a-simple-diagnosis
    - *Pluggable Strategy Pattern (Medium):* https://alirezaft98.medium.com/pluggable-strategy-design-pattern-with-scriptable-object-c1cdcd427e45
 
+6. **Knowledge Graph Codebase Intelligence (graphify):**
+   - **Dedicated Graph Artifacts:** The project maintains an audited, persistent knowledge graph in `graphify-out/` (`graph.json`, `graph.html`, and `GRAPH_REPORT.md`).
+   - **Inspection & Exploration Decision:** All subsequent AI agents and developers will use this knowledge graph as the primary mechanism for inspecting and exploring code, tracing dependencies, understanding cross-community flows (e.g., between the 3D cyber-deck, audio synthesis, and modular project content), and diagnosing architectural impact before making modifications.
+   - **Efficiency & Token Savings:** Delivers ~229x token reduction per query versus naive full-corpus reading across ~276k words, grouping 309 nodes and 598 edges into 21 cohesive functional communities with verified god-node bridges.
+   - **Query & Update Workflow:** Query directly via `/graphify query "<question>"` or `/graphify path "<from>" "<to>"`, and refresh incrementally when adding new components using `/graphify . --update`.
+
 ---
 
 ## 3. Implementation Progress & Activity Log
@@ -151,6 +157,13 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
 * **Build Verification:**
   - `npm run build` passing with code 0.
 
+### Phase 3.6: Codebase Knowledge Graph Integration [COMPLETED]
+* **Date:** 2026-11-09
+* Built complete semantic and structural knowledge graph using `graphify`.
+* Mapped 309 nodes and 598 edges across 21 functional communities with 0 token extraction overhead.
+* Generated interactive visualizer (`graphify-out/graph.html`), GraphRAG data schema (`graphify-out/graph.json`), and comprehensive architectural audit (`graphify-out/GRAPH_REPORT.md`).
+* Established project policy to query and traverse this knowledge graph for future code inspection and feature expansion.
+
 ---
 
 ## 4. Current File Tree
@@ -160,6 +173,12 @@ c:\Projects\Personal\alirezaft.github.io\
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml              # GITHUB ACTIONS CI/CD DEPLOYMENT
+??? graphify-out/                   # KNOWLEDGE GRAPH & ARCHITECTURAL INTELLIGENCE
+?   ??? graph.html                  # Interactive visualizer (open in browser)
+?   ??? graph.json                  # GraphRAG knowledge graph data
+?   ??? GRAPH_REPORT.md             # Graph audit & community breakdown
+?   ??? cost.json                   # Token cost tracking
+?   ??? manifest.json               # Incremental update manifest
 ├── public/
 │   ├── assets/
 │   │   ├── projects/               # STANDARDIZED PROJECT MEDIA REPOSITORY

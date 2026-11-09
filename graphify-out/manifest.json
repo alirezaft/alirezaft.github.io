@@ -1,0 +1,542 @@
+{
+  "package.json": {
+    "mtime": 1793727989.887754,
+    "seen": 1794242094.0540216,
+    "ast_hash": "19291b5624cce49455178b6054fa8cb7",
+    "semantic_hash": "19291b5624cce49455178b6054fa8cb7"
+  },
+  "postcss.config.js": {
+    "mtime": 1793724102.4862487,
+    "seen": 1794242094.0540216,
+    "ast_hash": "33fad9c02cb0ec6d6030369ef6347d57",
+    "semantic_hash": "33fad9c02cb0ec6d6030369ef6347d57"
+  },
+  "src/App.tsx": {
+    "mtime": 1794158454.0247064,
+    "seen": 1794242094.0540216,
+    "ast_hash": "112c15f379cbbd772f521eeff15a626c",
+    "semantic_hash": "112c15f379cbbd772f521eeff15a626c"
+  },
+  "src/AudioTestPage.tsx": {
+    "mtime": 1793728134.6814888,
+    "seen": 1794242094.0540216,
+    "ast_hash": "f8a96e29fd42efb1940e6b0f7f5fa4e7",
+    "semantic_hash": "f8a96e29fd42efb1940e6b0f7f5fa4e7"
+  },
+  "src/audio/index.ts": {
+    "mtime": 1793728010.0094924,
+    "seen": 1794242094.0540216,
+    "ast_hash": "8a94a420c1adfb19264ec0e0a1aaa9cc",
+    "semantic_hash": "8a94a420c1adfb19264ec0e0a1aaa9cc"
+  },
+  "src/audio/soundEngine.ts": {
+    "mtime": 1793730485.9187312,
+    "seen": 1794242094.0540216,
+    "ast_hash": "5620cf8818840a8f5c3a14fe4429712d",
+    "semantic_hash": "5620cf8818840a8f5c3a14fe4429712d"
+  },
+  "src/audio/useAudio.tsx": {
+    "mtime": 1793728005.862517,
+    "seen": 1794242094.0540216,
+    "ast_hash": "a668191dc70f6eacfcc62861d06e245c",
+    "semantic_hash": "a668191dc70f6eacfcc62861d06e245c"
+  },
+  "src/components/ui/Hud.tsx": {
+    "mtime": 1794158685.8741271,
+    "seen": 1794242094.0540216,
+    "ast_hash": "61b7e50c8706ce2e21f8136757c4318e",
+    "semantic_hash": "61b7e50c8706ce2e21f8136757c4318e"
+  },
+  "src/components/ui/ProjectDrawer.tsx": {
+    "mtime": 1794159224.412429,
+    "seen": 1794242094.0540216,
+    "ast_hash": "c9205042237c8c676b9dc08f3d024058",
+    "semantic_hash": "c9205042237c8c676b9dc08f3d024058"
+  },
+  "src/components/ui/ProjectMediaCarousel.tsx": {
+    "mtime": 1794159200.0938146,
+    "seen": 1794242094.0540216,
+    "ast_hash": "3feda6793219cabd0de65077ece3224a",
+    "semantic_hash": "3feda6793219cabd0de65077ece3224a"
+  },
+  "src/components/ui/index.ts": {
+    "mtime": 1793977616.4142218,
+    "seen": 1794242094.0540216,
+    "ast_hash": "6661369e79074e5a4efc4678cf919b91",
+    "semantic_hash": "6661369e79074e5a4efc4678cf919b91"
+  },
+  "src/components/ui/recruiter/ProjectCard.tsx": {
+    "mtime": 1794158744.9695446,
+    "seen": 1794242094.0540216,
+    "ast_hash": "bbf79e0a84d5b77aa4952893fcc5897d",
+    "semantic_hash": "bbf79e0a84d5b77aa4952893fcc5897d"
+  },
+  "src/components/ui/recruiter/RecruiterCareerView.tsx": {
+    "mtime": 1794159444.1828966,
+    "seen": 1794242094.0540216,
+    "ast_hash": "7edef5d9f80238c0f890057e9cff15a4",
+    "semantic_hash": "7edef5d9f80238c0f890057e9cff15a4"
+  },
+  "src/components/ui/recruiter/RecruiterFilterBar.tsx": {
+    "mtime": 1794159412.0871608,
+    "seen": 1794242094.0540216,
+    "ast_hash": "e303fd3eea9e53f80aa798a38f359255",
+    "semantic_hash": "e303fd3eea9e53f80aa798a38f359255"
+  },
+  "src/components/ui/recruiter/RecruiterGrid.tsx": {
+    "mtime": 1794158493.8404107,
+    "seen": 1794242094.0540216,
+    "ast_hash": "cdfaf791784852d469da28beadb926b6",
+    "semantic_hash": "cdfaf791784852d469da28beadb926b6"
+  },
+  "src/components/ui/recruiter/RecruiterHeader.tsx": {
+    "mtime": 1794159277.0905936,
+    "seen": 1794242094.0540216,
+    "ast_hash": "26a632884dc66922c26352ce893a137a",
+    "semantic_hash": "26a632884dc66922c26352ce893a137a"
+  },
+  "src/components/ui/recruiter/RecruiterProjectsView.tsx": {
+    "mtime": 1793814602.4756632,
+    "seen": 1794242094.0540216,
+    "ast_hash": "2995c19d8ec057262ba21a72a18b854c",
+    "semantic_hash": "2995c19d8ec057262ba21a72a18b854c"
+  },
+  "src/components/ui/recruiter/RecruiterSkillsView.tsx": {
+    "mtime": 1794158817.124249,
+    "seen": 1794242094.0540216,
+    "ast_hash": "6174bfd2ca3db44817b8163a3a1452a7",
+    "semantic_hash": "6174bfd2ca3db44817b8163a3a1452a7"
+  },
+  "src/components/ui/recruiter/RecruiterTabs.tsx": {
+    "mtime": 1794159393.0554054,
+    "seen": 1794242094.0540216,
+    "ast_hash": "f13012bac06bb9ed484c4efbf570ed58",
+    "semantic_hash": "f13012bac06bb9ed484c4efbf570ed58"
+  },
+  "src/components/ui/recruiter/RecruiterTransmissionsView.tsx": {
+    "mtime": 1794159473.1530063,
+    "seen": 1794242094.0540216,
+    "ast_hash": "e55d0bd7e96d979e373a035f12f11969",
+    "semantic_hash": "e55d0bd7e96d979e373a035f12f11969"
+  },
+  "src/components/ui/recruiter/icons.tsx": {
+    "mtime": 1793814602.4773254,
+    "seen": 1794242094.0540216,
+    "ast_hash": "bf91b537d81da16712ea329ed437744f",
+    "semantic_hash": "bf91b537d81da16712ea329ed437744f"
+  },
+  "src/components/ui/recruiter/index.ts": {
+    "mtime": 1793814602.4778621,
+    "seen": 1794242094.0540216,
+    "ast_hash": "3da5cf854a232a084682cae1c6ffbafd",
+    "semantic_hash": "3da5cf854a232a084682cae1c6ffbafd"
+  },
+  "src/content/companion/index.ts": {
+    "mtime": 1793724102.4928515,
+    "seen": 1794242094.0540216,
+    "ast_hash": "31dd90dcddd112fc1415dc3e5a98c2e6",
+    "semantic_hash": "31dd90dcddd112fc1415dc3e5a98c2e6"
+  },
+  "src/content/companion/robotLore.ts": {
+    "mtime": 1793880487.7929592,
+    "seen": 1794242094.0540216,
+    "ast_hash": "bfabc429d533a6caef55e9641fda6b5c",
+    "semantic_hash": "bfabc429d533a6caef55e9641fda6b5c"
+  },
+  "src/content/companion/types.ts": {
+    "mtime": 1793724102.4945357,
+    "seen": 1794242094.0540216,
+    "ast_hash": "8c0ad7b7441e0f8c41893c793f041204",
+    "semantic_hash": "8c0ad7b7441e0f8c41893c793f041204"
+  },
+  "src/content/index.ts": {
+    "mtime": 1793724102.4955473,
+    "seen": 1794242094.0540216,
+    "ast_hash": "ee894bae2a542a9c52bfa63caf22cbb2",
+    "semantic_hash": "ee894bae2a542a9c52bfa63caf22cbb2"
+  },
+  "src/content/profile/bio.ts": {
+    "mtime": 1793818353.275023,
+    "seen": 1794242094.0540216,
+    "ast_hash": "45db3b398c8dcbcbee75bed80a2f37cf",
+    "semantic_hash": "45db3b398c8dcbcbee75bed80a2f37cf"
+  },
+  "src/content/profile/experience.ts": {
+    "mtime": 1794156836.991371,
+    "seen": 1794242094.0540216,
+    "ast_hash": "a76aa0e01eb014f767daa0d877b1d0c0",
+    "semantic_hash": "a76aa0e01eb014f767daa0d877b1d0c0"
+  },
+  "src/content/profile/index.ts": {
+    "mtime": 1793724102.4997408,
+    "seen": 1794242094.0540216,
+    "ast_hash": "f93b55b1acf95b8ef266314bb06e8e40",
+    "semantic_hash": "f93b55b1acf95b8ef266314bb06e8e40"
+  },
+  "src/content/profile/socials.ts": {
+    "mtime": 1793823105.598845,
+    "seen": 1794242094.0540216,
+    "ast_hash": "ce18d8994de0b2c93d11683436878a41",
+    "semantic_hash": "ce18d8994de0b2c93d11683436878a41"
+  },
+  "src/content/profile/transmissions.ts": {
+    "mtime": 1793904214.2431233,
+    "seen": 1794242094.0540216,
+    "ast_hash": "1ff4afb483f3cdb87a5c4ae7450ead2a",
+    "semantic_hash": "1ff4afb483f3cdb87a5c4ae7450ead2a"
+  },
+  "src/content/profile/types.ts": {
+    "mtime": 1793724102.502486,
+    "seen": 1794242094.0540216,
+    "ast_hash": "9c70e7b430589feb84eec7adf32786ea",
+    "semantic_hash": "9c70e7b430589feb84eec7adf32786ea"
+  },
+  "src/content/projects/categories.ts": {
+    "mtime": 1793876620.3033495,
+    "seen": 1794242094.0540216,
+    "ast_hash": "62b6df6dd5e8552074efb653a8c8a5bc",
+    "semantic_hash": "62b6df6dd5e8552074efb653a8c8a5bc"
+  },
+  "src/content/projects/index.ts": {
+    "mtime": 1793903481.1543906,
+    "seen": 1794242094.0540216,
+    "ast_hash": "3e1ce63c532f5e55590e76d69e5b141f",
+    "semantic_hash": "3e1ce63c532f5e55590e76d69e5b141f"
+  },
+  "src/content/projects/project-editor-balancing-tools.ts": {
+    "mtime": 1794153945.1451426,
+    "seen": 1794242094.0540216,
+    "ast_hash": "2d1d97511a854bf1659bfcf059ed97fd",
+    "semantic_hash": "2d1d97511a854bf1659bfcf059ed97fd"
+  },
+  "src/content/projects/project-kingdom-hero.ts": {
+    "mtime": 1794152237.2428324,
+    "seen": 1794242094.0540216,
+    "ast_hash": "d446abe147374931d13fcdb2a3f56995",
+    "semantic_hash": "d446abe147374931d13fcdb2a3f56995"
+  },
+  "src/content/projects/project-mr-bean-solitaire.ts": {
+    "mtime": 1794152237.2438407,
+    "seen": 1794242094.0540216,
+    "ast_hash": "473272f32146191a4b181d85904900d4",
+    "semantic_hash": "473272f32146191a4b181d85904900d4"
+  },
+  "src/content/projects/project-mr-bean-special-delivery.ts": {
+    "mtime": 1794152237.2438407,
+    "seen": 1794242094.0540216,
+    "ast_hash": "0cad8070e4f0ca6ff79be0a7702ba398",
+    "semantic_hash": "0cad8070e4f0ca6ff79be0a7702ba398"
+  },
+  "src/content/projects/project-prefab-palette.ts": {
+    "mtime": 1794153863.2486408,
+    "seen": 1794242094.0540216,
+    "ast_hash": "ab4db7659b98a4b1d3eda24c1c77d216",
+    "semantic_hash": "ab4db7659b98a4b1d3eda24c1c77d216"
+  },
+  "src/content/projects/project-simple-diagnosis.ts": {
+    "mtime": 1794153667.4703634,
+    "seen": 1794242094.0540216,
+    "ast_hash": "d901506f8dcad816d9349c02cb77c734",
+    "semantic_hash": "d901506f8dcad816d9349c02cb77c734"
+  },
+  "src/content/projects/project-unity-boids.ts": {
+    "mtime": 1794153762.1055653,
+    "seen": 1794242094.0540216,
+    "ast_hash": "fa8ae1ae1fd72fa474a234cd1bbf96e9",
+    "semantic_hash": "fa8ae1ae1fd72fa474a234cd1bbf96e9"
+  },
+  "src/content/projects/project-unity-verlet-rope.ts": {
+    "mtime": 1794153495.9720106,
+    "seen": 1794242094.0540216,
+    "ast_hash": "c13a5ac70891872464a368c59bc1c0da",
+    "semantic_hash": "c13a5ac70891872464a368c59bc1c0da"
+  },
+  "src/content/projects/project-vr-production.ts": {
+    "mtime": 1794152918.924825,
+    "seen": 1794242094.0540216,
+    "ast_hash": "9d0ede0d1ac6b1673fbb2a0da6ebaaa0",
+    "semantic_hash": "9d0ede0d1ac6b1673fbb2a0da6ebaaa0"
+  },
+  "src/content/projects/types.ts": {
+    "mtime": 1793975562.0573,
+    "seen": 1794242094.0540216,
+    "ast_hash": "0769a2121f6b467886379b0446be883d",
+    "semantic_hash": "0769a2121f6b467886379b0446be883d"
+  },
+  "src/content/skills/circuits.ts": {
+    "mtime": 1794155857.6253068,
+    "seen": 1794242094.0540216,
+    "ast_hash": "1498673df92e118f06b00b9b35bbf59c",
+    "semantic_hash": "1498673df92e118f06b00b9b35bbf59c"
+  },
+  "src/content/skills/index.ts": {
+    "mtime": 1793724102.5181243,
+    "seen": 1794242094.0540216,
+    "ast_hash": "3634985421e4fac2494b122fb97d809c",
+    "semantic_hash": "3634985421e4fac2494b122fb97d809c"
+  },
+  "src/content/skills/types.ts": {
+    "mtime": 1793724102.5193543,
+    "seen": 1794242094.0540216,
+    "ast_hash": "6ccf13bc365fac37812ff9d1f30a7d12",
+    "semantic_hash": "6ccf13bc365fac37812ff9d1f30a7d12"
+  },
+  "src/context/UIContext.tsx": {
+    "mtime": 1793814602.478408,
+    "seen": 1794242094.0540216,
+    "ast_hash": "7e400f1e6db0418606f50efc2ca80e5d",
+    "semantic_hash": "7e400f1e6db0418606f50efc2ca80e5d"
+  },
+  "src/context/index.ts": {
+    "mtime": 1793814602.478408,
+    "seen": 1794242094.0540216,
+    "ast_hash": "0fddfceccf3b55949d974f295c915650",
+    "semantic_hash": "0fddfceccf3b55949d974f295c915650"
+  },
+  "src/main.tsx": {
+    "mtime": 1793814602.4789662,
+    "seen": 1794242094.0540216,
+    "ast_hash": "206b53b25a9259899c227d9dc53a681a",
+    "semantic_hash": "206b53b25a9259899c227d9dc53a681a"
+  },
+  "src/vite-env.d.ts": {
+    "mtime": 1793728130.247411,
+    "seen": 1794242094.0540216,
+    "ast_hash": "0352474ba2918efe13895edbc3780d94",
+    "semantic_hash": "0352474ba2918efe13895edbc3780d94"
+  },
+  "tailwind.config.js": {
+    "mtime": 1793724102.5213704,
+    "seen": 1794242094.0540216,
+    "ast_hash": "525b319090d0df5c5008aeac29ca732e",
+    "semantic_hash": "525b319090d0df5c5008aeac29ca732e"
+  },
+  "tsconfig.app.json": {
+    "mtime": 1793724102.5225823,
+    "seen": 1794242094.0540216,
+    "ast_hash": "803a7fffb32aa773204feb40be797f0d",
+    "semantic_hash": "803a7fffb32aa773204feb40be797f0d"
+  },
+  "tsconfig.json": {
+    "mtime": 1793724102.524614,
+    "seen": 1794242094.0540216,
+    "ast_hash": "852c3a5df14a4b43ac28e9554ebedf4a",
+    "semantic_hash": "852c3a5df14a4b43ac28e9554ebedf4a"
+  },
+  "tsconfig.node.json": {
+    "mtime": 1793724102.5256178,
+    "seen": 1794242094.0540216,
+    "ast_hash": "e575ff72bb96982f60a5de26c0f4329a",
+    "semantic_hash": "e575ff72bb96982f60a5de26c0f4329a"
+  },
+  "vite.config.ts": {
+    "mtime": 1793881241.370415,
+    "seen": 1794242094.0540216,
+    "ast_hash": "007b30e3e0dbee856441e40eb0706739",
+    "semantic_hash": "007b30e3e0dbee856441e40eb0706739"
+  },
+  ".github/workflows/deploy.yml": {
+    "mtime": 1793827908.1519141,
+    "seen": 1794242094.0540216,
+    "ast_hash": "66875659d259df0f18439514c099ca2b",
+    "semantic_hash": "66875659d259df0f18439514c099ca2b"
+  },
+  "CONTENT_SCHEMA_GUIDE.md": {
+    "mtime": 1793724102.4794176,
+    "seen": 1794242094.0540216,
+    "ast_hash": "41475d4a4b2b010eda67e93093609abe",
+    "semantic_hash": "41475d4a4b2b010eda67e93093609abe"
+  },
+  "EXECUTION_PLAN.md": {
+    "mtime": 1793461933.6708286,
+    "seen": 1794242094.0540216,
+    "ast_hash": "2aa270eff723c295ce0d4a73e13b9546",
+    "semantic_hash": "2aa270eff723c295ce0d4a73e13b9546"
+  },
+  "Handoff.md": {
+    "mtime": 1794152237.2277682,
+    "seen": 1794242094.0540216,
+    "ast_hash": "afc57dead994fc96f796bc79f97ef4b5",
+    "semantic_hash": "afc57dead994fc96f796bc79f97ef4b5"
+  },
+  "index.html": {
+    "mtime": 1793724102.4820642,
+    "seen": 1794242094.0540216,
+    "ast_hash": "c57fce7bee8a18e5391af51c8677c081",
+    "semantic_hash": "c57fce7bee8a18e5391af51c8677c081"
+  },
+  "portfolio_specification.md": {
+    "mtime": 1793461933.6718302,
+    "seen": 1794242094.0540216,
+    "ast_hash": "0aacbb39ac68b2763a22391547328f5d",
+    "semantic_hash": "0aacbb39ac68b2763a22391547328f5d"
+  },
+  "public/assets/resume/Alireza_Forghani_Toosi_Resume.pdf": {
+    "mtime": 1793823769.3077753,
+    "seen": 1794242094.0540216,
+    "ast_hash": "f952ab8ad78f57f11f11b5e43a21c770",
+    "semantic_hash": "f952ab8ad78f57f11f11b5e43a21c770"
+  },
+  "public/assets/projects/a-simple-diagnosis/chapter-briefing.jpg": {
+    "mtime": 1793988353.7814705,
+    "seen": 1794242094.0540216,
+    "ast_hash": "e3fd66bcb11e816cc1df1b3b9978286b",
+    "semantic_hash": "e3fd66bcb11e816cc1df1b3b9978286b"
+  },
+  "public/assets/projects/a-simple-diagnosis/hearing-test.jpg": {
+    "mtime": 1793988353.7937825,
+    "seen": 1794242094.0540216,
+    "ast_hash": "14cbe394e9195ffd1b66f22d0379bf45",
+    "semantic_hash": "14cbe394e9195ffd1b66f22d0379bf45"
+  },
+  "public/assets/projects/a-simple-diagnosis/title-screen.jpg": {
+    "mtime": 1793988353.7919786,
+    "seen": 1794242094.0540216,
+    "ast_hash": "db7d489bf509303da11aacaa3e2bacf0",
+    "semantic_hash": "db7d489bf509303da11aacaa3e2bacf0"
+  },
+  "public/assets/projects/kingdom-hero-tower-defense/grid-summon-defense.webp": {
+    "mtime": 1794152237.2287707,
+    "seen": 1794242094.0540216,
+    "ast_hash": "d2bc40f776e59719633a5e21ca3adf7a",
+    "semantic_hash": "d2bc40f776e59719633a5e21ca3adf7a"
+  },
+  "public/assets/projects/kingdom-hero-tower-defense/hero-deck-collection.webp": {
+    "mtime": 1794152237.2287707,
+    "seen": 1794242094.0540216,
+    "ast_hash": "e83197454a2c332fb2d71451225a3658",
+    "semantic_hash": "e83197454a2c332fb2d71451225a3658"
+  },
+  "public/assets/projects/kingdom-hero-tower-defense/pvp-battle-arena.webp": {
+    "mtime": 1794152237.2297697,
+    "seen": 1794242094.0540216,
+    "ast_hash": "b822e2be19e0e0eea0fbefb3bf6be5ff",
+    "semantic_hash": "b822e2be19e0e0eea0fbefb3bf6be5ff"
+  },
+  "public/assets/projects/mr-bean-solitaire-adventure/puzzle-mechanics-obstacles.webp": {
+    "mtime": 1794152237.2307703,
+    "seen": 1794242094.0540216,
+    "ast_hash": "9b12ef925fa1f948d55db2792b966cb5",
+    "semantic_hash": "9b12ef925fa1f948d55db2792b966cb5"
+  },
+  "public/assets/projects/mr-bean-solitaire-adventure/solitaire-gameplay.webp": {
+    "mtime": 1794152237.2317715,
+    "seen": 1794242094.0540216,
+    "ast_hash": "e6470570ad5136126da2d1cb99b3447e",
+    "semantic_hash": "e6470570ad5136126da2d1cb99b3447e"
+  },
+  "public/assets/projects/mr-bean-solitaire-adventure/travel-progression.webp": {
+    "mtime": 1794152237.2327702,
+    "seen": 1794242094.0540216,
+    "ast_hash": "b916db9f951427bd5f000fc4fe1cf0de",
+    "semantic_hash": "b916db9f951427bd5f000fc4fe1cf0de"
+  },
+  "public/assets/projects/mr-bean-special-delivery/delivery-finish-line.webp": {
+    "mtime": 1794152237.2337706,
+    "seen": 1794242094.0540216,
+    "ast_hash": "d1d7bc74f25054aa891dd8ccdb8d3903",
+    "semantic_hash": "d1d7bc74f25054aa891dd8ccdb8d3903"
+  },
+  "public/assets/projects/mr-bean-special-delivery/vehicle-boosts.webp": {
+    "mtime": 1794152237.2347724,
+    "seen": 1794242094.0540216,
+    "ast_hash": "c81d674f5ff92346d6c094c62e277082",
+    "semantic_hash": "c81d674f5ff92346d6c094c62e277082"
+  },
+  "public/assets/projects/mr-bean-special-delivery/world-biomes.webp": {
+    "mtime": 1794152237.2352836,
+    "seen": 1794242094.0540216,
+    "ast_hash": "8aaf1c8f5938564bf80f8a87394d20ce",
+    "semantic_hash": "8aaf1c8f5938564bf80f8a87394d20ce"
+  },
+  "public/assets/projects/prefab-palette/context-menu.png": {
+    "mtime": 1793975360.4957495,
+    "seen": 1794242094.0540216,
+    "ast_hash": "3dd821c58da43b5f0840d57b651ec971",
+    "semantic_hash": "3dd821c58da43b5f0840d57b651ec971"
+  },
+  "public/assets/projects/prefab-palette/corner-menu.png": {
+    "mtime": 1793975357.3492923,
+    "seen": 1794242094.0540216,
+    "ast_hash": "3dc1ef80e37c3a0f772c7d3f0ffaa5c8",
+    "semantic_hash": "3dc1ef80e37c3a0f772c7d3f0ffaa5c8"
+  },
+  "public/assets/projects/prefab-palette/demo.gif": {
+    "mtime": 1793975350.291949,
+    "seen": 1794242094.0540216,
+    "ast_hash": "05b800b763c1c61334d104f319c1082b",
+    "semantic_hash": "05b800b763c1c61334d104f319c1082b"
+  },
+  "public/assets/projects/prefab-palette/search-demo.gif": {
+    "mtime": 1793975355.1840127,
+    "seen": 1794242094.0540216,
+    "ast_hash": "ecec90112407dfc83044eb73a443c041",
+    "semantic_hash": "ecec90112407dfc83044eb73a443c041"
+  },
+  "public/assets/projects/unity-boids/demo.gif": {
+    "mtime": 1793974982.2568755,
+    "seen": 1794242094.0540216,
+    "ast_hash": "eb05666b0b4c45f53b6d463b33454baf",
+    "semantic_hash": "eb05666b0b4c45f53b6d463b33454baf"
+  },
+  "public/assets/projects/unity-boids/drone-inspector.png": {
+    "mtime": 1793974990.374376,
+    "seen": 1794242094.0540216,
+    "ast_hash": "018c205fad698145ca7b7d5d4589ff1f",
+    "semantic_hash": "018c205fad698145ca7b7d5d4589ff1f"
+  },
+  "public/assets/projects/unity-boids/flock-inspector.png": {
+    "mtime": 1793974986.9453864,
+    "seen": 1794242094.0540216,
+    "ast_hash": "f91d2ae6136701665845eedbe0f399ab",
+    "semantic_hash": "f91d2ae6136701665845eedbe0f399ab"
+  },
+  "public/assets/projects/unity-chart/chart-overview.png": {
+    "mtime": 1793985440.5076468,
+    "seen": 1794242094.0540216,
+    "ast_hash": "eec38875c125f9fab40f76573f976acf",
+    "semantic_hash": "eec38875c125f9fab40f76573f976acf"
+  },
+  "public/assets/projects/unity-verlet-rope/demo.gif": {
+    "mtime": 1793975246.8817134,
+    "seen": 1794242094.0540216,
+    "ast_hash": "a06c55b47cfcdee94d09b1bfe5da94c6",
+    "semantic_hash": "a06c55b47cfcdee94d09b1bfe5da94c6"
+  },
+  "public/assets/projects/unity-verlet-rope/rope-renderer-inspector.png": {
+    "mtime": 1793975249.6360142,
+    "seen": 1794242094.0540216,
+    "ast_hash": "1e297e1870eacc7226f58197c5c0af40",
+    "semantic_hash": "1e297e1870eacc7226f58197c5c0af40"
+  },
+  "public/assets/projects/unity-verlet-rope/verlet-rope-inspector.png": {
+    "mtime": 1793975248.2799976,
+    "seen": 1794242094.0540216,
+    "ast_hash": "52bde7eca440055f79e48a95459e592e",
+    "semantic_hash": "52bde7eca440055f79e48a95459e592e"
+  },
+  "public/assets/projects/vr-interactive-applications/industrial-plant-simulation.png": {
+    "mtime": 1794152237.2378016,
+    "seen": 1794242094.0540216,
+    "ast_hash": "279fa3c72a02611175ab8ce8eac8e80c",
+    "semantic_hash": "279fa3c72a02611175ab8ce8eac8e80c"
+  },
+  "public/assets/projects/vr-interactive-applications/laboratory-simulation.png": {
+    "mtime": 1794152237.2403138,
+    "seen": 1794242094.0540216,
+    "ast_hash": "338e09412e4e98116224397ad30d3df5",
+    "semantic_hash": "338e09412e4e98116224397ad30d3df5"
+  },
+  "public/vite.svg": {
+    "mtime": 1793724102.4880486,
+    "seen": 1794242094.0540216,
+    "ast_hash": "62a7f6f8ed695dbe5b1b916867bb3793",
+    "semantic_hash": "62a7f6f8ed695dbe5b1b916867bb3793"
+  },
+  "public/assets/projects/unity-chart/demo.mp4": {
+    "mtime": 1793984503.3441381,
+    "seen": 1794242094.0540216,
+    "ast_hash": "50eb8a438c5e13b88298d969c80e7276",
+    "semantic_hash": "50eb8a438c5e13b88298d969c80e7276"
+  }
+}

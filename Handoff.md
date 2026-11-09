@@ -122,6 +122,25 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
    - **Byte the Companion Pet Robot:** Articulated desktop pet with head tracking player reticle, dynamic pixel emoticon screen face (( ^ _ ^ ), ( > ᗢ < ), etc.), petting interactions, microchip snack feeding dish with crunch SFX, and contextual developer trivia speech bubbles.
    - **Hybrid 3D Asset Strategy:** Four dedicated hero props (cartridge.glb, byte.glb, probe.glb, usb.glb) located in public/assets/models/, generated via automated Blender 5.2 headless Python scripts and fully editable in Blender 5.2. Environmental desk, housing, and substrate constructed with high-performance Three.js primitives.
 
+8. **Dev-Only Performance Telemetry Monitor ([src/components/dev/DevPerfMonitor.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/dev/DevPerfMonitor.tsx)):**
+   - **Purpose & Scope:** Real-time in-engine telemetry overlay to audit 3D scene performance and verify adherence to strict budget ceilings defined in [ASSET_SPECIFICATION_AND_PERFORMANCE_GUIDE.md](file:///c:/Projects/Personal/alirezaft.github.io/ASSET_SPECIFICATION_AND_PERFORMANCE_GUIDE.md) (< 35 draw calls, 60 FPS / 16.6ms frame time, < 85 MB JS heap).
+   - **Telemetry Metrics Tracked:**
+     * **Triangles (Tris):** Real-time rendered triangles per frame (`gl.info.render.triangles`) + total scene triangles across all meshes.
+     * **Vertices:** Rendered vertices (`renderedTris * 3 + lines * 2 + points`) + total geometry vertices in the scene.
+     * **Draw Calls:** Active WebGL draw calls per frame (`gl.info.render.calls`) with color-coded budget status (`< 35 calls` nominal).
+     * **Framerate & Latency:** Smoothed rolling FPS, frame time in milliseconds, and min/max FPS tracking with reset capability.
+     * **Memory & Assets:** GPU textures in VRAM (`gl.info.memory.textures`), geometry buffers (`gl.info.memory.geometries`), compiled shader programs (`gl.info.programs.length`), and browser JS heap footprint (`performance.memory.usedJSHeapSize`).
+     * **Hardware & Viewport:** Canvas viewport resolution, Device Pixel Ratio (DPR), and unmasked GPU hardware renderer (`WEBGL_debug_renderer_info`).
+   - **Zero-Intrusion Architecture:**
+     * Sits inside `<Canvas>` to access R3F hooks (`useThree`, `useFrame`) without polling overhead.
+     * Decoupled from the 3D render loop: mounts an isolated React DOM root (`createRoot`) into `document.body` and throttles HUD updates to ~150ms. No state updates are dispatched inside the R3F reconciler tree, avoiding any Heisenberg rendering distortions.
+     * Pointer lock safety: All pointer, mouse, and touch events on the panel call `e.stopPropagation()`, ensuring telemetry interaction never locks the mouse pointer or disrupts camera orientation.
+   - **Dual UI Modes:**
+     * **Compact Pill (Default):** Floating cyber chip in top-right (`60 FPS · 18 DC · 14.2k Δ · 42.6k V`) that leaves the 3D workspace unobstructed.
+     * **Expanded Dashboard:** Full telemetry HUD with category cards, performance budgets, and diagnostic detail.
+     * **Controls:** Toggle visibility with `~` (Tilde / Backquote) or `F3`; switch between Left/Right docking; collapse/expand with one click.
+   - **Effortless Production Removal:** Gated strictly via `{import.meta.env.DEV && <DevPerfMonitor hidden={viewMode === 'recruiter'} />}` in `src/App.tsx`. Can be completely eliminated for release by deleting that single line in `src/App.tsx` and removing `src/components/dev/DevPerfMonitor.tsx`.
+
 ---
 
 ## 3. Implementation Progress & Activity Log
@@ -195,9 +214,14 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
     * Implemented CyberLighting.tsx: 3-Point forward lighting rig (Cyan Key at [2.4, 3.0, 1.8], Magenta Rim at [-2.8, 2.5, -1.2], Amber Accent at [0.8, 1.4, 0.6], and Under-Desk Ground Glow) with ContactShadows (opacity: 0.72) and zero shadow-cubemap overhead.
     * Implemented CyberPostProcessing.tsx: Hardware Mipmap Bloom (luminanceThreshold: 0.82, intensity: 1.2) and cinematic Vignette.
     * Replaced temporary cube demo in App.tsx with full live desk and lighting rig.
-    * Multi-agent execution: desk-3d-engineer (geometry/lighting) + rt-director-texture (PBR materials & procedural textures, Grade A+ artistic sign-off).
-    * Build status verified with 
-pm run build (Exit code 0).
+    * Multi-agent execution: desk-3d-engineer (geometry/lighting) + art-director-texture (PBR materials & procedural textures, Grade A+ artistic sign-off).
+    * Build status verified with `npm run build` (Exit code 0).
+  - **Step 4.2.5: Developer Performance Telemetry Monitor [COMPLETED]:**
+    * Implemented DevPerfMonitor.tsx in `src/components/dev/`: real-time in-engine diagnostic HUD measuring draw calls, rendered triangles, total scene geometry triangles, rendered vertices, total scene vertices, FPS, frame time (ms), min/max FPS, textures, geometries, shader programs, JS heap memory, resolution, DPR, and unmasked GPU renderer.
+    * Decoupled architecture: mounted into `document.body` via isolated React DOM root (`createRoot`) with throttled 150ms state updates to completely avoid R3F reconciler re-renders and measurement distortion.
+    * Integrated dual UI modes (compact status chip and expanded diagnostic dashboard) with `~` / `F3` keyboard shortcuts, Left/Right docking, and pointer lock isolation (`stopPropagation`).
+    * Gated by `{import.meta.env.DEV && <DevPerfMonitor hidden={viewMode === 'recruiter'} />}` in `src/App.tsx` for automatic tree-shaking and single-line removal before release.
+    * Verified production build with `npm run build` (Exit code 0).
 
 ---
 
@@ -208,12 +232,12 @@ c:\Projects\Personal\alirezaft.github.io\
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml              # GITHUB ACTIONS CI/CD DEPLOYMENT
-??? graphify-out/                   # KNOWLEDGE GRAPH & ARCHITECTURAL INTELLIGENCE
-?   ??? graph.html                  # Interactive visualizer (open in browser)
-?   ??? graph.json                  # GraphRAG knowledge graph data
-?   ??? GRAPH_REPORT.md             # Graph audit & community breakdown
-?   ??? cost.json                   # Token cost tracking
-?   ??? manifest.json               # Incremental update manifest
+├── graphify-out/                   # KNOWLEDGE GRAPH & ARCHITECTURAL INTELLIGENCE
+│   ├── graph.html                  # Interactive visualizer (open in browser)
+│   ├── graph.json                  # GraphRAG knowledge graph data
+│   ├── GRAPH_REPORT.md             # Graph audit & community breakdown
+│   ├── cost.json                   # Token cost tracking
+│   └── manifest.json               # Incremental update manifest
 ├── public/
 │   ├── assets/
 │   │   ├── cyberdeck_station_preview.jpg # 16:9 3D WORKSTATION CONCEPT RENDER
@@ -223,7 +247,7 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │   │   ├── probe.glb           # [PLANNED] MULTIMETER LOGIC PROBE
 │   │   │   └── usb.glb             # [PLANNED] ENCRYPTED RESUME USB KEY
 │   │   ├── projects/               # STANDARDIZED PROJECT MEDIA REPOSITORY
-               # STANDARDIZED PROJECT MEDIA REPOSITORY
+
 │   │   │   ├── a-simple-diagnosis/
 │   │   │   │   ├── chapter-briefing.jpg
 │   │   │   │   ├── hearing-test.jpg
@@ -268,6 +292,8 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │   ├── soundEngine.ts
 │   │   └── useAudio.tsx
 │   ├── components/
+│   │   ├── dev/                    # DEV-ONLY PERFORMANCE TELEMETRY
+│   │   │   └── DevPerfMonitor.tsx  # TRIS, VERTS, DRAW CALLS, FPS & VRAM MONITOR
 │   │   ├── 3d/                     # SEATED 1ST-PERSON 3D CYBER-DECK SYSTEM
 │   │   │   ├── CyberDesk.tsx       # PROCEDURAL DESK, STRUTS, CABLES & GROMMETS
 │   │   │   ├── CyberLighting.tsx   # 3-POINT NEON RIG + UNDERGLOW + CONTACT SHADOWS
@@ -323,7 +349,9 @@ c:\Projects\Personal\alirezaft.github.io\
    - Implemented DeskCameraControls.tsx (Pointer Lock, reticle dot, clamped pitch/yaw, Right-Click FOV zoom lerp, touch fallback).
 2. **Step 4.2: Cyber-Deck Workstation & 3-Point Neon Lighting [COMPLETED]**
    - Implemented CyberDesk.tsx, CyberLighting.tsx, CyberPostProcessing.tsx, and cyberTextures.ts (procedural carbon-fiber weave normal/roughness, hazard striping, hex bolts, contact shadows).
-3. **Step 4.3: Hero 3D Models Generation via Blender 5.2:**
+3. **Step 4.2.5: In-Engine Performance Telemetry Monitor [COMPLETED]**
+   - Implemented DevPerfMonitor.tsx (Tris, Verts, Draw Calls vs <35 budget, FPS/Frame Time, VRAM textures/geometries, JS Heap vs <85MB target, isolated DOM root, instant removal).
+4. **Step 4.3: Hero 3D Models Generation via Blender 5.2:**
    - Execute headless Python scripts in Blender 5.2 (C:\Program Files\Blender Foundation\Blender 5.2\blender.exe) to generate initial stylized, optimized .glb models into public/assets/models/:
      * cartridge.glb (Cyberpunk game data cartridge with dynamic artwork label recess and gold contact pins)
      * yte.glb (Pet companion robot with body, runner pads, and articulated neck node for reticle tracking)

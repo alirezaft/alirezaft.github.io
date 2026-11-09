@@ -182,15 +182,22 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
 
 ### Phase 4: Seated 1st-Person Cyber-Deck Experience [IN PROGRESS]
 * **Date:** 2026-11-09
-* Finalized /grill-me architectural specifications and blindspot resolution:
-  - Seated 1st-person controller with Pointer Lock, center reticle, and Right-Click FOV zoom (45° -> 22°).
-  - Mobile touch drag and on-screen zoom toggle fallback.
-  - Interactive CRT Monitor with <Html transform>, default Boot Terminal CLI state, and native wheel scroll.
-  - Cartridge pickup, magnetic slot snapping, and physical computer Eject button.
-  - PCB Motherboard and Multimeter Logic Probe tool with dual LCD + CRT diagnostics readout.
-  - Tactile Encrypted USB Key triggering power-surge SFX, decryption animation, and direct resume PDF download.
-  - Desktop companion pet robot 'Byte' with emoticon face screen, reticle head tracking, petting, microchip feeding dish, and reactive commentary.
-  - Hybrid 3D asset architecture leveraging Blender 5.2 headless generation for hero props (cartridge.glb, byte.glb, probe.glb, usb.glb) in public/assets/models/.
+* **Architectural Decisions & Milestone Execution:**
+  - **Asset Specification & Performance Guide Authored ([ASSET_SPECIFICATION_AND_PERFORMANCE_GUIDE.md](file:///c:/Projects/Personal/alirezaft.github.io/ASSET_SPECIFICATION_AND_PERFORMANCE_GUIDE.md)):**
+    * Photorealistic generative AI visual prompts for all 9 workstation assets.
+    * Strict performance ceilings: < 3,500 tris per asset, draw call ceiling < 35 calls/frame, clamped DPR [1, 1.5], zero shadow-casting point lights, zero-cost emissive PBR shaders.
+  - **Step 4.1: First-Person Desk Camera & Pointer Lock Controller [COMPLETED]:**
+    * Implemented DeskCameraControls.tsx: Pointer Lock API with clamped seated pitch (-40° to +50°) and yaw (-75° to +75°); smooth Right-Click FOV zoom lerp (45° -> 22°) with camera forward nudge; touch drag look and mobile zoom button fallback.
+    * Implemented ReticleOverlay.tsx: Minimalist glowing cyan center reticle dot with dynamic hover focus rings and desktop click-to-engage prompt.
+  - **Step 4.2: Cyber-Deck Desk & 3-Point Neon Lighting Rig [COMPLETED]:**
+    * Implemented CyberDesk.tsx: True seated scale (2.4m x 1.1m at y=0.76m), chamfered edges, recessed neon cyan strip (#00f3ff, emissiveIntensity: 2.6), tubular steel legs, crossbars, cable grommets, and chrome hex hardware bolts.
+    * Implemented cyberTextures.ts: 100% in-memory procedural canvas texture engine (0 KB network payload) generating analytical carbon-fiber weave normal & roughness maps, 45° caution hazard striping, and brushed technical inlays.
+    * Implemented CyberLighting.tsx: 3-Point forward lighting rig (Cyan Key at [2.4, 3.0, 1.8], Magenta Rim at [-2.8, 2.5, -1.2], Amber Accent at [0.8, 1.4, 0.6], and Under-Desk Ground Glow) with ContactShadows (opacity: 0.72) and zero shadow-cubemap overhead.
+    * Implemented CyberPostProcessing.tsx: Hardware Mipmap Bloom (luminanceThreshold: 0.82, intensity: 1.2) and cinematic Vignette.
+    * Replaced temporary cube demo in App.tsx with full live desk and lighting rig.
+    * Multi-agent execution: desk-3d-engineer (geometry/lighting) + rt-director-texture (PBR materials & procedural textures, Grade A+ artistic sign-off).
+    * Build status verified with 
+pm run build (Exit code 0).
 
 ---
 
@@ -209,7 +216,14 @@ c:\Projects\Personal\alirezaft.github.io\
 ?   ??? manifest.json               # Incremental update manifest
 ├── public/
 │   ├── assets/
+│   │   ├── cyberdeck_station_preview.jpg # 16:9 3D WORKSTATION CONCEPT RENDER
+│   │   ├── models/                 # TARGET DIRECTORY FOR HERO GLB PROPS
+│   │   │   ├── byte.glb            # [PLANNED] COMPANION PET ROBOT
+│   │   │   ├── cartridge.glb       # [PLANNED] DATA CARTRIDGE SHELL
+│   │   │   ├── probe.glb           # [PLANNED] MULTIMETER LOGIC PROBE
+│   │   │   └── usb.glb             # [PLANNED] ENCRYPTED RESUME USB KEY
 │   │   ├── projects/               # STANDARDIZED PROJECT MEDIA REPOSITORY
+               # STANDARDIZED PROJECT MEDIA REPOSITORY
 │   │   │   ├── a-simple-diagnosis/
 │   │   │   │   ├── chapter-briefing.jpg
 │   │   │   │   ├── hearing-test.jpg
@@ -254,6 +268,14 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │   ├── soundEngine.ts
 │   │   └── useAudio.tsx
 │   ├── components/
+│   │   ├── 3d/                     # SEATED 1ST-PERSON 3D CYBER-DECK SYSTEM
+│   │   │   ├── CyberDesk.tsx       # PROCEDURAL DESK, STRUTS, CABLES & GROMMETS
+│   │   │   ├── CyberLighting.tsx   # 3-POINT NEON RIG + UNDERGLOW + CONTACT SHADOWS
+│   │   │   ├── CyberPostProcessing.tsx # HARDWARE MIPMAP BLOOM & VIGNETTE
+│   │   │   ├── cyberTextures.ts    # PROCEDURAL CARBON-FIBER, HAZARD & INLAY MAPS
+│   │   │   ├── DeskCameraControls.tsx # POINTER LOCK, SEATED CLAMPED LOOK & ZOOM
+│   │   │   ├── ReticleOverlay.tsx  # CENTER CYBER RETICLE & HOVER PROMPTS
+│   │   │   └── index.ts
 │   │   └── ui/                     # 2D PRESENTATION LAYER
 │   │       ├── recruiter/          # RECRUITER QUICK-VIEW SYSTEM
 │   │       │   ├── icons.tsx
@@ -297,17 +319,21 @@ c:\Projects\Personal\alirezaft.github.io\
 
 ## 5. Immediate Next Steps
 
-1. **Step 4.1: First-Person Desk Camera & Pointer Lock Controller:**
-   - Implement DeskCameraControls.tsx (Pointer Lock, reticle dot, clamped pitch/yaw, Right-Click FOV zoom lerp, touch fallback).
-2. **Step 4.2: Cyber-Deck Workstation & 3-Point Neon Lighting:**
-   - Implement CyberDeskStation.tsx (desk surface, casing, drive bays, post-processing bloom, ambient fill).
+1. **Step 4.1: First-Person Desk Camera & Pointer Lock Controller [COMPLETED]**
+   - Implemented DeskCameraControls.tsx (Pointer Lock, reticle dot, clamped pitch/yaw, Right-Click FOV zoom lerp, touch fallback).
+2. **Step 4.2: Cyber-Deck Workstation & 3-Point Neon Lighting [COMPLETED]**
+   - Implemented CyberDesk.tsx, CyberLighting.tsx, CyberPostProcessing.tsx, and cyberTextures.ts (procedural carbon-fiber weave normal/roughness, hazard striping, hex bolts, contact shadows).
 3. **Step 4.3: Hero 3D Models Generation via Blender 5.2:**
-   - Generate cartridge.glb, yte.glb, probe.glb, and usb.glb in public/assets/models/.
+   - Execute headless Python scripts in Blender 5.2 (C:\Program Files\Blender Foundation\Blender 5.2\blender.exe) to generate initial stylized, optimized .glb models into public/assets/models/:
+     * cartridge.glb (Cyberpunk game data cartridge with dynamic artwork label recess and gold contact pins)
+     * yte.glb (Pet companion robot with body, runner pads, and articulated neck node for reticle tracking)
+     * probe.glb (Knurled logic probe with needle tip and cable strain relief)
+     * usb.glb (Encrypted cyber USB key with lanyard loop and metal plug)
 4. **Step 4.4: Interactive CRT Monitor Screen (<Html transform>):**
-   - Implement CrtMonitor.tsx with Boot Terminal default state, native wheel scroll, and zero-drift project card renderer.
+   - Implement CrtMonitor.tsx with curved retro housing, Boot Terminal default CLI state (CYBER-DECK KERNEL v4.2 // AWAITING MEDIA), native wheel scrolling, and zero-drift project tech spec rendering matching Recruiter Quick View.
 5. **Step 4.5: Cartridge Physics & USB Resume Decryption:**
-   - Implement CartridgeRack.tsx, ComputerDeck.tsx, and UsbKey.tsx with lerp grab, snap insertion, and CV download.
+   - Implement CartridgeRack.tsx, ComputerDeck.tsx, and UsbKey.tsx with Left-Click lerp grab, magnetic drive snapping, mechanical eject button, and auto-downloading Alireza_Forghani_Toosi_Resume.pdf.
 6. **Step 4.6: PCB Motherboard & Multimeter Logic Probe Tool:**
    - Implement CircuitTestBench.tsx and MultimeterProbe.tsx with spark SFX, bus pulses, and CRT telemetry sync.
 7. **Step 4.7: Byte Companion Pet Behaviors:**
-   - Implement ByteCompanion.tsx with pixel emoticon face canvas, reticle head tracking, microchip feeding, and speech bubbles.
+   - Implement ByteCompanion.tsx with pixel emoticon face canvas (( ^ _ ^ ), ( > ᗢ < ), etc.), reticle head tracking, microchip feeding dish, and contextual speech bubbles.

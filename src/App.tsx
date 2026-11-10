@@ -10,6 +10,7 @@ import {
   CyberDesk,
   CyberLighting,
   CyberPostProcessing,
+  CartridgeRack,
 } from './components/3d';
 import { useUI } from './context';
 import DevPerfMonitor from './components/dev/DevPerfMonitor';
@@ -111,6 +112,9 @@ export default function App() {
 
           {/* Seated Cyberpunk Workstation Desk */}
           <CyberDesk />
+
+          {/* 4-Tier Interactive Project Cartridges Rack (Resting on Desk Tabletop) */}
+          <CartridgeRack position={[-0.62, 0.76, 0.86]} rotation={[0, 0.48, 0]} />
 
           {/* Cyberpunk Ground Grid */}
           <Grid

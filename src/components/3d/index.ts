@@ -8,4 +8,6 @@ export * from './cartridgeLabelTexture';
 export * from './DataCartridge';
 export * from './CartridgeRack';
 export * from './CrosshairInteraction';
+export * from './cartridgeSlotHelper';
+export * from './CartridgeViewmodel';
 

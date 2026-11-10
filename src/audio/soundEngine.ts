@@ -37,7 +37,11 @@ function randInt(n: number): number {
 /** Safely start Tone.js AudioContext (must be called after a user gesture) */
 export async function startAudioContext(): Promise<void> {
   if (Tone.getContext().state !== 'running') {
-    await Tone.start();
+    try {
+      await Tone.start();
+    } catch {
+      // Browser autoplay policy prevented immediate start; will resume on user gesture
+    }
   }
 }
 
@@ -580,31 +584,57 @@ let _ambientNodes: {
   filter: Tone.Filter;
   hum: Tone.Oscillator;
   humGain: Tone.Gain;
+  hum2: Tone.Oscillator;
+  humGain2: Tone.Gain;
 } | null = null;
 
 export function startAmbientHum(): void {
   if (_ambientNodes) return;
 
+  // Pink noise floor lowpass filtered for deep electrical presence
   const noise  = new Tone.Noise('pink');
   const filter = new Tone.Filter({ frequency: 120, type: 'lowpass', rolloff: -24 });
-  const gain   = new Tone.Gain(0.05);
+  const gain   = new Tone.Gain(0);
   noise.connect(filter); filter.connect(gain); gain.connect(masterGain);
   noise.start();
+  gain.gain.rampTo(0.05, 0.1);
 
+  // 60 Hz fundamental AC sine hum
   const hum    = new Tone.Oscillator({ frequency: 60, type: 'sine' });
-  const humGain = new Tone.Gain(0.03);
+  const humGain = new Tone.Gain(0);
   hum.connect(humGain); humGain.connect(masterGain);
   hum.start();
+  humGain.gain.rampTo(0.035, 0.1);
 
-  _ambientNodes = { noise, gain, filter, hum, humGain };
+  // 120 Hz 2nd harmonic (full-wave rectified transformer hum — audible on laptops & mobile speakers)
+  const hum2   = new Tone.Oscillator({ frequency: 120, type: 'sine' });
+  const humGain2 = new Tone.Gain(0);
+  hum2.connect(humGain2); humGain2.connect(masterGain);
+  hum2.start();
+  humGain2.gain.rampTo(0.015, 0.1);
+
+  _ambientNodes = { noise, gain, filter, hum, humGain, hum2, humGain2 };
 }
 
 export function stopAmbientHum(): void {
   if (!_ambientNodes) return;
-  const { noise, gain, filter, hum, humGain } = _ambientNodes;
-  noise.stop(); noise.dispose(); filter.dispose(); gain.dispose();
-  hum.stop(); hum.dispose(); humGain.dispose();
+  const nodes = _ambientNodes;
   _ambientNodes = null;
+
+  // Gracefully ramp down to avoid audio pops
+  try {
+    nodes.gain.gain.rampTo(0, 0.05);
+    nodes.humGain.gain.rampTo(0, 0.05);
+    nodes.humGain2.gain.rampTo(0, 0.05);
+  } catch {}
+
+  setTimeout(() => {
+    try {
+      nodes.noise.stop(); nodes.noise.dispose(); nodes.filter.dispose(); nodes.gain.dispose();
+      nodes.hum.stop(); nodes.hum.dispose(); nodes.humGain.dispose();
+      nodes.hum2.stop(); nodes.hum2.dispose(); nodes.humGain2.dispose();
+    } catch {}
+  }, 70);
 }
 
 export function isAmbientRunning(): boolean {

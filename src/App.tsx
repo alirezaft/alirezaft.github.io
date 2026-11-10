@@ -11,10 +11,12 @@ import {
   CyberLighting,
   CyberPostProcessing,
   CartridgeRack,
+  CartridgeViewmodel,
   CrosshairProvider,
   CrosshairRaycaster,
 } from './components/3d';
 import { useUI } from './context';
+import { useAudio } from './audio';
 import DevPerfMonitor from './components/dev/DevPerfMonitor';
 
 // ---------------------------------------------------------------------------
@@ -29,11 +31,31 @@ const IS_AUDIO_TEST =
 // ---------------------------------------------------------------------------
 
 export default function App() {
-  const { viewMode } = useUI();
+  const {
+    viewMode,
+    heldProject,
+    heldProjectId,
+    returnCartridge,
+    openProject,
+    isProjectDrawerOpen,
+  } = useUI();
+  const { startAmbient, stopAmbient } = useAudio();
   const [isLocked, setIsLocked] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
+
+  // Constantly play the ambient PCB sound when the 3D scene is active
+  useEffect(() => {
+    if (viewMode === '3d') {
+      startAmbient();
+    } else {
+      stopAmbient();
+    }
+    return () => {
+      stopAmbient();
+    };
+  }, [viewMode, startAmbient, stopAmbient]);
 
   useEffect(() => {
     setIsTouchDevice(
@@ -42,15 +64,23 @@ export default function App() {
   }, []);
 
   const handleRequestLock = useCallback(() => {
+    startAmbient();
     const canvas = canvasContainerRef.current?.querySelector('canvas');
     if (canvas && !isTouchDevice) {
       canvas.requestPointerLock?.();
     }
-  }, [isTouchDevice]);
+  }, [isTouchDevice, startAmbient]);
 
   const handleToggleZoom = useCallback(() => {
     setIsZooming((prev) => !prev);
   }, []);
+
+  // When holding a cartridge and left-clicking viewport (not aiming at another shelf item), open dossier
+  const handleEmptyClick = useCallback(() => {
+    if (heldProjectId && !isProjectDrawerOpen) {
+      openProject(heldProjectId);
+    }
+  }, [heldProjectId, isProjectDrawerOpen, openProject]);
 
   // Redirect to audio test harness in dev mode
   if (IS_AUDIO_TEST) return <AudioTestPage />;
@@ -76,6 +106,35 @@ export default function App() {
             onToggleZoom={handleToggleZoom}
             isTouchDevice={isTouchDevice}
           />
+        )}
+
+        {/* First-Person Held Cartridge Weapon/Tool HUD Controls */}
+        {heldProject && viewMode === '3d' && !isProjectDrawerOpen && (
+          <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-30 pointer-events-auto flex items-center gap-3 px-4 py-2 bg-[#080d1a]/95 border border-cyber-cyan/50 shadow-[0_0_30px_rgba(0,243,255,0.25)] rounded-full backdrop-blur transition-all duration-200">
+            <div className="flex items-center gap-2 pr-3 border-r border-slate-700">
+              <span
+                className="w-2 h-2 rounded-full animate-ping"
+                style={{ backgroundColor: heldProject.cartridgeVisual?.accentColor || '#00f3ff' }}
+              />
+              <span className="font-mono text-xs font-bold text-slate-100 uppercase tracking-wider">
+                HELD // {heldProject.title}
+              </span>
+            </div>
+            <button
+              onClick={() => openProject(heldProject.id)}
+              className="px-3 py-1 bg-cyber-cyan/20 border border-cyber-cyan/60 hover:border-cyber-cyan text-cyber-cyan text-xs font-mono font-bold rounded-full hover:bg-cyber-cyan/30 hover:shadow-[0_0_12px_rgba(0,243,255,0.4)] transition cursor-pointer flex items-center gap-1.5"
+            >
+              <span>ACCESS DOSSIER</span>
+              <span className="text-[10px] text-cyber-cyan/80">[LMB]</span>
+            </button>
+            <button
+              onClick={returnCartridge}
+              className="px-3 py-1 bg-slate-800/80 border border-slate-700 hover:border-slate-500 text-slate-300 text-xs font-mono rounded-full hover:bg-slate-700 hover:text-white transition cursor-pointer flex items-center gap-1.5"
+            >
+              <span>RETURN TO SHELF</span>
+              <span className="text-[10px] text-slate-400">[E / ESC]</span>
+            </button>
+          </div>
         )}
 
         {/* 3D Scene Viewport — hidden (not unmounted) when in recruiter mode to halt the render loop */}
@@ -109,7 +168,10 @@ export default function App() {
             />
 
             {/* FPS Center-Screen Crosshair Raycaster & Targeting */}
-            <CrosshairRaycaster />
+            <CrosshairRaycaster onEmptyClick={handleEmptyClick} />
+
+            {/* First-Person Held Cartridge Viewmodel (Held in hand like FPS weapons/tools) */}
+            <CartridgeViewmodel isZooming={isZooming} />
 
             {/* 3-Point Cyber Lighting Rig & Ground Contact Shadows */}
             <CyberLighting />
@@ -162,7 +224,7 @@ export default function App() {
           <span>Seated 1st-Person WebGL2 Cyber-Deck Engine</span>
         </div>
         <div className="font-mono text-[11px] text-slate-400">
-          <span>Look: Mouse · Zoom: Hold Right-Click · Pick Up: Left-Click</span>
+          <span>Look: Mouse · Grab / Read: Left-Click · Inspect Zoom: Hold Right-Click · Return: E / Esc</span>
         </div>
       </footer>
     </div>

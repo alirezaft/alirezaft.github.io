@@ -14,6 +14,7 @@ import {
   useCallback,
   useState,
   useEffect,
+  useRef,
   type ReactNode,
 } from 'react';
 
@@ -38,6 +39,7 @@ import {
   playCommsTerminalClick,
   startAmbientHum,
   stopAmbientHum,
+  isAmbientRunning,
 } from './soundEngine';
 
 // ---------------------------------------------------------------------------
@@ -51,6 +53,8 @@ export interface AudioContextValue {
   toggleMute: () => void;
   setVolume: (v: number) => void;
   toggleAmbient: () => void;
+  startAmbient: () => void;
+  stopAmbient: () => void;
 
   // Sound triggers — each returns void
   playClick: () => void;
@@ -102,6 +106,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const [muted, _setMuted] = useState<boolean>(loadMuted);
   const [volume, _setVolume] = useState<number>(loadVolume);
   const [ambientOn, setAmbientOn] = useState(false);
+  const isAmbientActiveRef = useRef(false);
 
   // Sync engine on mount
   useEffect(() => {
@@ -124,11 +129,51 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     try { localStorage.setItem(LS_VOLUME, String(v)); } catch {}
   }, []);
 
-  const toggleAmbient = useCallback(() => {
-    setAmbientOn(prev => {
-      if (prev) { stopAmbientHum(); return false; }
-      else { startAmbientHum(); return true; }
+  const startAmbient = useCallback(() => {
+    isAmbientActiveRef.current = true;
+    startAudioContext().then(() => {
+      if (isAmbientActiveRef.current) {
+        startAmbientHum();
+        setAmbientOn(true);
+      }
     });
+  }, []);
+
+  const stopAmbient = useCallback(() => {
+    isAmbientActiveRef.current = false;
+    stopAmbientHum();
+    setAmbientOn(false);
+  }, []);
+
+  const toggleAmbient = useCallback(() => {
+    if (isAmbientActiveRef.current) {
+      stopAmbient();
+    } else {
+      startAmbient();
+    }
+  }, [startAmbient, stopAmbient]);
+
+  // Unlock audio & start ambient on first user interaction if blocked by browser autoplay policy
+  useEffect(() => {
+    const unlockAudio = () => {
+      startAudioContext().then(() => {
+        if (isAmbientActiveRef.current && !isAmbientRunning()) {
+          startAmbientHum();
+          setAmbientOn(true);
+        }
+      });
+    };
+
+    const events = ['pointerdown', 'keydown', 'touchstart', 'click'];
+    events.forEach(evt => {
+      window.addEventListener(evt, unlockAudio, { passive: true });
+    });
+
+    return () => {
+      events.forEach(evt => {
+        window.removeEventListener(evt, unlockAudio);
+      });
+    };
   }, []);
 
   /** Wraps a sound function so AudioContext is started on first user gesture */
@@ -145,6 +190,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     toggleMute,
     setVolume: handleSetVolume,
     toggleAmbient,
+    startAmbient,
+    stopAmbient,
 
     playClick:               sfx(playClick),
     playHover:               sfx(playHover),

@@ -27,7 +27,7 @@ export const CartridgeRack: React.FC<CartridgeRackProps> = ({
   position = [-0.62, 0.76, 0.86],
   rotation = [0, 0.48, 0],
 }) => {
-  const { openProject, selectedProjectId } = useUI();
+  const { grabCartridge, heldProjectId, returningProjectId } = useUI();
 
   // Tier stepped offsets (Front to back: Row 1 is closest and lowest, Row 4 is highest at rear)
   const tierConfig = [
@@ -150,7 +150,12 @@ export const CartridgeRack: React.FC<CartridgeRackProps> = ({
           xPos = -0.11 + indexInRow * 0.11;
         }
 
-        const isSelected = selectedProjectId === project.id;
+        const isExtracted = heldProjectId === project.id || returningProjectId === project.id;
+
+        // When extracted & held in player's first-person view, nothing is left behind on the shelf
+        if (isExtracted) {
+          return null;
+        }
 
         return (
           <DataCartridge
@@ -160,8 +165,7 @@ export const CartridgeRack: React.FC<CartridgeRackProps> = ({
             // Tilted back 15 degrees so the top spine and faceplate are legible
             rotation={[-0.26, 0, 0]}
             scale={1.05}
-            selected={isSelected}
-            onClick={() => openProject(project.id)}
+            onClick={() => grabCartridge(project.id)}
           />
         );
       })}

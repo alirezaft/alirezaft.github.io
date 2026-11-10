@@ -141,6 +141,59 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
      * **Controls:** Toggle visibility with `~` (Tilde / Backquote) or `F3`; switch between Left/Right docking; collapse/expand with one click.
    - **Effortless Production Removal:** Gated strictly via `{import.meta.env.DEV && <DevPerfMonitor hidden={viewMode === 'recruiter'} />}` in `src/App.tsx`. Can be completely eliminated for release by deleting that single line in `src/App.tsx` and removing `src/components/dev/DevPerfMonitor.tsx`.
 
+9. **First-Person 3D Data Cartridge Asset Architecture & Procedural Foil Synthesis:**
+   - **Blender 5.2 Asset Generation ([public/assets/cartridge.glb](file:///c:/Projects/Personal/alirezaft.github.io/public/assets/cartridge.glb)):**
+     * Built as a 100% watertight, single-mesh hero asset (`SM_DataCartridge`) adhering strictly to [ASSET_SPECIFICATION_AND_PERFORMANCE_GUIDE.md](file:///c:/Projects/Personal/alirezaft.github.io/ASSET_SPECIFICATION_AND_PERFORMANCE_GUIDE.md).
+     * Geometry: **256 triangles** (well under the 950-triangle budget ceiling), 136 vertices, zero non-manifold edges, zero degenerate faces, and fully uniform normals verified via Blender automated `qa_check.py` profile `game` (0 errors, 0 warnings).
+     * Multi-Material Slots: (1) `M_Cartridge_Shell` (Matte anthracite polycarbonate, roughness 0.55, metalness 0.15), (2) `M_Cartridge_Accent` (Subtle acrylic light guide, roughness 0.22, metalness 0.12, emissive 0.65–0.85 intensity), (3) `M_Cartridge_Label` (Foil sticker backing with canvas UVs), (4) `M_Cartridge_Contacts` (Gold terminal connectors, roughness 0.25, metalness 0.95).
+     * File Size & Master Source: Exported as an ultra-compact **18.9 KB** GLB binary (`public/assets/cartridge.glb` and `public/cartridge.glb`); master procedural `.blend` saved at `src/assets/3d/cartridge.blend`.
+   - **Procedural Label Texture Synthesis ([src/components/3d/cartridgeLabelTexture.ts](file:///c:/Projects/Personal/alirezaft.github.io/src/components/3d/cartridgeLabelTexture.ts)):**
+     * 100% in-memory HTML5 canvas procedural texture (0 KB network transfer).
+     * Renders holographic grid patterns, category accent banners, dynamic Code-128 barcode strips, hardware revision hashes, and warning badges.
+   - **High-Visibility Typography & Visual Cleanliness ([src/components/3d/DataCartridge.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/3d/DataCartridge.tsx)):**
+     * Single project title rendered directly on the faceplate using UI-matched `JetBrains Mono` (`/fonts/JetBrainsMono-Bold.woff`), precisely scaled (`fontSize: 0.0054` at `[0, 0.056, 0.0074]`) for legibility inside the label window with no text clutter.
+     * All distracting redundant texts (category names, top spine marquee headers, side rack guides) removed to ensure visual comfort.
+     * Eye-comfort lighting: Emissive and rack point lighting calibrated to restrained values (`emissiveIntensity: 0.65`, point light `intensity: 1.0`), eliminating eye strain and bloom blowout.
+   - **Tabletop 4-Tier Rack Assembly ([src/components/3d/CartridgeRack.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/3d/CartridgeRack.tsx)):**
+     * Resting directly on desk surface at `[-0.62, 0.76, 0.86]` and angled `0.48 rad` (~27.5°) toward seated player.
+     * Populates all 9 showcase projects color-coded across 4 tiers: Row 1 (Commercial Games, Magenta `#ff007f`), Row 2 (VR & Spatial Apps, Cyan `#00f3ff`), Row 3 (Open Source, Green `#00ff66`), Row 4 (Dev Tools, Amber `#ffb700`).
+
+10. **First-Person Center-Crosshair Raycaster & Interaction Framework ([src/components/3d/CrosshairInteraction.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/3d/CrosshairInteraction.tsx)):**
+    - **Architectural Motivation:** In a seated first-person workstation with pointer lock, the mouse cursor is locked and hidden. Traditional R3F cursor mouse events (`onPointerOver`/`onClick`) fail to align with the camera crosshair.
+    - **Continuous Center-Screen Raycasting (`CrosshairRaycaster`):** Every frame, casts an analytical ray from camera viewport center `(0, 0)` in NDC across all registered 3D interactables within a 3.5m reach radius.
+    - **Single Source of Truth (SSOT) Hover State (`useCrosshairInteractable`):**
+      * Eliminates fragile local `useState` hover tracking in individual 3D components. Instead, `useCrosshairInteractable` returns a reactive `{ isHovered }` boolean derived strictly from `activeId === config.id`.
+      * Guarantees that in the entire 3D universe, **at most one interactable can ever be hovered at any given millisecond**, completely preventing multiple items from floating simultaneously or desyncing.
+    - **Window Blur, Visibility & Pointer Lock Lifecycle Guard:**
+      * Attached listeners for `window.onblur`, `document.onvisibilitychange`, and `document.onpointerlockchange` immediately trigger `clearFocus()`.
+      * Suspends raycasting whenever the tab is hidden or `isProjectDrawerOpen` is true.
+      * When leaving the window or pressing Escape, all interactables immediately drop back to baseline resting elevation ($0\text{ cm}$), completely curing the "phantom floating cartridge" bug.
+      * Frame animation loops clamp delta (`Math.min(delta, 0.05)`) and snap to exact 0 when within $0.0004\text{m}$, preventing floating drift when returning from background throttled tabs.
+    - **Tactical Reticle HUD ([src/components/3d/ReticleOverlay.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/3d/ReticleOverlay.tsx)):**
+      * Reticle outer ring expands and glows amber when an interactable is focused.
+      * Displays contextual prompt under crosshair (e.g., `GRAB // KINGDOM HERO`).
+      * Plays subtle synthesized audio hover chime and click feedback.
+    - **Strict Isolation:** Affects only the 3D environment; Recruiter Quick-View mode remains 100% untouched.
+
+11. **First-Person Weapon/Tool Viewmodel Engine & In-Hand Cartridge Inspection:**
+    - **Tactile Weapon/Tool Viewmodel ([src/components/3d/CartridgeViewmodel.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/3d/CartridgeViewmodel.tsx)):**
+      * Designed to mirror first-person weapon and item handling from AAA games (*Cyberpunk 2077*, *Half-Life*, *Prey*).
+      * **Flight Trajectory Interpolation ([src/components/3d/cartridgeSlotHelper.ts](file:///c:/Projects/Personal/alirezaft.github.io/src/components/3d/cartridgeSlotHelper.ts)):** Clicking any cartridge lifts it smoothly from its exact rack world position and orientation into the player's viewmodel hand over ~0.35s (cubic ease-out).
+      * **Rest Pose:** Held in the lower-right viewport quadrant (`[0.17, -0.13, -0.32]` camera space), angled toward the player's eyes so faceplate typography and gold contacts are clearly readable.
+      * **Inertial Mouse Look Sway:** Tracks camera angular velocity (`deltaYaw`, `deltaPitch`), causing the held cartridge to lag behind and roll into camera turns with spring damping (`THREE.MathUtils.damp`).
+      * **Organic Idle Breathing:** Harmonic oscillation (`Math.sin(time * 2.0) * 0.0022`) keeps the held cartridge feeling alive in hand.
+      * **Tactical Inspect Pose (Right-Click Zoom):** Holding Right-Click smoothly brings the cartridge to the center of the viewport (`[0.02, -0.05, -0.22]`) for extreme close-up inspection, simultaneously boosting acrylic emissive intensity (up to 1.35).
+      * **Dedicated Specular Fill Light:** Attached point light (`intensity: 0.4`, `distance: 0.8`) matches category accent color, casting subtle specular highlights across the held cartridge.
+    - **Complete Extraction & Shelf Emptiness ([src/components/3d/CartridgeRack.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/components/3d/CartridgeRack.tsx)):**
+      * When a cartridge is picked up, the entire cartridge model is transferred to the player's hand and nothing is left behind on the shelf (the slot is completely vacated).
+      * When returned, the whole cartridge model is smoothly returned into the shelf slot without any premature pop-in or duplicate geometry.
+    - **In-Hand Controls & Auto Pointer-Lock Release ([src/context/UIContext.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/context/UIContext.tsx)):**
+      * **Left-Click (LMB):** Opens the technical Project Drawer case study.
+      * **Return to Rack (`[E]` / `[Esc]`):** Smoothly flies the cartridge back into its shelf slot.
+      * **Auto Cursor Release:** Opening the project drawer automatically calls `document.exitPointerLock()` so the mouse cursor is immediately freed to scroll, read, and click links in the 2D case study.
+      * **Cartridge Swapping:** Aiming and clicking another cartridge on the shelf automatically returns the currently held cartridge and grabs the new one.
+      * **Tactical Bottom HUD Card:** Displays active held status (`HELD // [TITLE]`), with direct clickable buttons for `ACCESS DOSSIER [LMB]` and `RETURN TO SHELF [E / ESC]`.
+
 ---
 
 ## 3. Implementation Progress & Activity Log
@@ -222,6 +275,24 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
     * Integrated dual UI modes (compact status chip and expanded diagnostic dashboard) with `~` / `F3` keyboard shortcuts, Left/Right docking, and pointer lock isolation (`stopPropagation`).
     * Gated by `{import.meta.env.DEV && <DevPerfMonitor hidden={viewMode === 'recruiter'} />}` in `src/App.tsx` for automatic tree-shaking and single-line removal before release.
     * Verified production build with `npm run build` (Exit code 0).
+  - **Step 4.3: Hero 3D Data Cartridge Asset & 4-Tier Workstation Rack [COMPLETED]:**
+    * Modeled watertight, single-mesh `SM_DataCartridge` (256 tris, 136 verts) in Blender 5.2 via MCP server connection. Validated through automated `qa_check.py` with 0 errors/warnings.
+    * Assigned 4 standard materials: Shell (anthracite matte), Accent (emissive acrylic light guide), Label (foil backing with canvas UVs), Contacts (gold terminals).
+    * Procedural label generator (`cartridgeLabelTexture.ts`) renders high-res foil background with barcode and category branding.
+    * Scaled & positioned single title on faceplate using UI-matched `JetBrains Mono` (`/fonts/JetBrainsMono-Bold.woff`).
+    * Built 4-Tier stepped rack (`CartridgeRack.tsx`) sitting on desk tabletop at `[-0.62, 0.76, 0.86]`, populated with all 9 projects.
+    * Calibrated lighting to eye-comfortable ambient levels, eliminating bloom blowout.
+  - **Step 4.3.5: Center Crosshair FPS Interaction System [COMPLETED]:**
+    * Implemented `CrosshairInteraction.tsx` (`CrosshairProvider`, `CrosshairRaycaster`, `useCrosshairInteractable`).
+    * Center NDC `(0, 0)` continuous camera raycasting drives hover focus, lifts targeted cartridge by $+2.8\text{cm}$, pulses light guide, and shows HUD prompt.
+    * Zero impact on recruiter quick-view mode.
+  - **Step 4.3.6: First-Person Weapon/Tool Viewmodel & Inspection System [COMPLETED]:**
+    * Implemented `CartridgeViewmodel.tsx` and `cartridgeSlotHelper.ts`: clicking a cartridge smoothly glides it from the shelf into the player's viewmodel hand (~0.35s cubic ease).
+    * Integrated inertial mouse look sway and organic idle breathing.
+    * Implemented Inspect Pose: holding Right-Click zoom brings the cartridge to center-screen for detailed visual inspection with boosted acrylic glow.
+    * Whole cartridge is transferred to player with nothing left behind on the shelf slot; returns seamlessly upon release.
+    * Left-Click opens dossier; `[E]`/`[Esc]` returns cartridge to shelf; pointer lock auto-exits on drawer open.
+    * Verified production build with `npm run build` (Exit code 0).
 
 ---
 
@@ -241,11 +312,14 @@ c:\Projects\Personal\alirezaft.github.io\
 ├── public/
 │   ├── assets/
 │   │   ├── cyberdeck_station_preview.jpg # 16:9 3D WORKSTATION CONCEPT RENDER
+│   │   ├── cartridge.glb           # 18.9 KB 256-TRI HERO DATA CARTRIDGE (ROOT MIRROR)
 │   │   ├── models/                 # TARGET DIRECTORY FOR HERO GLB PROPS
 │   │   │   ├── byte.glb            # [PLANNED] COMPANION PET ROBOT
-│   │   │   ├── cartridge.glb       # [PLANNED] DATA CARTRIDGE SHELL
+│   │   │   ├── cartridge.glb       # 18.9 KB 256-TRI HERO DATA CARTRIDGE
 │   │   │   ├── probe.glb           # [PLANNED] MULTIMETER LOGIC PROBE
 │   │   │   └── usb.glb             # [PLANNED] ENCRYPTED RESUME USB KEY
+│   │   ├── fonts/
+│   │   │   └── JetBrainsMono-Bold.woff # TYPOGRAPHY FOR 3D CARTRIDGE LABELS
 │   │   ├── projects/               # STANDARDIZED PROJECT MEDIA REPOSITORY
 
 │   │   │   ├── a-simple-diagnosis/
@@ -301,6 +375,12 @@ c:\Projects\Personal\alirezaft.github.io\
 │   │   │   ├── cyberTextures.ts    # PROCEDURAL CARBON-FIBER, HAZARD & INLAY MAPS
 │   │   │   ├── DeskCameraControls.tsx # POINTER LOCK, SEATED CLAMPED LOOK & ZOOM
 │   │   │   ├── ReticleOverlay.tsx  # CENTER CYBER RETICLE & HOVER PROMPTS
+│   │   │   ├── cartridgeLabelTexture.ts # PROCEDURAL CANVAS FOIL LABEL ENGINE
+│   │   │   ├── cartridgeSlotHelper.ts  # WORLD DOCKING BAY TRANSFORM CALCULATOR
+│   │   │   ├── CrosshairInteraction.tsx # CENTER-SCREEN NDC (0,0) FPS RAYCASTER
+│   │   │   ├── DataCartridge.tsx   # 3D CARTRIDGE PROP WITH DYNAMIC ACRYLIC GLOW
+│   │   │   ├── CartridgeRack.tsx   # 4-TIER TABLETOP SHELF & EMPTY BAY DOCKING
+│   │   │   ├── CartridgeViewmodel.tsx # FIRST-PERSON WEAPON/TOOL VIEWMODEL SYSTEM
 │   │   │   └── index.ts
 │   │   └── ui/                     # 2D PRESENTATION LAYER
 │   │       ├── recruiter/          # RECRUITER QUICK-VIEW SYSTEM
@@ -349,6 +429,7 @@ c:\Projects\Personal\alirezaft.github.io\
    - Implemented DeskCameraControls.tsx (Pointer Lock, reticle dot, clamped pitch/yaw, Right-Click FOV zoom lerp, touch fallback).
 2. **Step 4.2: Cyber-Deck Workstation & 3-Point Neon Lighting [COMPLETED]**
    - Implemented CyberDesk.tsx, CyberLighting.tsx, CyberPostProcessing.tsx, and cyberTextures.ts (procedural carbon-fiber weave normal/roughness, hazard striping, hex bolts, contact shadows).
+   - Wired procedural ambient PCB hum audio loop into the 3D scene: continuous background hum (pink noise + 60 Hz fundamental + 120 Hz 2nd harmonic for mobile/laptop speakers) active in 3D Cyber-Deck mode, seamlessly pausing in Recruiter Quick-View and respecting master volume/mute. Autoplay unlock listeners ensure immediate playback on first interaction without console warnings.
 3. **Step 4.2.5: In-Engine Performance Telemetry Monitor [COMPLETED]**
    - Implemented DevPerfMonitor.tsx (Tris, Verts, Draw Calls vs <35 budget, FPS/Frame Time, VRAM textures/geometries, JS Heap vs <85MB target, isolated DOM root, instant removal).
 4. **Step 4.3: Hero 3D Models Generation via Blender 5.2:**

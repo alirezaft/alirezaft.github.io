@@ -49,12 +49,22 @@ export interface UIState {
 
   // Resume Download Animation State
   isResumeDownloading: boolean;
+
+  // 3D First-Person Held Cartridge Viewmodel State
+  heldProjectId: string | null;
+  heldProject: Project | null;
+  returningProjectId: string | null;
 }
 
 export interface UIActions {
   // Mode controls
   setViewMode: (mode: ViewMode) => void;
   toggleViewMode: () => void;
+
+  // 3D Viewmodel Hand Controls
+  grabCartridge: (projectId: string) => void;
+  returnCartridge: () => void;
+  onReturnFinished: () => void;
 
   // Project Drawer controls
   openProject: (projectId: string) => void;
@@ -110,6 +120,10 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [isProjectDrawerOpen, setIsProjectDrawerOpen] = useState(false);
 
+  // 3D Viewmodel held cartridge state
+  const [heldProjectId, setHeldProjectId] = useState<string | null>(null);
+  const [returningProjectId, setReturningProjectId] = useState<string | null>(null);
+
   // Selected skill modal state
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
@@ -126,6 +140,10 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const selectedProject = useMemo(() => {
     return selectedProjectId ? getProjectById(selectedProjectId) ?? null : null;
   }, [selectedProjectId]);
+
+  const heldProject = useMemo(() => {
+    return heldProjectId ? getProjectById(heldProjectId) ?? null : null;
+  }, [heldProjectId]);
 
   const selectedSkill = useMemo(() => {
     return selectedSkillId ? getChipById(selectedSkillId) ?? null : null;
@@ -164,16 +182,44 @@ export function UIProvider({ children }: { children: ReactNode }) {
 
   const setViewMode = useCallback((mode: ViewMode) => {
     setViewModeState(mode);
+    if (mode === 'recruiter') {
+      setHeldProjectId(null);
+      setReturningProjectId(null);
+    }
     playHudModeSwitch();
   }, [playHudModeSwitch]);
 
   const toggleViewMode = useCallback(() => {
     setViewModeState((prev) => {
       const next = prev === '3d' ? 'recruiter' : '3d';
+      if (next === 'recruiter') {
+        setHeldProjectId(null);
+        setReturningProjectId(null);
+      }
       playHudModeSwitch();
       return next;
     });
   }, [playHudModeSwitch]);
+
+  const grabCartridge = useCallback((projectId: string) => {
+    setReturningProjectId(null);
+    setHeldProjectId(projectId);
+    setSelectedProjectId(projectId);
+    playBusPulse();
+    playClick();
+  }, [playBusPulse, playClick]);
+
+  const returnCartridge = useCallback(() => {
+    if (heldProjectId) {
+      setReturningProjectId(heldProjectId);
+      setHeldProjectId(null);
+      playClick();
+    }
+  }, [heldProjectId, playClick]);
+
+  const onReturnFinished = useCallback(() => {
+    setReturningProjectId(null);
+  }, []);
 
   const openProject = useCallback((projectId: string) => {
     setSelectedProjectId(projectId);
@@ -253,10 +299,12 @@ export function UIProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' || e.key.toLowerCase() === 'e') {
         if (isProjectDrawerOpen || isSkillModalOpen) {
           closeAllOverlays();
-        } else if (viewMode === 'recruiter') {
+        } else if (heldProjectId) {
+          returnCartridge();
+        } else if (viewMode === 'recruiter' && e.key === 'Escape') {
           // If no modals are open and we are in recruiter view, ESC toggles back to 3D
           setViewMode('3d');
         }
@@ -265,12 +313,15 @@ export function UIProvider({ children }: { children: ReactNode }) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isProjectDrawerOpen, isSkillModalOpen, viewMode, closeAllOverlays, setViewMode]);
+  }, [isProjectDrawerOpen, isSkillModalOpen, heldProjectId, returnCartridge, viewMode, closeAllOverlays, setViewMode]);
 
   const value: UIContextType = {
     viewMode,
     selectedProjectId,
     selectedProject,
+    heldProjectId,
+    heldProject,
+    returningProjectId,
     isProjectDrawerOpen,
     selectedSkillId,
     selectedSkill,
@@ -282,6 +333,9 @@ export function UIProvider({ children }: { children: ReactNode }) {
     isResumeDownloading,
     setViewMode,
     toggleViewMode,
+    grabCartridge,
+    returnCartridge,
+    onReturnFinished,
     openProject,
     closeProject,
     openSkill,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Eye, MousePointerClick, ZoomIn } from 'lucide-react';
 import { useOptionalCrosshair } from './CrosshairInteraction';
+import { useUI } from '../../context';
 
 export interface ReticleOverlayProps {
   isLocked: boolean;
@@ -20,7 +21,18 @@ export const ReticleOverlay: React.FC<ReticleOverlayProps> = ({
   isTouchDevice = false,
 }) => {
   const crosshair = useOptionalCrosshair();
-  const hoverText = propHoverText !== undefined ? propHoverText : crosshair?.hoverPrompt;
+  const { heldProject, isProjectDrawerOpen } = useUI();
+
+  // If hovering an interactable in 3D, show its prompt.
+  // Otherwise, if holding a cartridge in hand, show viewmodel weapon/tool controls.
+  const activePrompt =
+    propHoverText !== undefined
+      ? propHoverText
+      : crosshair?.hoverPrompt ||
+        (heldProject && !isProjectDrawerOpen
+          ? `[LMB] OPEN DOSSIER · [RMB] INSPECT · [E] RETURN`
+          : null);
+  const hoverText = activePrompt;
 
   return (
     <>
@@ -59,7 +71,7 @@ export const ReticleOverlay: React.FC<ReticleOverlayProps> = ({
       </div>
 
       {/* Unlocked Click-to-Engage Prompt (Desktop only) */}
-      {!isLocked && !isTouchDevice && (
+      {!isLocked && !isTouchDevice && !heldProject && (
         <div
           onClick={onRequestLock}
           className="fixed bottom-12 left-1/2 -translate-x-1/2 z-20 cursor-pointer pointer-events-auto group"

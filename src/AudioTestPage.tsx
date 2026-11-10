@@ -6,7 +6,6 @@
 
 import { useState, useCallback, useRef } from 'react';
 import { AudioProvider, useAudio } from './audio/useAudio';
-import { startAmbientHum, stopAmbientHum, startAudioContext } from './audio/soundEngine';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -301,14 +300,6 @@ function StressTest({ audio }: { audio: ReturnType<typeof useAudio> }) {
 
 function TestPanel() {
   const audio = useAudio();
-  const [ambientOn, setAmbientOn] = useState(false);
-
-  const toggleAmbient = () => {
-    startAudioContext().then(() => {
-      if (ambientOn) { stopAmbientHum(); setAmbientOn(false); }
-      else { startAmbientHum(); setAmbientOn(true); }
-    });
-  };
 
   const categories = ['ui', 'hardware', 'robot', 'camera'] as const;
   const catLabels: Record<string, string> = {
@@ -361,15 +352,15 @@ function TestPanel() {
 
             {/* Ambient toggle */}
             <button
-              onClick={toggleAmbient}
+              onClick={audio.toggleAmbient}
               className={`
                 px-3 py-1.5 rounded text-xs border font-bold transition-all
-                ${ambientOn
+                ${audio.ambientOn
                   ? 'bg-violet-900/50 border-violet-500/60 text-violet-300'
                   : 'bg-slate-800 border-slate-600 text-slate-400 hover:border-slate-400'}
               `}
             >
-              {ambientOn ? '〰 AMBIENT ON' : '〰 AMBIENT OFF'}
+              {audio.ambientOn ? '〰 AMBIENT ON' : '〰 AMBIENT OFF'}
             </button>
 
             {/* Stress test */}

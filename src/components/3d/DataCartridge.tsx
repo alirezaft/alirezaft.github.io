@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useGLTF, Text } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
@@ -47,14 +47,12 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   scale = 1,
-  selected = false,
   interactive = true,
   onClick,
   onHover,
-}) => {
+}: DataCartridgeProps) => {
   const groupRef = useRef<THREE.Group>(null);
   const accentMeshRef = useRef<THREE.Mesh | null>(null);
-  const [hovered, setHovered] = useState(false);
   const audio = useAudio();
 
   // 1. Resolve content metadata
@@ -147,17 +145,46 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
     return clone;
   }, [gltf.scene, finalAccent, labelTexture]);
 
+  // Crosshair-driven FPS interaction hook with single-source-of-truth isHovered
+  const { isHovered } = useCrosshairInteractable({
+    id: project?.id || finalTitle,
+    ref: groupRef,
+    prompt: `GRAB // ${finalTitle}`,
+    onInteract: () => {
+      audio.playClick();
+      audio.playBusPulse();
+      onClick?.();
+    },
+    onHoverStart: () => {
+      onHover?.(true);
+    },
+    onHoverEnd: () => {
+      onHover?.(false);
+    },
+    enabled: interactive,
+  });
+
   // 5. Smooth hover / lift animation & slight emissive accentuation
   const currentLift = useRef(0);
   useFrame((_, delta) => {
     if (!groupRef.current) return;
-    const targetLift = hovered ? 0.028 : selected ? 0.045 : 0;
+
+    // Safety: Clamp delta to 0.05 to avoid mathematical explosions when returning from background tabs
+    const safeDelta = Math.min(delta, 0.05);
+
+    // Only lift when actively focused by the center crosshair
+    const targetLift = isHovered ? 0.028 : 0;
     currentLift.current = THREE.MathUtils.damp(
       currentLift.current,
       targetLift,
       12,
-      delta
+      safeDelta
     );
+
+    // Snap to exact 0 to prevent lingering micro-floating drift
+    if (!isHovered && currentLift.current < 0.0004) {
+      currentLift.current = 0;
+    }
 
     // Nudge upward and slightly forward in local space
     groupRef.current.position.y = position[1] + currentLift.current;
@@ -167,30 +194,9 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
     if (accentMeshRef.current) {
       const mat = accentMeshRef.current.material as THREE.MeshStandardMaterial;
       if (mat) {
-        mat.emissiveIntensity = hovered ? 1.15 : 0.65;
+        mat.emissiveIntensity = isHovered ? 1.15 : 0.65;
       }
     }
-  });
-
-  // Crosshair-driven FPS interaction hook
-  useCrosshairInteractable({
-    id: project?.id || finalTitle,
-    ref: groupRef,
-    prompt: `LOAD // ${finalTitle}`,
-    onInteract: () => {
-      audio.playClick();
-      audio.playBusPulse();
-      onClick?.();
-    },
-    onHoverStart: () => {
-      setHovered(true);
-      onHover?.(true);
-    },
-    onHoverEnd: () => {
-      setHovered(false);
-      onHover?.(false);
-    },
-    enabled: interactive,
   });
 
   return (

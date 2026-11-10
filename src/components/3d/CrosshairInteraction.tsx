@@ -10,6 +10,7 @@ import React, {
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useAudio } from '../../audio';
+import { useUI } from '../../context';
 
 export interface InteractableConfig {
   id: string;
@@ -52,6 +53,7 @@ export const useCrosshair = () => {
 
 /**
  * Hook for any 3D prop/object to register itself for center-crosshair targeting & interaction.
+ * Returns { isHovered } as a single source of truth derived directly from active crosshair focus.
  */
 export function useCrosshairInteractable(config: {
   id: string;
@@ -62,8 +64,8 @@ export function useCrosshairInteractable(config: {
   onHoverEnd?: () => void;
   maxDistance?: number;
   enabled?: boolean;
-}) {
-  const { registerInteractable, unregisterInteractable } = useCrosshair();
+}): { isHovered: boolean } {
+  const { registerInteractable, unregisterInteractable, activeId } = useCrosshair();
   const configRef = useRef(config);
   configRef.current = config;
 
@@ -93,6 +95,9 @@ export function useCrosshairInteractable(config: {
       unregisterInteractable(config.id);
     };
   }, [config.id, config.ref, config.enabled, registerInteractable, unregisterInteractable]);
+
+  const isHovered = activeId === config.id && config.enabled !== false;
+  return { isHovered };
 }
 
 /**
@@ -109,7 +114,11 @@ export const CrosshairProvider: React.FC<{ children: ReactNode }> = ({ children 
   }, []);
 
   const unregisterInteractable = useCallback((id: string) => {
-    registry.current.delete(id);
+    const item = registry.current.get(id);
+    if (item) {
+      item.onHoverEnd?.();
+      registry.current.delete(id);
+    }
     setActiveId((prev) => (prev === id ? null : prev));
     setHoverPrompt((prev) => {
       // If the unregistering item was currently active, clear prompt
@@ -142,16 +151,23 @@ interface InternalContextValue {
 
 const CrosshairInternalContext = createContext<InternalContextValue | null>(null);
 
+export interface CrosshairRaycasterProps {
+  onEmptyClick?: () => void;
+}
+
 /**
  * CrosshairRaycaster:
  * Sits inside the R3F <Canvas>.
  * Every frame, casts a ray from the EXACT center of the camera viewport (0, 0 in NDC).
  * Targets interactable objects, updates hover prompts, and triggers interaction on click.
  */
-export const CrosshairRaycaster: React.FC = () => {
+export const CrosshairRaycaster: React.FC<CrosshairRaycasterProps> = ({ onEmptyClick }) => {
   const { camera, gl } = useThree();
   const internal = useContext(CrosshairInternalContext);
   const audio = useAudio();
+  const { isProjectDrawerOpen } = useUI();
+  const onEmptyClickRef = useRef(onEmptyClick);
+  onEmptyClickRef.current = onEmptyClick;
 
   const raycaster = useRef(new THREE.Raycaster());
   const centerNDC = useRef(new THREE.Vector2(0, 0)); // Screen center (0, 0)
@@ -163,10 +179,60 @@ export const CrosshairRaycaster: React.FC = () => {
     raycaster.current.far = 4.0;
   }, []);
 
+  // Centralized focus clearing helper
+  const clearFocus = useCallback(() => {
+    if (currentFocusedId.current !== null && internal) {
+      const prev = internal.registry.current.get(currentFocusedId.current);
+      prev?.onHoverEnd?.();
+      currentFocusedId.current = null;
+      audioPlayedForId.current = null;
+      internal.setHoverPrompt(null);
+      internal.setActiveId(null);
+    }
+  }, [internal]);
+
+  // Window blur & visibility listeners to immediately clear hover when switching windows/tabs
+  useEffect(() => {
+    const handleBlur = () => {
+      clearFocus();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        clearFocus();
+      }
+    };
+
+    const handlePointerLockChange = () => {
+      // If pointer lock was lost, clear crosshair hover state
+      if (document.pointerLockElement !== gl.domElement) {
+        clearFocus();
+      }
+    };
+
+    window.addEventListener('blur', handleBlur);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('pointerlockchange', handlePointerLockChange);
+
+    return () => {
+      window.removeEventListener('blur', handleBlur);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener('pointerlockchange', handlePointerLockChange);
+    };
+  }, [clearFocus, gl.domElement]);
+
   // Frame Loop: Continuous center-screen raycasting
   useFrame(() => {
     if (!internal) return;
     const { registry, setHoverPrompt, setActiveId } = internal;
+
+    // Safety: If drawer is open, or tab is hidden, suspend raycasting & clear focus
+    if (isProjectDrawerOpen || document.hidden) {
+      if (currentFocusedId.current !== null) {
+        clearFocus();
+      }
+      return;
+    }
 
     raycaster.current.setFromCamera(centerNDC.current, camera);
 
@@ -177,12 +243,7 @@ export const CrosshairRaycaster: React.FC = () => {
 
     if (interactables.length === 0) {
       if (currentFocusedId.current !== null) {
-        const prev = registry.current.get(currentFocusedId.current);
-        prev?.onHoverEnd?.();
-        currentFocusedId.current = null;
-        audioPlayedForId.current = null;
-        setHoverPrompt(null);
-        setActiveId(null);
+        clearFocus();
       }
       return;
     }
@@ -262,8 +323,10 @@ export const CrosshairRaycaster: React.FC = () => {
         const item = internal.registry.current.get(focusedId);
         if (item) {
           item.onInteract();
+          return;
         }
       }
+      onEmptyClickRef.current?.();
     };
 
     // Attach to canvas DOM element

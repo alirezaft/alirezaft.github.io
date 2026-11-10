@@ -7,8 +7,7 @@ import { useUI } from '../../context';
 export interface CartridgeRackProps {
   /**
    * Base position [x, y, z] of the rack on the desk.
-   * Desk tabletop is at y = 0.76, desk center z = 0.8.
-   * Default position [-0.62, 0.76, 0.86] places it prominently on the left side of the desk.
+   * Default position [-0.62, 0.76, 0.86] places it on the desk tabletop.
    */
   position?: [number, number, number];
   /**
@@ -22,7 +21,7 @@ export interface CartridgeRackProps {
  * CartridgeRack:
  * High-visibility 4-Tier tactical workstation cartridge shelf sitting directly
  * on the cyber desk tabletop.
- * Houses the 9 portfolio data cartridges organized by row and category color.
+ * Features subtle, eye-comfortable ambient lighting and clear top-mounted category headers.
  */
 export const CartridgeRack: React.FC<CartridgeRackProps> = ({
   position = [-0.62, 0.76, 0.86],
@@ -34,69 +33,91 @@ export const CartridgeRack: React.FC<CartridgeRackProps> = ({
   const tierConfig = [
     { row: 1, y: 0.02, z: 0.11, color: '#ff007f', title: 'COMMERCIAL GAMES' },
     { row: 2, y: 0.06, z: 0.035, color: '#00f3ff', title: 'VR // APPLICATIONS' },
-    { row: 3, y: 0.10, z: -0.04, color: '#00ff66', title: 'OPEN SOURCE LABS' },
-    { row: 4, y: 0.14, z: -0.115, color: '#ffb700', title: 'UNITY TOOLS & PIPELINE' },
+    { row: 3, y: 0.10, z: -0.04, color: '#00ff66', title: 'OPEN SOURCE' },
+    { row: 4, y: 0.14, z: -0.115, color: '#ffb700', title: 'DEV TOOLS' },
   ];
 
   return (
     <group position={position} rotation={rotation}>
       {/* =================================================================== */}
-      {/* Local Downlight to ensure brilliant visibility of all cartridges   */}
+      {/* Gentle, Subtle Desk Accent Fill (Soft low-power lighting, no glare) */}
       {/* =================================================================== */}
       <pointLight
-        position={[0, 0.45, 0.05]}
-        color="#ffffff"
-        intensity={14}
-        distance={1.6}
+        position={[0, 0.38, 0.05]}
+        color="#e2e8f0"
+        intensity={1.0}
+        distance={1.4}
         decay={2}
       />
 
       {/* =================================================================== */}
-      {/* 1. INDUSTRIAL RACK CHASSIS (Resting firmly on desk surface y = 0)   */}
+      {/* 1. INDUSTRIAL RACK CHASSIS (Resting on desk surface y = 0)          */}
       {/* =================================================================== */}
       {/* Main Base Plate */}
       <Box args={[0.38, 0.02, 0.36]} position={[0, 0.01, 0]}>
         <meshStandardMaterial
-          color="#0c0f16"
-          roughness={0.4}
-          metalness={0.85}
-        />
-      </Box>
-
-      {/* Heavy-Duty Chamfered Side Endplates */}
-      {[-0.195, 0.195].map((xOffset, idx) => (
-        <group key={`side-plate-${idx}`} position={[xOffset, 0.09, 0]}>
-          <Box args={[0.014, 0.18, 0.38]}>
-            <meshStandardMaterial
-              color="#090c12"
-              roughness={0.3}
-              metalness={0.9}
-            />
-          </Box>
-          {/* Vertical Cyan Accent Light Pipe along the side edge */}
-          <mesh position={[xOffset > 0 ? 0.008 : -0.008, 0, 0.185]}>
-            <boxGeometry args={[0.004, 0.16, 0.004]} />
-            <meshStandardMaterial
-              color="#00f3ff"
-              emissive="#00f3ff"
-              emissiveIntensity={2.5}
-              toneMapped={false}
-            />
-          </mesh>
-        </group>
-      ))}
-
-      {/* Rear Bracing Backplane */}
-      <Box args={[0.38, 0.18, 0.012]} position={[0, 0.09, -0.185]}>
-        <meshStandardMaterial
-          color="#0a0d14"
+          color="#0d1017"
           roughness={0.5}
           metalness={0.8}
         />
       </Box>
 
+      {/* Heavy-Duty Chamfered Side Endplates */}
+      {[-0.195, 0.195].map((xOffset, idx) => (
+        <group key={`side-plate-${idx}`} position={[xOffset, 0.095, 0]}>
+          <Box args={[0.014, 0.19, 0.38]}>
+            <meshStandardMaterial
+              color="#0a0c12"
+              roughness={0.4}
+              metalness={0.85}
+            />
+          </Box>
+        </group>
+      ))}
+
+      {/* Rear Bracing Backplane */}
+      <Box args={[0.38, 0.19, 0.012]} position={[0, 0.095, -0.185]}>
+        <meshStandardMaterial
+          color="#0b0e16"
+          roughness={0.5}
+          metalness={0.75}
+        />
+      </Box>
+
+      {/* Top Header Marquee Bar */}
+      <group position={[0, 0.198, -0.185]}>
+        <Box args={[0.38, 0.022, 0.014]}>
+          <meshStandardMaterial
+            color="#141824"
+            roughness={0.35}
+            metalness={0.85}
+          />
+        </Box>
+        {/* Subtle Top Header Glow Runner */}
+        <mesh position={[0, 0.012, 0.005]}>
+          <boxGeometry args={[0.36, 0.002, 0.004]} />
+          <meshStandardMaterial
+            color="#00f3ff"
+            emissive="#00f3ff"
+            emissiveIntensity={0.5}
+          />
+        </mesh>
+        {/* Prominent Rack Title at the Top */}
+        <Text
+          font="/fonts/JetBrainsMono-Bold.woff"
+          position={[0, 0, 0.009]}
+          fontSize={0.0105}
+          color="#00f3ff"
+          anchorX="center"
+          anchorY="middle"
+          letterSpacing={0.06}
+        >
+          MEDIA ARCHIVE // 4-TIER CARTRIDGE BAY
+        </Text>
+      </group>
+
       {/* =================================================================== */}
-      {/* 2. STEPPED TIERS WITH NEON CATEGORY LIGHT RUNNERS                   */}
+      {/* 2. STEPPED TIERS WITH SUBTLE RUNNERS & ELEVATED CATEGORY LABELS     */}
       {/* =================================================================== */}
       {tierConfig.map((tier) => (
         <group key={`tier-step-${tier.row}`} position={[0, tier.y, tier.z]}>
@@ -104,33 +125,20 @@ export const CartridgeRack: React.FC<CartridgeRackProps> = ({
           <Box args={[0.36, 0.018, 0.075]}>
             <meshStandardMaterial
               color="#131722"
-              roughness={0.35}
-              metalness={0.85}
+              roughness={0.45}
+              metalness={0.75}
             />
           </Box>
 
-          {/* Glowing Front Edge Neon Category Strip */}
+          {/* Gentle, Restrained Category Glow Runner */}
           <mesh position={[0, 0.009, 0.038]}>
-            <boxGeometry args={[0.35, 0.004, 0.004]} />
+            <boxGeometry args={[0.35, 0.003, 0.003]} />
             <meshStandardMaterial
               color={tier.color}
               emissive={tier.color}
-              emissiveIntensity={3.0}
-              toneMapped={false}
+              emissiveIntensity={0.55} // Soft and subtle
             />
           </mesh>
-
-          {/* Category Text Label on Front Face of Step */}
-          <Text
-            position={[-0.17, -0.004, 0.041]}
-            fontSize={0.011}
-            color={tier.color}
-            anchorX="left"
-            anchorY="middle"
-            letterSpacing={0.05}
-          >
-            {`ROW ${tier.row} // ${tier.title}`}
-          </Text>
         </group>
       ))}
 
@@ -161,7 +169,7 @@ export const CartridgeRack: React.FC<CartridgeRackProps> = ({
             key={project.id}
             project={project}
             position={[xPos, tier.y + 0.01, tier.z]}
-            // Tilted back 15 degrees so faceplate and holographic label look straight into seated camera
+            // Tilted back 15 degrees so the top spine and faceplate are legible
             rotation={[-0.26, 0, 0]}
             scale={1.05}
             selected={isSelected}

@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { useGLTF } from '@react-three/drei';
+import { useGLTF, Text } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import type { Project } from '../../content/projects/types';
 import { SHELF_CATEGORIES } from '../../content/projects/categories';
@@ -35,7 +35,8 @@ export interface DataCartridgeProps {
 /**
  * DataCartridge:
  * Tactical cyberpunk data cartridge with dynamic category coloring,
- * glowing acrylic light guide, and dynamic canvas holographic project label.
+ * subtle eye-comfort acrylic underglow, and high-visibility 3D typography directly
+ * on the top spine and front faceplate.
  */
 export const DataCartridge: React.FC<DataCartridgeProps> = ({
   project,
@@ -73,7 +74,7 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
   // 2. Load base GLB (contains SM_DataCartridge Group with 4 child meshes)
   const gltf = useGLTF('/assets/cartridge.glb');
 
-  // 3. Dynamic procedural label sticker texture
+  // 3. Dynamic procedural label sticker texture (background foil)
   const labelTexture = useMemo(() => {
     return createCartridgeLabelTexture(
       finalTitle,
@@ -84,41 +85,42 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
     );
   }, [finalTitle, categoryName, finalAccent, finalGenre, finalYear]);
 
-  // 4. Clone and configure the cartridge hierarchy with per-instance materials
+  // 4. Clone and configure the cartridge hierarchy with subtle, eye-friendly materials
   const clonedObject = useMemo(() => {
-    // Deep clone the root node
     const clone = gltf.scene.clone(true);
 
-    // Create unique materials for this instance
+    // Matte anthracite shell
     const shellMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color('#12151c'),
-      roughness: 0.45,
-      metalness: 0.12,
+      color: new THREE.Color('#141720'),
+      roughness: 0.55,
+      metalness: 0.15,
     });
 
+    // Subtle, gentle acrylic accent glow (restrained emission for zero eye strain)
     const accentMat = new THREE.MeshStandardMaterial({
       color: new THREE.Color(finalAccent),
       emissive: new THREE.Color(finalAccent),
-      emissiveIntensity: 3.2,
-      roughness: 0.15,
-      metalness: 0.05,
-      toneMapped: false,
+      emissiveIntensity: 0.65, // Gentle, slight glow
+      roughness: 0.25,
+      metalness: 0.1,
     });
 
+    // Label backing plate
     const labelMat = new THREE.MeshStandardMaterial({
       color: new THREE.Color('#ffffff'),
       map: labelTexture,
-      roughness: 0.28,
-      metalness: 0.2,
+      roughness: 0.35,
+      metalness: 0.1,
     });
 
+    // Gold contacts
     const contactsMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color('#eab308'),
-      roughness: 0.22,
-      metalness: 0.95,
+      color: new THREE.Color('#d97706'),
+      roughness: 0.28,
+      metalness: 0.9,
     });
 
-    // Traverse and assign materials to child meshes based on their original material names
+    // Traverse and assign materials
     clone.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
@@ -144,11 +146,11 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
     return clone;
   }, [gltf.scene, finalAccent, labelTexture]);
 
-  // 5. Smooth hover / lift animation
+  // 5. Smooth hover / lift animation & slight emissive accentuation
   const currentLift = useRef(0);
   useFrame((_, delta) => {
     if (!groupRef.current) return;
-    const targetLift = hovered ? 0.03 : selected ? 0.045 : 0;
+    const targetLift = hovered ? 0.028 : selected ? 0.045 : 0;
     currentLift.current = THREE.MathUtils.damp(
       currentLift.current,
       targetLift,
@@ -160,11 +162,11 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
     groupRef.current.position.y = position[1] + currentLift.current;
     groupRef.current.position.z = position[2] + currentLift.current * 0.4;
 
-    // Pulse emissive light on hover
+    // Subtle emissive modulation on hover (gentle pulse, no glare)
     if (accentMeshRef.current) {
       const mat = accentMeshRef.current.material as THREE.MeshStandardMaterial;
       if (mat) {
-        mat.emissiveIntensity = hovered ? 5.0 : 3.2;
+        mat.emissiveIntensity = hovered ? 1.15 : 0.65;
       }
     }
   });
@@ -203,7 +205,30 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
       onPointerOut={handlePointerOut}
       onClick={handleClick}
     >
+      {/* 3D Cartridge Model */}
       <primitive object={clonedObject} />
+
+      {/* =================================================================== */}
+      {/* SINGLE PROJECT TITLE ON THE CARTRIDGE FACEPLATE                     */}
+      {/* Scaled & positioned to fit cleanly inside the label display window  */}
+      {/* Uses UI-matched JetBrains Mono typography                           */}
+      {/* =================================================================== */}
+      <Text
+        font="/fonts/JetBrainsMono-Bold.woff"
+        position={[0, 0.056, 0.0074]}
+        fontSize={0.0054}
+        color="#f8fafc"
+        anchorX="center"
+        anchorY="middle"
+        maxWidth={0.046}
+        textAlign="center"
+        lineHeight={1.2}
+        letterSpacing={0.02}
+        outlineWidth={0.0004}
+        outlineColor="#060810"
+      >
+        {finalTitle.toUpperCase()}
+      </Text>
     </group>
   );
 };

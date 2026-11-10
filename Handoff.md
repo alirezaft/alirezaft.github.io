@@ -293,6 +293,21 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
     * Whole cartridge is transferred to player with nothing left behind on the shelf slot; returns seamlessly upon release.
     * Left-Click opens dossier; `[E]`/`[Esc]` returns cartridge to shelf; pointer lock auto-exits on drawer open.
     * Verified production build with `npm run build` (Exit code 0).
+  - **Step 4.4: Integrated Procedural CRT Workstation & Computer Chassis [COMPLETED]:**
+    * Designed and implemented unified procedural `CrtWorkstation.tsx` in `src/components/3d/`:
+      - **Horizontal Desktop Computer Chassis:** 90s industrial form factor resting directly on the desk surface at `y = 0.76m` (width 0.54m, height 0.13m, depth 0.44m) in matte dark obsidian-black polymer/anodized aluminum.
+      - **Drive 0 Cartridge Slot:** Front aperture lined with glowing cyan internal guide rails (`#00f3ff`), rear gold contact bus pins, drive activity LED, and reticle crosshair integration.
+      - **Mechanical EJECT Button:** Tactile round plunger button with illuminated amber status ring (`#ffb700`) and audio click trigger that returns the held cartridge to the shelf.
+      - **Metal-Shielded Cyber USB-A Port:** Exposed gold pin prongs and silkscreen label `BUS A // USB`.
+      - **Diagnostic Telemetry LEDs:** Surface-mount `PWR` (Green `#00ff66`), `READ` (Cyan `#00f3ff`, dynamic read pulse when project is mounted), and `BUS` (Amber `#ffb700`).
+      - **Swivel Riser Pedestal:** Connects the chassis top (`y = 0.89m`) to the monitor base (`y = 0.925m`).
+      - **Curved CRT Monitor Housing:** Tapered bell housing with heat dissipation louvers, beveled front bezel, rotary brightness/contrast dials, and green phosphor power LED. Tilted upward by ~4.6° (`-0.08 rad`) to face the seated player's camera at eye level (`y = 1.15m`).
+    * Implemented vector-sharp `<Html transform>` `CrtScreen.tsx`:
+      - CRT horizontal scanlines, barrel vignette, and phosphor bloom overlay.
+      - **Mode A (Idle Boot CLI):** Displays ASCII system banner, 64MB memory test, kernel telemetry, uptime ticker, and interactive task guidance.
+      - **Mode B (Mounted Dossier):** Zero-content-drift data binding to `heldProject` from `src/content/projects/`, showing category badge, impact metrics (e.g. 50M+ downloads), technical highlights, embedded looping video/GIF media carousel, and `[OPEN FULL DOSSIER]` action trigger.
+    * Verified production build with `npm run build` (Exit code 0).
+
 
 ---
 
@@ -438,9 +453,9 @@ c:\Projects\Personal\alirezaft.github.io\
      * yte.glb (Pet companion robot with body, runner pads, and articulated neck node for reticle tracking)
      * probe.glb (Knurled logic probe with needle tip and cable strain relief)
      * usb.glb (Encrypted cyber USB key with lanyard loop and metal plug)
-4. **Step 4.4: Interactive CRT Monitor Screen (<Html transform>):**
-   - Implement CrtMonitor.tsx with curved retro housing, Boot Terminal default CLI state (CYBER-DECK KERNEL v4.2 // AWAITING MEDIA), native wheel scrolling, and zero-drift project tech spec rendering matching Recruiter Quick View.
-5. **Step 4.5: Cartridge Physics & USB Resume Decryption:**
+4. **Step 4.4: Interactive CRT Workstation & Computer Chassis [COMPLETED]:**
+   - Implemented CrtWorkstation.tsx (horizontal chassis, cartridge slot, USB port, eject button, LEDs) and CrtScreen.tsx (<Html transform> boot terminal CLI + dynamic project dossier).
+5. **Step 4.5: Cartridge Physics & USB Resume Decryption [NEXT]:**
    - Implement CartridgeRack.tsx, ComputerDeck.tsx, and UsbKey.tsx with Left-Click lerp grab, magnetic drive snapping, mechanical eject button, and auto-downloading Alireza_Forghani_Toosi_Resume.pdf.
 6. **Step 4.6: PCB Motherboard & Multimeter Logic Probe Tool:**
    - Implement CircuitTestBench.tsx and MultimeterProbe.tsx with spark SFX, bus pulses, and CRT telemetry sync.

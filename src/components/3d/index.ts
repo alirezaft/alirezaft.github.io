@@ -10,4 +10,6 @@ export * from './CartridgeRack';
 export * from './CrosshairInteraction';
 export * from './cartridgeSlotHelper';
 export * from './CartridgeViewmodel';
+export * from './CrtScreen';
+export * from './CrtWorkstation';
 

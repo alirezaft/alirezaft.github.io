@@ -14,6 +14,7 @@ import {
   CartridgeViewmodel,
   CrosshairProvider,
   CrosshairRaycaster,
+  CrtWorkstation,
 } from './components/3d';
 import { useUI } from './context';
 import { useAudio } from './audio';
@@ -178,6 +179,9 @@ export default function App() {
 
           {/* Seated Cyberpunk Workstation Desk */}
           <CyberDesk />
+
+          {/* Retro-Futuristic CRT Workstation (Horizontal Chassis + CRT Monitor + Screen) */}
+          <CrtWorkstation position={[0, 0.76, 0.65]} rotation={[0, 0, 0]} />
 
           {/* 4-Tier Interactive Project Cartridges Rack (Resting on Desk Tabletop) */}
           <CartridgeRack position={[-0.62, 0.76, 0.86]} rotation={[0, 0.48, 0]} />

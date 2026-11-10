@@ -1,5 +1,6 @@
 import React from 'react';
 import { Eye, MousePointerClick, ZoomIn } from 'lucide-react';
+import { useOptionalCrosshair } from './CrosshairInteraction';
 
 export interface ReticleOverlayProps {
   isLocked: boolean;
@@ -13,11 +14,14 @@ export interface ReticleOverlayProps {
 export const ReticleOverlay: React.FC<ReticleOverlayProps> = ({
   isLocked,
   isZooming,
-  hoverText,
+  hoverText: propHoverText,
   onRequestLock,
   onToggleZoom,
   isTouchDevice = false,
 }) => {
+  const crosshair = useOptionalCrosshair();
+  const hoverText = propHoverText !== undefined ? propHoverText : crosshair?.hoverPrompt;
+
   return (
     <>
       {/* Center Reticle (Always active during 3D session) */}

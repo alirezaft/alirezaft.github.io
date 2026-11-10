@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text } from '@react-three/drei';
+import { Box } from '@react-three/drei';
 import { ALL_PROJECTS } from '../../content/projects';
 import { DataCartridge } from './DataCartridge';
 import { useUI } from '../../context';
@@ -102,18 +102,6 @@ export const CartridgeRack: React.FC<CartridgeRackProps> = ({
             emissiveIntensity={0.5}
           />
         </mesh>
-        {/* Prominent Rack Title at the Top */}
-        <Text
-          font="/fonts/JetBrainsMono-Bold.woff"
-          position={[0, 0, 0.009]}
-          fontSize={0.0105}
-          color="#00f3ff"
-          anchorX="center"
-          anchorY="middle"
-          letterSpacing={0.06}
-        >
-          MEDIA ARCHIVE // 4-TIER CARTRIDGE BAY
-        </Text>
       </group>
 
       {/* =================================================================== */}

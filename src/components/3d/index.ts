@@ -7,3 +7,5 @@ export * from './cyberTextures';
 export * from './cartridgeLabelTexture';
 export * from './DataCartridge';
 export * from './CartridgeRack';
+export * from './CrosshairInteraction';
+

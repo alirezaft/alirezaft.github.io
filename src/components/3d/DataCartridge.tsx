@@ -6,6 +6,7 @@ import type { Project } from '../../content/projects/types';
 import { SHELF_CATEGORIES } from '../../content/projects/categories';
 import { createCartridgeLabelTexture } from './cartridgeLabelTexture';
 import { useAudio } from '../../audio';
+import { useCrosshairInteractable } from './CrosshairInteraction';
 
 export interface DataCartridgeProps {
   /** Optional project object from content architecture */
@@ -171,29 +172,26 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
     }
   });
 
-  const handlePointerOver = (e: { stopPropagation: () => void }) => {
-    if (!interactive) return;
-    e.stopPropagation();
-    setHovered(true);
-    onHover?.(true);
-    audio.playHover();
-    document.body.style.cursor = 'pointer';
-  };
-
-  const handlePointerOut = () => {
-    if (!interactive) return;
-    setHovered(false);
-    onHover?.(false);
-    document.body.style.cursor = 'auto';
-  };
-
-  const handleClick = (e: { stopPropagation: () => void }) => {
-    if (!interactive) return;
-    e.stopPropagation();
-    audio.playClick();
-    audio.playBusPulse();
-    onClick?.();
-  };
+  // Crosshair-driven FPS interaction hook
+  useCrosshairInteractable({
+    id: project?.id || finalTitle,
+    ref: groupRef,
+    prompt: `LOAD // ${finalTitle}`,
+    onInteract: () => {
+      audio.playClick();
+      audio.playBusPulse();
+      onClick?.();
+    },
+    onHoverStart: () => {
+      setHovered(true);
+      onHover?.(true);
+    },
+    onHoverEnd: () => {
+      setHovered(false);
+      onHover?.(false);
+    },
+    enabled: interactive,
+  });
 
   return (
     <group
@@ -201,9 +199,6 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
       position={position}
       rotation={rotation}
       scale={scale}
-      onPointerOver={handlePointerOver}
-      onPointerOut={handlePointerOut}
-      onClick={handleClick}
     >
       {/* 3D Cartridge Model */}
       <primitive object={clonedObject} />

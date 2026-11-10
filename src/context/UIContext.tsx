@@ -180,6 +180,9 @@ export function UIProvider({ children }: { children: ReactNode }) {
     setIsProjectDrawerOpen(true);
     // Auto-close skill modal if open
     setIsSkillModalOpen(false);
+    if (document.pointerLockElement) {
+      document.exitPointerLock();
+    }
     playClick();
   }, [playClick]);
 

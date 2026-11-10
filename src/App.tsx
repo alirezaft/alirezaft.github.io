@@ -11,6 +11,8 @@ import {
   CyberLighting,
   CyberPostProcessing,
   CartridgeRack,
+  CrosshairProvider,
+  CrosshairRaycaster,
 } from './components/3d';
 import { useUI } from './context';
 import DevPerfMonitor from './components/dev/DevPerfMonitor';
@@ -30,7 +32,6 @@ export default function App() {
   const { viewMode } = useUI();
   const [isLocked, setIsLocked] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
-  const [hoverPrompt] = useState<string | null>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
 
@@ -55,60 +56,63 @@ export default function App() {
   if (IS_AUDIO_TEST) return <AudioTestPage />;
 
   return (
-    <div className="relative w-full h-screen bg-[#050811] overflow-hidden select-none">
-      {/* Sleek Top Cyber HUD (Mode Switcher & Media Audio Controller) */}
-      <Hud />
+    <CrosshairProvider>
+      <div className="relative w-full h-screen bg-[#050811] overflow-hidden select-none">
+        {/* Sleek Top Cyber HUD (Mode Switcher & Media Audio Controller) */}
+        <Hud />
 
-      {/* Recruiter Quick-View Grid Mode */}
-      {viewMode === 'recruiter' && <RecruiterGrid />}
+        {/* Recruiter Quick-View Grid Mode */}
+        {viewMode === 'recruiter' && <RecruiterGrid />}
 
-      {/* Slide-out Technical Case Study Drawer (shared across 3D & 2D) */}
-      <ProjectDrawer />
+        {/* Slide-out Technical Case Study Drawer (shared across 3D & 2D) */}
+        <ProjectDrawer />
 
-      {/* 3D Reticle & Overlay (Visible in 3D ViewMode) */}
-      {viewMode === '3d' && (
-        <ReticleOverlay
-          isLocked={isLocked}
-          isZooming={isZooming}
-          hoverText={hoverPrompt}
-          onRequestLock={handleRequestLock}
-          onToggleZoom={handleToggleZoom}
-          isTouchDevice={isTouchDevice}
-        />
-      )}
-
-      {/* 3D Scene Viewport — hidden (not unmounted) when in recruiter mode to halt the render loop */}
-      <div
-        ref={canvasContainerRef}
-        onClick={handleRequestLock}
-        className={`w-full h-full cursor-crosshair ${
-          viewMode === 'recruiter' ? 'invisible' : ''
-        }`}
-      >
-        <Canvas
-          dpr={[1, 1.5]}
-          camera={{ position: [0, 1.55, 2.1], fov: 45 }}
-          frameloop={viewMode === 'recruiter' ? 'never' : 'always'}
-          gl={{
-            antialias: true,
-            alpha: false,
-            powerPreference: 'high-performance',
-          }}
-        >
-          <color attach="background" args={['#050811']} />
-
-          {/* First-Person Seated Camera Controller */}
-          <DeskCameraControls
-            basePosition={[0, 1.55, 2.1]}
-            normalFov={45}
-            zoomFov={22}
-            zoomNudgeDistance={0.35}
-            onLockChange={setIsLocked}
-            onZoomChange={setIsZooming}
+        {/* 3D Reticle & Overlay (Visible in 3D ViewMode) */}
+        {viewMode === '3d' && (
+          <ReticleOverlay
+            isLocked={isLocked}
+            isZooming={isZooming}
+            onRequestLock={handleRequestLock}
+            onToggleZoom={handleToggleZoom}
+            isTouchDevice={isTouchDevice}
           />
+        )}
 
-          {/* 3-Point Cyber Lighting Rig & Ground Contact Shadows */}
-          <CyberLighting />
+        {/* 3D Scene Viewport — hidden (not unmounted) when in recruiter mode to halt the render loop */}
+        <div
+          ref={canvasContainerRef}
+          onClick={handleRequestLock}
+          className={`w-full h-full cursor-crosshair ${
+            viewMode === 'recruiter' ? 'invisible' : ''
+          }`}
+        >
+          <Canvas
+            dpr={[1, 1.5]}
+            camera={{ position: [0, 1.55, 2.1], fov: 45 }}
+            frameloop={viewMode === 'recruiter' ? 'never' : 'always'}
+            gl={{
+              antialias: true,
+              alpha: false,
+              powerPreference: 'high-performance',
+            }}
+          >
+            <color attach="background" args={['#050811']} />
+
+            {/* First-Person Seated Camera Controller */}
+            <DeskCameraControls
+              basePosition={[0, 1.55, 2.1]}
+              normalFov={45}
+              zoomFov={22}
+              zoomNudgeDistance={0.35}
+              onLockChange={setIsLocked}
+              onZoomChange={setIsZooming}
+            />
+
+            {/* FPS Center-Screen Crosshair Raycaster & Targeting */}
+            <CrosshairRaycaster />
+
+            {/* 3-Point Cyber Lighting Rig & Ground Contact Shadows */}
+            <CyberLighting />
 
           {/* Seated Cyberpunk Workstation Desk */}
           <CyberDesk />
@@ -162,5 +166,6 @@ export default function App() {
         </div>
       </footer>
     </div>
-  );
+  </CrosshairProvider>
+);
 }

@@ -36,7 +36,11 @@ export default function App() {
     viewMode,
     heldProject,
     heldProjectId,
+    insertedProject,
+    insertedProjectId,
+    cartridgeDriveState,
     returnCartridge,
+    ejectCartridge,
     openProject,
     isProjectDrawerOpen,
   } = useUI();
@@ -76,12 +80,14 @@ export default function App() {
     setIsZooming((prev) => !prev);
   }, []);
 
-  // When holding a cartridge and left-clicking viewport (not aiming at another shelf item), open dossier
+  // When holding or having slotted a cartridge, clicking viewport opens dossier
   const handleEmptyClick = useCallback(() => {
     if (heldProjectId && !isProjectDrawerOpen) {
       openProject(heldProjectId);
+    } else if (insertedProjectId && !isProjectDrawerOpen) {
+      openProject(insertedProjectId);
     }
-  }, [heldProjectId, isProjectDrawerOpen, openProject]);
+  }, [heldProjectId, insertedProjectId, isProjectDrawerOpen, openProject]);
 
   // Redirect to audio test harness in dev mode
   if (IS_AUDIO_TEST) return <AudioTestPage />;
@@ -121,6 +127,9 @@ export default function App() {
                 HELD // {heldProject.title}
               </span>
             </div>
+            <span className="text-[11px] font-mono text-cyber-cyan/90 hidden sm:inline">
+              AIM AT DRIVE 0 & CLICK TO INSERT
+            </span>
             <button
               onClick={() => openProject(heldProject.id)}
               className="px-3 py-1 bg-cyber-cyan/20 border border-cyber-cyan/60 hover:border-cyber-cyan text-cyber-cyan text-xs font-mono font-bold rounded-full hover:bg-cyber-cyan/30 hover:shadow-[0_0_12px_rgba(0,243,255,0.4)] transition cursor-pointer flex items-center gap-1.5"
@@ -138,11 +147,40 @@ export default function App() {
           </div>
         )}
 
+        {/* First-Person Slotted Cartridge HUD Controls */}
+        {insertedProject && cartridgeDriveState === 'inserted' && viewMode === '3d' && !isProjectDrawerOpen && (
+          <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-30 pointer-events-auto flex items-center gap-3 px-4 py-2 bg-[#080d1a]/95 border border-emerald-400/50 shadow-[0_0_30px_rgba(0,255,102,0.25)] rounded-full backdrop-blur transition-all duration-200">
+            <div className="flex items-center gap-2 pr-3 border-r border-slate-700">
+              <span
+                className="w-2 h-2 rounded-full animate-ping"
+                style={{ backgroundColor: insertedProject.cartridgeVisual?.accentColor || '#00ff66' }}
+              />
+              <span className="font-mono text-xs font-bold text-slate-100 uppercase tracking-wider">
+                MOUNTED // {insertedProject.title}
+              </span>
+            </div>
+            <button
+              onClick={() => openProject(insertedProject.id)}
+              className="px-3 py-1 bg-cyber-cyan/20 border border-cyber-cyan/60 hover:border-cyber-cyan text-cyber-cyan text-xs font-mono font-bold rounded-full hover:bg-cyber-cyan/30 hover:shadow-[0_0_12px_rgba(0,243,255,0.4)] transition cursor-pointer flex items-center gap-1.5"
+            >
+              <span>ACCESS DOSSIER</span>
+              <span className="text-[10px] text-cyber-cyan/80">[LMB]</span>
+            </button>
+            <button
+              onClick={ejectCartridge}
+              className="px-3 py-1 bg-amber-500/20 border border-amber-500/60 hover:border-amber-400 text-amber-400 text-xs font-mono rounded-full hover:bg-amber-500/30 transition cursor-pointer flex items-center gap-1.5"
+            >
+              <span>EJECT DRIVE 0</span>
+              <span className="text-[10px] text-amber-300">[E / ESC]</span>
+            </button>
+          </div>
+        )}
+
         {/* 3D Scene Viewport — hidden (not unmounted) when in recruiter mode to halt the render loop */}
         <div
           ref={canvasContainerRef}
           onClick={handleRequestLock}
-          className={`w-full h-full cursor-crosshair ${
+          className={`relative z-0 isolate w-full h-full cursor-crosshair ${
             viewMode === 'recruiter' ? 'invisible' : ''
           }`}
         >

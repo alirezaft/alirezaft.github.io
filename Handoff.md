@@ -274,6 +274,11 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
     * Decoupled architecture: mounted into `document.body` via isolated React DOM root (`createRoot`) with throttled 150ms state updates to completely avoid R3F reconciler re-renders and measurement distortion.
     * Integrated dual UI modes (compact status chip and expanded diagnostic dashboard) with `~` / `F3` keyboard shortcuts, Left/Right docking, and pointer lock isolation (`stopPropagation`).
     * Gated by `{import.meta.env.DEV && <DevPerfMonitor hidden={viewMode === 'recruiter'} />}` in `src/App.tsx` for automatic tree-shaking and single-line removal before release.
+    * Resolved shelf cartridge respawn & CRT screen visibility bugs:
+      - **Shelf Extraction State:** Updated `CartridgeRack.tsx` to check `insertedProjectId === project.id` alongside `heldProjectId` and `returningProjectId`, preventing cartridges from premature respawn on the shelf while slotted in the drive.
+      - **CRT Transform Dimensions & Visibility:** Re-engineered `<Html transform>` scaling and positioning in `CrtScreen.tsx` and `CrtWorkstation.tsx`: removed compounding `scale=0.00048` and `distanceFactor=1.2` which had shrunk the DOM container to 1mm; calibrated to `scale=0.0188` (matching the 0.35m × 0.265m bezel opening) with default Drei z-index ordering and `0.005m` clearance in front of the cathode faceplate. Added `e.stopPropagation()` to screen buttons to isolate DOM interactions from the WebGL pointer lock.
+      - **Simplified, Uncluttered Default Screen Hub:** Redesigned Mode A into a clean, legible developer terminal hub replacing the noisy ASCII block and dummy registers with 3 clear high-signal cards: (1) Insert a Cartridge → View Projects, (2) Probe an IC Chip → Inspect Skills, (3) Recruiter Quick-View → Verified CV (with a direct `[SWITCH MODE]` button).
+      - **CSS Stacking Context & HUD Occlusion Fix:** Isolated the entire 3D canvas viewport using `relative z-0 isolate` on the canvas container and elevated `Hud.tsx` to `z-40`, guaranteeing that 3D-transformed CRT screen elements never leak out of the canvas stacking context to overlap or occlude the site header, tabs, or modal drawers when looking down.
     * Verified production build with `npm run build` (Exit code 0).
   - **Step 4.3: Hero 3D Data Cartridge Asset & 4-Tier Workstation Rack [COMPLETED]:**
     * Modeled watertight, single-mesh `SM_DataCartridge` (256 tris, 136 verts) in Blender 5.2 via MCP server connection. Validated through automated `qa_check.py` with 0 errors/warnings.
@@ -292,6 +297,11 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
     * Implemented Inspect Pose: holding Right-Click zoom brings the cartridge to center-screen for detailed visual inspection with boosted acrylic glow.
     * Whole cartridge is transferred to player with nothing left behind on the shelf slot; returns seamlessly upon release.
     * Left-Click opens dossier; `[E]`/`[Esc]` returns cartridge to shelf; pointer lock auto-exits on drawer open.
+    * Resolved shelf cartridge respawn & CRT screen visibility bugs:
+      - **Shelf Extraction State:** Updated `CartridgeRack.tsx` to check `insertedProjectId === project.id` alongside `heldProjectId` and `returningProjectId`, preventing cartridges from premature respawn on the shelf while slotted in the drive.
+      - **CRT Transform Dimensions & Visibility:** Re-engineered `<Html transform>` scaling and positioning in `CrtScreen.tsx` and `CrtWorkstation.tsx`: removed compounding `scale=0.00048` and `distanceFactor=1.2` which had shrunk the DOM container to 1mm; calibrated to `scale=0.0188` (matching the 0.35m × 0.265m bezel opening) with default Drei z-index ordering and `0.005m` clearance in front of the cathode faceplate. Added `e.stopPropagation()` to screen buttons to isolate DOM interactions from the WebGL pointer lock.
+      - **Simplified, Uncluttered Default Screen Hub:** Redesigned Mode A into a clean, legible developer terminal hub replacing the noisy ASCII block and dummy registers with 3 clear high-signal cards: (1) Insert a Cartridge → View Projects, (2) Probe an IC Chip → Inspect Skills, (3) Recruiter Quick-View → Verified CV (with a direct `[SWITCH MODE]` button).
+      - **CSS Stacking Context & HUD Occlusion Fix:** Isolated the entire 3D canvas viewport using `relative z-0 isolate` on the canvas container and elevated `Hud.tsx` to `z-40`, guaranteeing that 3D-transformed CRT screen elements never leak out of the canvas stacking context to overlap or occlude the site header, tabs, or modal drawers when looking down.
     * Verified production build with `npm run build` (Exit code 0).
   - **Step 4.4: Integrated Procedural CRT Workstation & Computer Chassis [COMPLETED]:**
     * Designed and implemented unified procedural `CrtWorkstation.tsx` in `src/components/3d/`:
@@ -306,7 +316,28 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
       - CRT horizontal scanlines, barrel vignette, and phosphor bloom overlay.
       - **Mode A (Idle Boot CLI):** Displays ASCII system banner, 64MB memory test, kernel telemetry, uptime ticker, and interactive task guidance.
       - **Mode B (Mounted Dossier):** Zero-content-drift data binding to `heldProject` from `src/content/projects/`, showing category badge, impact metrics (e.g. 50M+ downloads), technical highlights, embedded looping video/GIF media carousel, and `[OPEN FULL DOSSIER]` action trigger.
+    * Resolved shelf cartridge respawn & CRT screen visibility bugs:
+      - **Shelf Extraction State:** Updated `CartridgeRack.tsx` to check `insertedProjectId === project.id` alongside `heldProjectId` and `returningProjectId`, preventing cartridges from premature respawn on the shelf while slotted in the drive.
+      - **CRT Transform Dimensions & Visibility:** Re-engineered `<Html transform>` scaling and positioning in `CrtScreen.tsx` and `CrtWorkstation.tsx`: removed compounding `scale=0.00048` and `distanceFactor=1.2` which had shrunk the DOM container to 1mm; calibrated to `scale=0.0188` (matching the 0.35m × 0.265m bezel opening) with default Drei z-index ordering and `0.005m` clearance in front of the cathode faceplate. Added `e.stopPropagation()` to screen buttons to isolate DOM interactions from the WebGL pointer lock.
+      - **Simplified, Uncluttered Default Screen Hub:** Redesigned Mode A into a clean, legible developer terminal hub replacing the noisy ASCII block and dummy registers with 3 clear high-signal cards: (1) Insert a Cartridge → View Projects, (2) Probe an IC Chip → Inspect Skills, (3) Recruiter Quick-View → Verified CV (with a direct `[SWITCH MODE]` button).
+      - **CSS Stacking Context & HUD Occlusion Fix:** Isolated the entire 3D canvas viewport using `relative z-0 isolate` on the canvas container and elevated `Hud.tsx` to `z-40`, guaranteeing that 3D-transformed CRT screen elements never leak out of the canvas stacking context to overlap or occlude the site header, tabs, or modal drawers when looking down.
     * Verified production build with `npm run build` (Exit code 0).
+  - **Step 4.4.5: Interactive Cartridge Slotting, Multi-Stage Insertion & CRT Mount [COMPLETED]:**
+    * Implemented full tactile docking loop across `CartridgeViewmodel.tsx`, `CrtWorkstation.tsx`, `CrtScreen.tsx`, and `UIContext.tsx`:
+      - **Flow Execution:**
+        1. Player picks up cartridge from 4-tier rack into viewmodel hand.
+        2. Reticle raycaster aims at Drive 0 aperture on computer chassis (`INSERT // [TITLE] [CLICK]`).
+        3. Left-Click initiates insertion: cartridge glides smoothly to the drive mouth (`0.42s`, cubic ease), reorienting horizontally (`-90°` pitch) so gold pins face into the aperture and the holographic title label faces upward.
+        4. Cartridge slides slowly straight into the slot (`0.58s`, gentle deceleration) until seated with `~3cm` of the acrylic light guide protruding from the aperture.
+        5. Mechanical latching trigger plays `playClick()` and `playCrtPowerOn()`; CRT monitor displays dynamic mounting telemetry, switches to Mode B dossier with video/GIF preview, and pulses the front panel Read LED (`#00f3ff`).
+        6. Clicking physical EJECT button on chassis or pressing `[E]` / `[Esc]` smoothly slides the cartridge out of the slot and returns it to hand with CRT power-down sound (`playCrtPowerOff()`).
+    * Resolved shelf cartridge respawn & CRT screen visibility bugs:
+      - **Shelf Extraction State:** Updated `CartridgeRack.tsx` to check `insertedProjectId === project.id` alongside `heldProjectId` and `returningProjectId`, preventing cartridges from premature respawn on the shelf while slotted in the drive.
+      - **CRT Transform Dimensions & Visibility:** Re-engineered `<Html transform>` scaling and positioning in `CrtScreen.tsx` and `CrtWorkstation.tsx`: removed compounding `scale=0.00048` and `distanceFactor=1.2` which had shrunk the DOM container to 1mm; calibrated to `scale=0.0188` (matching the 0.35m × 0.265m bezel opening) with default Drei z-index ordering and `0.005m` clearance in front of the cathode faceplate. Added `e.stopPropagation()` to screen buttons to isolate DOM interactions from the WebGL pointer lock.
+      - **Simplified, Uncluttered Default Screen Hub:** Redesigned Mode A into a clean, legible developer terminal hub replacing the noisy ASCII block and dummy registers with 3 clear high-signal cards: (1) Insert a Cartridge → View Projects, (2) Probe an IC Chip → Inspect Skills, (3) Recruiter Quick-View → Verified CV (with a direct `[SWITCH MODE]` button).
+      - **CSS Stacking Context & HUD Occlusion Fix:** Isolated the entire 3D canvas viewport using `relative z-0 isolate` on the canvas container and elevated `Hud.tsx` to `z-40`, guaranteeing that 3D-transformed CRT screen elements never leak out of the canvas stacking context to overlap or occlude the site header, tabs, or modal drawers when looking down.
+    * Verified production build with `npm run build` (Exit code 0).
+
 
 
 ---

@@ -27,7 +27,7 @@ export const CartridgeRack: React.FC<CartridgeRackProps> = ({
   position = [-0.62, 0.76, 0.86],
   rotation = [0, 0.48, 0],
 }) => {
-  const { grabCartridge, heldProjectId, returningProjectId } = useUI();
+  const { grabCartridge, heldProjectId, returningProjectId, insertedProjectId } = useUI();
 
   // Tier stepped offsets (Front to back: Row 1 is closest and lowest, Row 4 is highest at rear)
   const tierConfig = [
@@ -150,9 +150,12 @@ export const CartridgeRack: React.FC<CartridgeRackProps> = ({
           xPos = -0.11 + indexInRow * 0.11;
         }
 
-        const isExtracted = heldProjectId === project.id || returningProjectId === project.id;
+        const isExtracted =
+          heldProjectId === project.id ||
+          returningProjectId === project.id ||
+          insertedProjectId === project.id;
 
-        // When extracted & held in player's first-person view, nothing is left behind on the shelf
+        // When extracted & held or slotted in drive, nothing is left behind on the shelf
         if (isExtracted) {
           return null;
         }

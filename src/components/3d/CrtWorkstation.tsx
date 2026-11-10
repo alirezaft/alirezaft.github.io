@@ -25,7 +25,16 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
   position = [0, 0.76, 0.65],
   rotation = [0, 0, 0],
 }) => {
-  const { heldProject, heldProjectId, returnCartridge, openProject } = useUI();
+  const {
+    heldProject,
+    heldProjectId,
+    insertedProject,
+    insertedProjectId,
+    cartridgeDriveState,
+    insertCartridge,
+    ejectCartridge,
+    openProject,
+  } = useUI();
   const audio = useAudio();
 
   const driveSlotRef = useRef<THREE.Group>(null);
@@ -39,11 +48,11 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
 
-    // Read LED: rapid blips when media is mounted, faint periodic check when idle
+    // Read LED: rapid blips when media is mounted or inserting, faint periodic check when idle
     if (readLedMatRef.current) {
-      if (heldProject) {
+      if (cartridgeDriveState === 'inserted' || cartridgeDriveState === 'inserting') {
         const pulse = Math.sin(t * 18) * 0.5 + Math.sin(t * 7) * 0.5;
-        readLedMatRef.current.emissiveIntensity = pulse > 0.2 ? 2.8 : 0.6;
+        readLedMatRef.current.emissiveIntensity = pulse > 0.1 ? 2.8 : 0.6;
       } else {
         const idlePulse = Math.sin(t * 2) > 0.85 ? 1.5 : 0.2;
         readLedMatRef.current.emissiveIntensity = idlePulse;
@@ -61,14 +70,20 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
   const { isHovered: isDriveHovered } = useCrosshairInteractable({
     id: 'workstation_drive_slot',
     ref: driveSlotRef,
-    prompt: heldProject
-      ? `INSERT // ${heldProject.title}`
-      : 'DRIVE 0: CARTRIDGE BAY [EMPTY]',
+    prompt:
+      cartridgeDriveState === 'inserting'
+        ? 'INSERTING // DRIVE 0...'
+        : cartridgeDriveState === 'inserted' && insertedProject
+        ? `ACCESS DOSSIER // ${insertedProject.title} [CLICK]`
+        : heldProject
+        ? `INSERT // ${heldProject.title} [CLICK]`
+        : 'DRIVE 0: CARTRIDGE BAY [EMPTY]',
     onInteract: () => {
-      if (heldProjectId) {
+      if (cartridgeDriveState === 'idle' && heldProjectId) {
+        insertCartridge();
+      } else if (cartridgeDriveState === 'inserted' && insertedProjectId) {
         audio.playClick();
-        audio.playBusPulse();
-        openProject(heldProjectId);
+        openProject(insertedProjectId);
       } else {
         audio.playClick();
       }
@@ -79,11 +94,15 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
   const { isHovered: isEjectHovered } = useCrosshairInteractable({
     id: 'workstation_eject_button',
     ref: ejectBtnRef,
-    prompt: heldProject ? 'EJECT // DRIVE 0 [ESC]' : 'EJECT // DRIVE 0 [EMPTY]',
+    prompt:
+      cartridgeDriveState === 'inserted' && insertedProject
+        ? `EJECT // ${insertedProject.title} [CLICK / ESC]`
+        : 'EJECT // DRIVE 0 [EMPTY]',
     onInteract: () => {
-      audio.playClick();
-      if (heldProject) {
-        returnCartridge();
+      if (cartridgeDriveState === 'inserted') {
+        ejectCartridge();
+      } else {
+        audio.playClick();
       }
     },
   });
@@ -156,11 +175,13 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
       metalness: 0.1,
     });
 
-    // 8. Screen Glass Faceplate
+    // 8. Screen Glass Faceplate (Dark cathode backing plate behind the HTML screen)
     const screenGlassMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color('#04080e'),
-      roughness: 0.08,
-      metalness: 0.2,
+      color: new THREE.Color('#03060a'),
+      roughness: 0.1,
+      metalness: 0.1,
+      transparent: true,
+      opacity: 0.85,
     });
 
     return {
@@ -583,7 +604,7 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
         {/* 4. EMBEDDED REAL-TIME CRT SCREEN (<Html transform>)               */}
         {/* Aligned flush with the inner phosphor faceplate aperture          */}
         {/* ================================================================= */}
-        <CrtScreen position={[0, 0.015, 0.115]} rotation={[0, 0, 0]} scale={0.00048} />
+        <CrtScreen position={[0, 0.015, 0.118]} rotation={[0, 0, 0]} scale={0.0188} />
       </group>
     </group>
   );

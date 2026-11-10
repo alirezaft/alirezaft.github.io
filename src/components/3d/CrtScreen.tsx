@@ -15,27 +15,25 @@ export interface CrtScreenProps {
 /**
  * High-fidelity retro-futuristic CRT screen rendered via <Html transform>.
  * Provides 100% vector-sharp typography, native CSS scanlines, authentic phosphor bloom,
- * and zero-content-drift data binding to the active or held project.
+ * and zero-content-drift data binding to the active or inserted project.
  */
 export const CrtScreen: React.FC<CrtScreenProps> = ({
-  position = [0, 1.13, 0.73],
-  rotation = [-0.08, 0, 0],
-  scale = 0.00048,
+  position = [0, 0.015, 0.118],
+  rotation = [0, 0, 0],
+  scale = 0.0188,
 }) => {
-  const { heldProject, heldProjectId, openProject, returnCartridge } = useUI();
+  const {
+    heldProject,
+    insertedProject,
+    cartridgeDriveState,
+    openProject,
+    ejectCartridge,
+    setViewMode,
+  } = useUI();
   const audio = useAudio();
 
   const [bootTime, setBootTime] = useState(0);
-  const [blink, setBlink] = useState(true);
   const [activeMediaIndex, setActiveMediaIndex] = useState(0);
-
-  // Play CRT phosphor hum when a cartridge mounts or unmounts
-  useEffect(() => {
-    if (heldProject) {
-      audio.playCrtPowerOn();
-      setActiveMediaIndex(0);
-    }
-  }, [heldProjectId]);
 
   // Terminal clock / uptime ticker
   useEffect(() => {
@@ -45,18 +43,17 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
     return () => clearInterval(timer);
   }, []);
 
-  // Blinking terminal prompt cursor
+  // Reset media index whenever inserted project changes
   useEffect(() => {
-    const cursorTimer = setInterval(() => {
-      setBlink((prev) => !prev);
-    }, 530);
-    return () => clearInterval(cursorTimer);
-  }, []);
+    if (insertedProject) {
+      setActiveMediaIndex(0);
+    }
+  }, [insertedProject]);
 
   const activeMedia = useMemo(() => {
-    if (!heldProject?.media || heldProject.media.length === 0) return null;
-    return heldProject.media[activeMediaIndex] || heldProject.media[0];
-  }, [heldProject, activeMediaIndex]);
+    if (!insertedProject?.media || insertedProject.media.length === 0) return null;
+    return insertedProject.media[activeMediaIndex] || insertedProject.media[0];
+  }, [insertedProject, activeMediaIndex]);
 
   const formatUptime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -64,23 +61,27 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const isMounted = cartridgeDriveState === 'inserted' && !!insertedProject;
+
   return (
     <Html
       transform
-      wrapperClass="crt-screen-wrapper"
-      distanceFactor={1.2}
       position={position}
       rotation={rotation}
       scale={scale}
-      zIndexRange={[10, 0]}
+      zIndexRange={[100, 0]}
       style={{
         pointerEvents: 'auto',
       }}
     >
       <div
-        className="relative w-[720px] h-[540px] bg-[#04080e] text-[#00f3ff] font-mono overflow-hidden select-none border-2 border-[#00f3ff]/40 rounded-[28px] shadow-[inset_0_0_80px_rgba(0,0,0,0.95)]"
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-[700px] h-[525px] bg-[#04080e] text-[#00f3ff] font-mono overflow-hidden select-none border-2 border-[#00f3ff]/40 rounded-[24px]"
         style={{
-          boxShadow: 'inset 0 0 100px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 243, 255, 0.25)',
+          boxShadow: isMounted
+            ? 'inset 0 0 100px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 243, 255, 0.4)'
+            : 'inset 0 0 100px rgba(0, 0, 0, 0.95), 0 0 18px rgba(0, 243, 255, 0.15)',
         }}
       >
         {/* CRT Scanline & Phosphor Overlay */}
@@ -110,7 +111,11 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
           {/* Top Status Telemetry Header */}
           <div className="flex items-center justify-between pb-3 border-b border-[#00f3ff]/30 text-[11px] text-[#00f3ff]/80">
             <div className="flex items-center gap-3">
-              <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse" />
+              <span
+                className={`inline-block w-2.5 h-2.5 rounded-full ${
+                  isMounted ? 'bg-[#00f3ff] shadow-[0_0_8px_#00f3ff]' : 'bg-[#00ff66] shadow-[0_0_8px_#00ff66]'
+                } animate-pulse`}
+              />
               <span className="font-bold tracking-widest text-[#00ff66]">
                 FORGHANI SYSTEMS // CYBER-DECK KERNEL v4.2
               </span>
@@ -118,41 +123,61 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
             <div className="flex items-center gap-4 text-[10px]">
               <span>UPTIME: {formatUptime(bootTime)}</span>
               <span>BUS: 64-BIT PCI</span>
-              <span className="text-[#ffb700]">SYS_OK</span>
+              <span className={isMounted ? 'text-[#00f3ff] font-bold' : 'text-[#ffb700]'}>
+                {isMounted ? 'ROM_MOUNTED' : 'SYS_OK'}
+              </span>
             </div>
           </div>
 
           {/* Main Display Area (Dynamic Mode Switch) */}
-          {heldProject ? (
+          {cartridgeDriveState === 'inserting' ? (
             /* ============================================================= */
-            /* MODE B: MOUNTED PROJECT DOSSIER & LIVE MEDIA VIEW             */
+            /* MODE B-1: INSERTING & READING ROM SEQUENCE                    */
+            /* ============================================================= */
+            <div className="flex-1 py-8 flex flex-col justify-center items-center text-center space-y-4">
+              <div className="text-4xl text-[#00f3ff] animate-pulse">💾</div>
+              <div className="text-sm font-bold tracking-widest text-slate-100 uppercase">
+                ENGAGING DRIVE 0 GUIDE RAILS...
+              </div>
+              <div className="space-y-1 text-[11px] text-[#00f3ff]/80">
+                <div>▸ READING SECTORS & BUS DESCRIPTORS...</div>
+                <div>▸ VERIFYING CRYPTOGRAPHIC CHECKSUM...</div>
+                <div>▸ MOUNTING VIRTUAL FILE SYSTEM...</div>
+              </div>
+              <div className="w-64 h-2 bg-slate-900 border border-[#00f3ff]/50 rounded-full overflow-hidden p-0.5">
+                <div className="w-full h-full bg-[#00f3ff] rounded-full animate-pulse" />
+              </div>
+            </div>
+          ) : isMounted && insertedProject ? (
+            /* ============================================================= */
+            /* MODE B-2: MOUNTED PROJECT DOSSIER & LIVE MEDIA VIEW           */
             /* ============================================================= */
             <div className="flex-1 py-4 flex flex-col justify-between overflow-hidden">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest bg-[#00f3ff]/20 text-[#00f3ff] border border-[#00f3ff]/50 rounded">
-                      {heldProject.category.toUpperCase()}
+                      {insertedProject.category.toUpperCase()}
                     </span>
                     <span className="text-[10px] text-slate-400">
-                      YEAR: {heldProject.year || '2026'}
+                      YEAR: {insertedProject.year || '2026'}
                     </span>
-                    {heldProject.subtitle && (
+                    {insertedProject.subtitle && (
                       <span className="text-[10px] text-[#ffb700] truncate max-w-[260px]">
-                        // {heldProject.subtitle}
+                        // {insertedProject.subtitle}
                       </span>
                     )}
                   </div>
                   <h2 className="text-xl font-black text-slate-100 tracking-wide uppercase drop-shadow-[0_0_10px_rgba(0,243,255,0.4)]">
-                    {heldProject.title}
+                    {insertedProject.title}
                   </h2>
                 </div>
 
                 {/* Impact Metric Badge */}
-                {heldProject.statsBadge && (
+                {insertedProject.statsBadge && (
                   <div className="text-right">
                     <div className="text-sm font-bold text-[#ff007f] drop-shadow-[0_0_8px_rgba(255,0,127,0.5)]">
-                      {heldProject.statsBadge}
+                      {insertedProject.statsBadge}
                     </div>
                     <div className="text-[9px] text-slate-400 uppercase tracking-wider">
                       VERIFIED IMPACT
@@ -178,14 +203,14 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
                     ) : (
                       <img
                         src={activeMedia.url}
-                        alt={activeMedia.title || heldProject.title}
+                        alt={activeMedia.title || insertedProject.title}
                         className="w-full h-full object-cover"
                       />
                     )
-                  ) : heldProject.thumbnailUrl ? (
+                  ) : insertedProject.thumbnailUrl ? (
                     <img
-                      src={heldProject.thumbnailUrl}
-                      alt={heldProject.title}
+                      src={insertedProject.thumbnailUrl}
+                      alt={insertedProject.title}
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -196,13 +221,13 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
                   )}
 
                   {/* Media Indicator Pills */}
-                  {heldProject.media && heldProject.media.length > 1 && (
+                  {insertedProject.media && insertedProject.media.length > 1 && (
                     <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between px-2 py-1 bg-black/80 backdrop-blur rounded text-[9px] border border-slate-700">
                       <span className="text-slate-300">
-                        FEED {activeMediaIndex + 1}/{heldProject.media.length}
+                        FEED {activeMediaIndex + 1}/{insertedProject.media.length}
                       </span>
                       <div className="flex gap-1">
-                        {heldProject.media.map((_, idx) => (
+                        {insertedProject.media.map((_, idx) => (
                           <button
                             key={idx}
                             onClick={() => {
@@ -219,19 +244,19 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
                   )}
                 </div>
 
-                {/* Technical Overview & Architecture Bullets */}
+                {/* Technical Overview & Responsibilities */}
                 <div className="col-span-6 flex flex-col justify-between overflow-y-auto pr-1 text-[11px] text-slate-300">
                   <p className="line-clamp-4 leading-normal text-slate-300/90 mb-2">
-                    {heldProject.overview}
+                    {insertedProject.overview}
                   </p>
 
-                  {/* Architecture & Engineering Highlights */}
-                  {heldProject.responsibilities && heldProject.responsibilities.length > 0 && (
+                  {/* Engineering Highlights */}
+                  {insertedProject.responsibilities && insertedProject.responsibilities.length > 0 && (
                     <div className="space-y-1 mb-2">
                       <div className="text-[9px] text-[#00f3ff] uppercase tracking-wider font-bold">
                         KEY HIGHLIGHTS:
                       </div>
-                      {heldProject.responsibilities.slice(0, 2).map((item, idx) => (
+                      {insertedProject.responsibilities.slice(0, 2).map((item, idx) => (
                         <div key={idx} className="text-[10px] text-slate-300 flex items-start gap-1.5">
                           <span className="text-[#ffb700]">▸</span>
                           <span className="line-clamp-1">{item}</span>
@@ -242,7 +267,7 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
 
                   {/* Tech Stack Chips */}
                   <div className="flex flex-wrap gap-1 mt-auto">
-                    {heldProject.techTags.slice(0, 5).map((tech) => (
+                    {insertedProject.techTags.slice(0, 5).map((tech) => (
                       <span
                         key={tech}
                         className="px-1.5 py-0.5 bg-slate-800/90 border border-slate-700 text-slate-300 text-[9px] rounded font-mono"
@@ -256,14 +281,16 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
 
               {/* Interactive CRT Action Bar */}
               <div className="flex items-center justify-between pt-2 border-t border-[#00f3ff]/30 text-[11px]">
-                <div className="text-[10px] text-slate-400">
+                <div className="text-[10px] text-slate-400 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#00f3ff] animate-ping" />
                   <span>MOUNTED: DRIVE 0 // ROM-LOCKED</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       audio.playClick();
-                      openProject(heldProject.id);
+                      openProject(insertedProject.id);
                     }}
                     className="px-4 py-1.5 bg-[#00f3ff]/20 hover:bg-[#00f3ff]/30 text-[#00f3ff] border border-[#00f3ff]/60 hover:border-[#00f3ff] rounded font-bold text-[11px] tracking-wider transition cursor-pointer flex items-center gap-2 shadow-[0_0_12px_rgba(0,243,255,0.3)]"
                   >
@@ -271,9 +298,10 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
                     <span className="text-[9px] text-[#00f3ff]/80">[LMB]</span>
                   </button>
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       audio.playClick();
-                      returnCartridge();
+                      ejectCartridge();
                     }}
                     className="px-3 py-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 rounded text-[11px] transition cursor-pointer flex items-center gap-1.5"
                   >
@@ -285,67 +313,123 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
             </div>
           ) : (
             /* ============================================================= */
-            /* MODE A: IDLE BOOT TERMINAL CLI (AWAITING MEDIA)              */
+            /* MODE A: CLEAN DEFAULT WORKSTATION HUB                         */
             /* ============================================================= */
-            <div className="flex-1 py-4 flex flex-col justify-between">
-              {/* ASCII Header Banner */}
-              <div className="space-y-1">
-                <pre className="text-[9px] text-[#00f3ff]/70 leading-none font-mono">
-{`   _____ ____  ____  ______ _____ _   _ _____     ______     ______  ______ _____  _  __
-  |  ___/ __ \\|  _ \\|  ____/ ____| \\ | |_   _|   |  ____|   |  ____|/ ____|  __ \\| |/ /
-  | |_ | |  | | |_) | |__ | |  __|  \\| | | |     | |__ _____| |__  | |    | |__) | ' / 
-  |  _|| |  | |  _ <|  __|| | |_ | . \` | | |     |  __|_____|  __| | |    |  ___/|  <  
-  | |  | |__| | |_) | |___| |__| | |\\  |_| |_    | |____    | |____| |____| |    | . \\ 
-  \\_|   \\____/|____/|______\\_____|_| \\_|_____|   |______|   |______|\_____/|_|    |_|\\_\\`}
-                </pre>
-                <div className="text-[10px] text-slate-400 tracking-wider">
-                  SYSTEM INITIALIZED · MEMORY: 64 MB RAM · ALL SUBSYSTEMS NOMINAL
+            <div className="flex-1 py-3 flex flex-col justify-between">
+              {/* Clean Welcome Header */}
+              <div>
+                <div className="flex items-center gap-2 mb-1 text-[11px] font-bold tracking-widest text-[#00f3ff]">
+                  <span className="w-2 h-2 rounded-full bg-[#00f3ff] animate-ping" />
+                  <span>CYBER-DECK TERMINAL // READY</span>
                 </div>
+                <h1 className="text-xl font-black text-slate-100 tracking-wide">
+                  ALIREZA FORGHANI TOOSI
+                </h1>
+                <p className="text-[11px] text-slate-400 tracking-wide mt-0.5">
+                  Lead Game Engine Programmer · Systems Architect · 50M+ Verified Downloads
+                </p>
               </div>
 
-              {/* Diagnostic Terminal Output */}
-              <div className="my-2 p-3 bg-black/40 border border-[#00f3ff]/20 rounded-lg space-y-1.5 text-[11px] text-slate-300">
-                <div className="flex items-center justify-between text-slate-400 text-[10px]">
-                  <span>[KERNEL]: HARDWARE BUS READY</span>
-                  <span className="text-[#00ff66]">ONLINE</span>
+              {/* In-Hand Callout (if player grabbed a cartridge) */}
+              {heldProject && (
+                <div className="px-4 py-2.5 bg-[#00f3ff]/10 border border-[#00f3ff]/50 rounded-lg flex items-center justify-between shadow-[0_0_15px_rgba(0,243,255,0.2)]">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">💾</span>
+                    <div>
+                      <div className="text-[10px] text-[#00f3ff] font-bold uppercase tracking-wider">
+                        CARTRIDGE IN HAND: {heldProject.title}
+                      </div>
+                      <div className="text-[11px] text-slate-200">
+                        Aim at <strong className="text-white">DRIVE 0 (below screen)</strong> and Left-Click to insert.
+                      </div>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-mono text-[#00f3ff]/90 font-bold bg-[#00f3ff]/20 px-2.5 py-1 rounded border border-[#00f3ff]/40">
+                    [LMB] TO INSERT
+                  </span>
                 </div>
-                <div>▸ CARTRIDGE DRIVE 0: [EMPTY // AWAITING MEDIA]</div>
-                <div>▸ CRYPTOGRAPHIC USB BUS A: [UNAUTHENTICATED]</div>
-                <div>▸ LOGIC DIAGNOSTIC PROBE: [STANDBY // READY ON BENCH]</div>
-                <div>▸ COMPANION DRONE "BYTE": [SYNCHRONIZED // IDLE]</div>
-              </div>
+              )}
 
-              {/* Interactive Call-To-Action Box */}
-              <div className="p-3 bg-[#00f3ff]/5 border border-[#00f3ff]/30 rounded-lg text-slate-200">
-                <div className="text-[#ffb700] font-bold text-xs mb-1 flex items-center gap-2">
-                  <span className="animate-ping w-1.5 h-1.5 rounded-full bg-[#ffb700]" />
-                  <span>&gt; AWAITING INPUT // CHOOSE A TASK:</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-300">
-                  <div className="bg-slate-900/60 p-2 rounded border border-slate-800">
-                    <span className="text-[#00f3ff] font-bold">1. INSPECT PROJECTS:</span>
-                    <p className="text-slate-400 mt-0.5">
-                      Aim crosshair at the 4-tier rack on your left and Left-Click any data cartridge.
+              {/* 3 Clear, High-Signal Action Cards */}
+              <div className="grid grid-cols-1 gap-2.5">
+                {/* 1. Projects / Cartridge Slot */}
+                <div className="p-3 bg-black/40 border border-slate-800 hover:border-[#00f3ff]/40 rounded-xl transition flex items-start gap-3.5">
+                  <div className="w-8 h-8 rounded-lg bg-[#00f3ff]/15 border border-[#00f3ff]/40 flex items-center justify-center text-xs text-[#00f3ff] shrink-0 font-bold font-mono">
+                    01
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-100 uppercase tracking-wide">
+                        INSERT A CARTRIDGE → VIEW PROJECTS
+                      </span>
+                      <span className="text-[10px] text-[#00f3ff] font-mono">LEFT SHELF</span>
+                    </div>
+                    <p className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">
+                      Pick up any project cartridge from the 4-tier rack on the left and slot it into <strong>Drive 0</strong> below to review architectural case studies, playable clips, and metrics.
                     </p>
                   </div>
-                  <div className="bg-slate-900/60 p-2 rounded border border-slate-800">
-                    <span className="text-[#00ff66] font-bold">2. RECRUITER MODE:</span>
-                    <p className="text-slate-400 mt-0.5">
-                      Toggle to the 2D Executive Dashboard anytime using the top Cyber HUD.
+                </div>
+
+                {/* 2. Skills / Test Bench Probe */}
+                <div className="p-3 bg-black/40 border border-slate-800 hover:border-[#ffb700]/40 rounded-xl transition flex items-start gap-3.5">
+                  <div className="w-8 h-8 rounded-lg bg-[#ffb700]/15 border border-[#ffb700]/40 flex items-center justify-center text-xs text-[#ffb700] shrink-0 font-bold font-mono">
+                    02
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-100 uppercase tracking-wide">
+                        PROBE AN IC CHIP → INSPECT SKILLS
+                      </span>
+                      <span className="text-[10px] text-[#ffb700] font-mono">TEST BENCH</span>
+                    </div>
+                    <p className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">
+                      Grab the multimeter logic probe on the circuit bench to inspect microchips and reveal real-time engineering telemetry, SOLID patterns, and shader skills.
                     </p>
                   </div>
                 </div>
+
+                {/* 3. Recruiter Quick-View / Resume */}
+                <div className="p-3 bg-black/40 border border-slate-800 hover:border-[#00ff66]/40 rounded-xl transition flex items-center justify-between gap-3.5">
+                  <div className="flex items-start gap-3.5 flex-1">
+                    <div className="w-8 h-8 rounded-lg bg-[#00ff66]/15 border border-[#00ff66]/40 flex items-center justify-center text-xs text-[#00ff66] shrink-0 font-bold font-mono">
+                      03
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-slate-100 uppercase tracking-wide">
+                          RECRUITER QUICK-VIEW → VERIFIED CV
+                        </span>
+                        <span className="text-[9px] px-1.5 py-0.2 bg-[#00ff66]/20 text-[#00ff66] rounded font-bold font-mono">
+                          FAST
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">
+                        Prefer a 2D dashboard? Switch to Recruiter View on the top HUD to review verified titles and download the 2-page PDF resume with one click.
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      audio.playClick();
+                      setViewMode('recruiter');
+                    }}
+                    className="px-3 py-1.5 bg-[#00ff66]/20 hover:bg-[#00ff66]/30 border border-[#00ff66]/60 hover:border-[#00ff66] text-[#00ff66] text-[10px] font-bold rounded-lg transition cursor-pointer shrink-0 shadow-[0_0_10px_rgba(0,255,102,0.2)] font-mono"
+                  >
+                    SWITCH MODE
+                  </button>
+                </div>
               </div>
 
-              {/* Active Terminal Command Prompt */}
-              <div className="flex items-center gap-2 text-[#00f3ff] text-xs pt-2 border-t border-[#00f3ff]/20 font-bold">
-                <span>root@cyberdeck:~$</span>
-                <span className="text-slate-300 font-normal">awaiting_media_rom</span>
-                <span
-                  className={`inline-block w-2.5 h-4 bg-[#00f3ff] ml-1 transition-opacity ${
-                    blink ? 'opacity-100' : 'opacity-0'
-                  }`}
-                />
+              {/* Status Bar */}
+              <div className="flex items-center justify-between pt-2 border-t border-[#00f3ff]/20 text-[10px] text-slate-400">
+                <div className="flex items-center gap-2 font-mono">
+                  <span className="text-[#00f3ff]">STATUS:</span>
+                  <span className="text-slate-300">AWAITING INPUT</span>
+                </div>
+                <div className="flex items-center gap-2 font-mono text-[9px] text-slate-400">
+                  <span>LOOK: Mouse · INTERACT: [LMB] · ZOOM: Hold [RMB]</span>
+                </div>
               </div>
             </div>
           )}
@@ -358,7 +442,11 @@ export const CrtScreen: React.FC<CrtScreenProps> = ({
               <span>PHOSPHOR: P22-CYAN</span>
             </div>
             <div className="text-slate-400">
-              {heldProject ? 'PRESS [LMB] FOR FULL CASE STUDY' : 'SELECT CARTRIDGE ON LEFT SHELF'}
+              {isMounted
+                ? 'CLICK [OPEN FULL DOSSIER] OR PRESS [ESC] TO EJECT'
+                : heldProject
+                ? 'AIM AT DRIVE 0 AND CLICK TO INSERT'
+                : 'SELECT CARTRIDGE ON LEFT SHELF'}
             </div>
           </div>
         </div>

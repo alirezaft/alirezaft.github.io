@@ -5,7 +5,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { useUI } from '../../context';
 import { SHELF_CATEGORIES } from '../../content/projects/categories';
 import { createCartridgeLabelTexture } from './cartridgeLabelTexture';
-import { getCartridgeSlotTransform } from './cartridgeSlotHelper';
+import { getCartridgeSlotTransform, getDriveSlotTransforms } from './cartridgeSlotHelper';
 
 export interface CartridgeViewmodelProps {
   /** Whether right-click inspect zoom is currently active */
@@ -14,29 +14,47 @@ export interface CartridgeViewmodelProps {
 
 /**
  * CartridgeViewmodel:
- * First-person tactile viewmodel system.
- * When a player grabs a data cartridge, it smoothly flies up from the rack into the player's
- * view, held in hand like tools/weapons in FPS games (Cyberpunk 2077, Half-Life).
+ * Tactile first-person viewmodel and docking animation engine.
  *
- * Features:
- * - Fluid world-to-hand trajectory interpolation.
- * - Dynamic viewmodel inertia sway (mouse look lag).
- * - Organic idle breathing / floating harmonic motion.
- * - Tactical close-up Inspect Pose when holding Right-Click zoom.
- * - Dedicated soft sci-fi fill light casting specular rim onto held geometry.
+ * Supported Flow:
+ * 1. Rack -> Viewmodel Hand (grab animation).
+ * 2. In-Hand FPS Tool (inertial mouse look sway, harmonic breathing, inspect zoom).
+ * 3. Hand -> Drive Slot Mouth (approaches aperture and aligns horizontally).
+ * 4. Slot Mouth -> Drive Bay Interior (slides slowly into the slot until latched).
+ * 5. Seated in Drive Bay (rests in slot with acrylic light guide protruding).
+ * 6. Eject Animation (slides out slowly and returns to hand).
+ * 7. Hand -> Rack (return flight).
  */
 export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZooming = false }) => {
-  const { heldProjectId, heldProject, onReturnFinished } = useUI();
+  const {
+    heldProjectId,
+    heldProject,
+    insertedProjectId,
+    insertedProject,
+    cartridgeDriveState,
+    onReturnFinished,
+    onInsertFinished,
+    onEjectFinished,
+  } = useUI();
   const { camera } = useThree();
 
   const rootRef = useRef<THREE.Group>(null);
   const accentMeshRef = useRef<THREE.Mesh | null>(null);
 
-  // Animation & Motion State
-  const [activeProject, setActiveProject] = useState(heldProject);
-  const flightProgress = useRef(0); // 0 (at shelf slot) -> 1 (held in viewmodel hand)
-  const isReturning = useRef(false);
+  // Active Project (either currently held or inserted in drive)
+  const [activeProject, setActiveProject] = useState(heldProject || insertedProject);
   const [visible, setVisible] = useState(false);
+
+  // Motion & Animation Progress Trackers
+  const flightProgress = useRef(0); // 0 (shelf slot) -> 1 (held in viewmodel hand)
+  const isReturning = useRef(false);
+
+  // Insertion & Eject Animators
+  const insertProgress = useRef(0);
+  const ejectProgress = useRef(0);
+  const insertStartPos = useRef<THREE.Vector3 | null>(null);
+  const insertStartQuat = useRef<THREE.Quaternion | null>(null);
+  const prevDriveState = useRef(cartridgeDriveState);
 
   // Mouse look inertial sway
   const prevYaw = useRef(0);
@@ -45,13 +63,13 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
   const swayY = useRef(0);
   const inspectBlend = useRef(0); // 0 (hip/rest) -> 1 (ADS / inspect close-up)
 
-  // Track start slot transforms
+  // Track start shelf slot transforms
   const slotTransform = useRef(getCartridgeSlotTransform(''));
 
   // Load GLTF Model
   const gltf = useGLTF('/assets/cartridge.glb');
 
-  // Trigger flight animations on heldProjectId change
+  // Sync active project and handle mount/unmount triggers
   useEffect(() => {
     if (heldProjectId && heldProject) {
       setActiveProject(heldProject);
@@ -59,11 +77,32 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
       flightProgress.current = 0;
       isReturning.current = false;
       setVisible(true);
-    } else if (!heldProjectId && activeProject) {
+    } else if (insertedProjectId && insertedProject) {
+      setActiveProject(insertedProject);
+      setVisible(true);
+      isReturning.current = false;
+    } else if (!heldProjectId && !insertedProjectId && activeProject) {
       // Return to shelf animation
       isReturning.current = true;
     }
-  }, [heldProjectId, heldProject, activeProject]);
+  }, [heldProjectId, heldProject, insertedProjectId, insertedProject, activeProject]);
+
+  // Track Drive State Transitions
+  useEffect(() => {
+    if (cartridgeDriveState === 'inserting' && prevDriveState.current !== 'inserting') {
+      if (rootRef.current) {
+        insertStartPos.current = rootRef.current.position.clone();
+        insertStartQuat.current = rootRef.current.quaternion.clone();
+      }
+      insertProgress.current = 0;
+    }
+
+    if (cartridgeDriveState === 'ejecting' && prevDriveState.current !== 'ejecting') {
+      ejectProgress.current = 0;
+    }
+
+    prevDriveState.current = cartridgeDriveState;
+  }, [cartridgeDriveState]);
 
   // Content Metadata & Materials
   const resolvedCategory = activeProject?.category || 'shipped-commercial';
@@ -145,30 +184,14 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
     return clone;
   }, [gltf.scene, finalAccent, labelTexture]);
 
-  // Frame Loop: Viewmodel positioning, flight lerp, sway & inspect
+  // Frame Loop: Viewmodel positioning, flight lerp, insertion, eject, and inspect
   useFrame((state, delta) => {
     if (!rootRef.current || !visible || !activeProject) return;
 
-    // 1. Advance flight progress
-    const FLIGHT_SPEED = 2.8; // ~0.35 seconds to grab or return
-    if (!isReturning.current) {
-      flightProgress.current = Math.min(1, flightProgress.current + delta * FLIGHT_SPEED);
-    } else {
-      flightProgress.current = Math.max(0, flightProgress.current - delta * (FLIGHT_SPEED * 1.1));
-      if (flightProgress.current <= 0) {
-        setVisible(false);
-        setActiveProject(null);
-        onReturnFinished();
-        return;
-      }
-    }
+    const safeDelta = Math.min(delta, 0.05);
+    const driveTransforms = getDriveSlotTransforms();
 
-    // Cubic ease out
-    const easeT = isReturning.current
-      ? Math.pow(flightProgress.current, 2)
-      : 1 - Math.pow(1 - flightProgress.current, 3);
-
-    // 2. Camera Euler angles & Angular Velocity Tracking (Viewmodel Sway)
+    // 1. Camera Euler angles & Angular Velocity Tracking (Viewmodel Sway)
     const camEuler = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
     const deltaYaw = camEuler.y - prevYaw.current;
     const deltaPitch = camEuler.x - prevPitch.current;
@@ -176,40 +199,40 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
     prevPitch.current = camEuler.x;
 
     // Damp sway lag
-    swayX.current = THREE.MathUtils.damp(swayX.current, -deltaYaw * 0.08, 9, delta);
-    swayY.current = THREE.MathUtils.damp(swayY.current, deltaPitch * 0.08, 9, delta);
+    swayX.current = THREE.MathUtils.damp(swayX.current, -deltaYaw * 0.08, 9, safeDelta);
+    swayY.current = THREE.MathUtils.damp(swayY.current, deltaPitch * 0.08, 9, safeDelta);
 
-    // 3. Inspect transition blend
+    // Inspect transition blend
     inspectBlend.current = THREE.MathUtils.damp(
       inspectBlend.current,
       isZooming ? 1 : 0,
       10,
-      delta
+      safeDelta
     );
 
-    // 4. Idle breathing & subtle harmonic oscillation
+    // Idle breathing & subtle harmonic oscillation
     const time = state.clock.getElapsedTime();
     const bobY = Math.sin(time * 2.0) * 0.0022;
     const bobX = Math.cos(time * 1.0) * 0.0014;
     const bobRot = Math.sin(time * 1.6) * 0.005;
 
-    // 5. Target Viewmodel Camera-Space Offsets
-    // Rest Pose (held down in right hand):
+    // Target Viewmodel Camera-Space Offsets
     const restPos = new THREE.Vector3(0.17, -0.13, -0.32);
     const restRot = new THREE.Euler(-0.22, -0.38, 0.12, 'YXZ');
 
-    // Inspect Pose (raised close to center for high-detail examination):
     const inspectPos = new THREE.Vector3(0.02, -0.05, -0.22);
     const inspectRot = new THREE.Euler(-0.06, -0.14, 0.02, 'YXZ');
 
-    // Interpolate between Rest and Inspect poses
     const currentCamOffset = new THREE.Vector3().lerpVectors(restPos, inspectPos, inspectBlend.current);
     currentCamOffset.x += bobX + swayX.current;
     currentCamOffset.y += bobY + swayY.current;
 
-    const currentPitchAngle = THREE.MathUtils.lerp(restRot.x, inspectRot.x, inspectBlend.current) + swayY.current * 1.6;
-    const currentYawAngle = THREE.MathUtils.lerp(restRot.y, inspectRot.y, inspectBlend.current) + swayX.current * 2.2;
-    const currentRollAngle = THREE.MathUtils.lerp(restRot.z, inspectRot.z, inspectBlend.current) + bobRot;
+    const currentPitchAngle =
+      THREE.MathUtils.lerp(restRot.x, inspectRot.x, inspectBlend.current) + swayY.current * 1.6;
+    const currentYawAngle =
+      THREE.MathUtils.lerp(restRot.y, inspectRot.y, inspectBlend.current) + swayX.current * 2.2;
+    const currentRollAngle =
+      THREE.MathUtils.lerp(restRot.z, inspectRot.z, inspectBlend.current) + bobRot;
 
     const localQuat = new THREE.Quaternion().setFromEuler(
       new THREE.Euler(currentPitchAngle, currentYawAngle, currentRollAngle, 'YXZ')
@@ -219,7 +242,123 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
     const targetHandWorldPos = currentCamOffset.clone().applyQuaternion(camera.quaternion).add(camera.position);
     const targetHandWorldQuat = camera.quaternion.clone().multiply(localQuat);
 
-    // 6. Interpolate between Shelf Slot and Hand (Flight animation)
+    // =========================================================================
+    // STATE A: INSERTING INTO DRIVE 0 (Moves to Mouth -> Slides in Slowly)
+    // =========================================================================
+    if (cartridgeDriveState === 'inserting') {
+      const INSERT_SPEED = 1.15; // ~0.85s total insertion
+      insertProgress.current = Math.min(1, insertProgress.current + safeDelta * INSERT_SPEED);
+
+      const p = insertProgress.current;
+      const startPos = insertStartPos.current || targetHandWorldPos;
+      const startQuat = insertStartQuat.current || targetHandWorldQuat;
+
+      const pos = new THREE.Vector3();
+      const quat = new THREE.Quaternion();
+      let curScale = 1.08;
+
+      if (p < 0.42) {
+        // Stage 4: Moves towards the slot's mouth in horizontal orientation
+        const t1 = p / 0.42;
+        const ease1 = t1 * t1 * (3 - 2 * t1); // smooth cubic ease-in-out
+        pos.lerpVectors(startPos, driveTransforms.mouthPosition, ease1);
+        quat.slerpQuaternions(startQuat, driveTransforms.mouthQuaternion, ease1);
+        curScale = THREE.MathUtils.lerp(1.08, 1.0, ease1);
+      } else {
+        // Stage 5: Cartridge goes in slowly into the slot aperture
+        const t2 = (p - 0.42) / 0.58;
+        const ease2 = 1 - Math.pow(1 - t2, 2); // gentle deceleration into contacts
+        pos.lerpVectors(driveTransforms.mouthPosition, driveTransforms.slottedPosition, ease2);
+        quat.copy(driveTransforms.slottedQuaternion);
+        curScale = 1.0;
+      }
+
+      rootRef.current.position.copy(pos);
+      rootRef.current.quaternion.copy(quat);
+      rootRef.current.scale.setScalar(curScale);
+
+      if (insertProgress.current >= 1) {
+        onInsertFinished();
+      }
+      return;
+    }
+
+    // =========================================================================
+    // STATE B: SEATED IN DRIVE BAY (Slotted resting position)
+    // =========================================================================
+    if (cartridgeDriveState === 'inserted') {
+      rootRef.current.position.copy(driveTransforms.slottedPosition);
+      rootRef.current.quaternion.copy(driveTransforms.slottedQuaternion);
+      rootRef.current.scale.setScalar(1.0);
+
+      // Subtle resting glow
+      if (accentMeshRef.current) {
+        const mat = accentMeshRef.current.material as THREE.MeshStandardMaterial;
+        if (mat) {
+          mat.emissiveIntensity = 0.95 + Math.sin(time * 3) * 0.2;
+        }
+      }
+      return;
+    }
+
+    // =========================================================================
+    // STATE C: EJECTING FROM DRIVE BAY (Slides out -> Hand)
+    // =========================================================================
+    if (cartridgeDriveState === 'ejecting') {
+      const EJECT_SPEED = 1.35; // ~0.75s total eject sequence
+      ejectProgress.current = Math.min(1, ejectProgress.current + safeDelta * EJECT_SPEED);
+
+      const p = ejectProgress.current;
+      const pos = new THREE.Vector3();
+      const quat = new THREE.Quaternion();
+      let curScale = 1.0;
+
+      if (p < 0.40) {
+        // Stage A: Slides out slowly from slot aperture -> mouth
+        const t1 = p / 0.40;
+        const ease1 = t1 * t1 * (3 - 2 * t1);
+        pos.lerpVectors(driveTransforms.slottedPosition, driveTransforms.mouthPosition, ease1);
+        quat.copy(driveTransforms.mouthQuaternion);
+        curScale = 1.0;
+      } else {
+        // Stage B: Mouth -> Hands back to player's viewmodel hand
+        const t2 = (p - 0.40) / 0.60;
+        const ease2 = 1 - Math.pow(1 - t2, 3);
+        pos.lerpVectors(driveTransforms.mouthPosition, targetHandWorldPos, ease2);
+        quat.slerpQuaternions(driveTransforms.mouthQuaternion, targetHandWorldQuat, ease2);
+        curScale = THREE.MathUtils.lerp(1.0, 1.08, ease2);
+      }
+
+      rootRef.current.position.copy(pos);
+      rootRef.current.quaternion.copy(quat);
+      rootRef.current.scale.setScalar(curScale);
+
+      if (ejectProgress.current >= 1) {
+        onEjectFinished();
+      }
+      return;
+    }
+
+    // =========================================================================
+    // STATE D: NORMAL SHELF <-> HAND FLIGHT
+    // =========================================================================
+    const FLIGHT_SPEED = 2.8;
+    if (!isReturning.current) {
+      flightProgress.current = Math.min(1, flightProgress.current + safeDelta * FLIGHT_SPEED);
+    } else {
+      flightProgress.current = Math.max(0, flightProgress.current - safeDelta * (FLIGHT_SPEED * 1.1));
+      if (flightProgress.current <= 0) {
+        setVisible(false);
+        setActiveProject(null);
+        onReturnFinished();
+        return;
+      }
+    }
+
+    const easeT = isReturning.current
+      ? Math.pow(flightProgress.current, 2)
+      : 1 - Math.pow(1 - flightProgress.current, 3);
+
     const slotPos = slotTransform.current.position;
     const slotQuat = slotTransform.current.quaternion;
 
@@ -228,6 +367,7 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
 
     rootRef.current.position.copy(finalPos);
     rootRef.current.quaternion.copy(finalQuat);
+    rootRef.current.scale.setScalar(1.08);
 
     // Dynamic emissive boost on inspect
     if (accentMeshRef.current) {
@@ -263,14 +403,16 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
         {finalTitle.toUpperCase()}
       </Text>
 
-      {/* Subtle Soft Fill Light for Viewmodel Hand (Authentic Cyber Specular Highlight) */}
-      <pointLight
-        position={[0.12, 0.08, 0.06]}
-        color={finalAccent}
-        intensity={0.4}
-        distance={0.8}
-        decay={2}
-      />
+      {/* Subtle Soft Fill Light for Viewmodel Hand (Active only when in hand) */}
+      {cartridgeDriveState !== 'inserted' && (
+        <pointLight
+          position={[0.12, 0.08, 0.06]}
+          color={finalAccent}
+          intensity={0.4}
+          distance={0.8}
+          decay={2}
+        />
+      )}
     </group>
   );
 };

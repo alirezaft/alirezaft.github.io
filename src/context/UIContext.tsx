@@ -27,6 +27,8 @@ export type ViewMode = '3d' | 'recruiter';
 
 export type RecruiterTab = 'projects' | 'skills' | 'experience' | 'transmissions';
 
+export type CartridgeDriveState = 'idle' | 'inserting' | 'inserted' | 'ejecting';
+
 export interface UIState {
   // Navigation & View Mode
   viewMode: ViewMode;
@@ -50,10 +52,13 @@ export interface UIState {
   // Resume Download Animation State
   isResumeDownloading: boolean;
 
-  // 3D First-Person Held Cartridge Viewmodel State
+  // 3D First-Person Held Cartridge & Drive Bay State
   heldProjectId: string | null;
   heldProject: Project | null;
   returningProjectId: string | null;
+  insertedProjectId: string | null;
+  insertedProject: Project | null;
+  cartridgeDriveState: CartridgeDriveState;
 }
 
 export interface UIActions {
@@ -61,10 +66,14 @@ export interface UIActions {
   setViewMode: (mode: ViewMode) => void;
   toggleViewMode: () => void;
 
-  // 3D Viewmodel Hand Controls
+  // 3D Viewmodel Hand & Drive Bay Controls
   grabCartridge: (projectId: string) => void;
   returnCartridge: () => void;
   onReturnFinished: () => void;
+  insertCartridge: () => void;
+  ejectCartridge: () => void;
+  onInsertFinished: () => void;
+  onEjectFinished: () => void;
 
   // Project Drawer controls
   openProject: (projectId: string) => void;
@@ -111,6 +120,8 @@ export function UIProvider({ children }: { children: ReactNode }) {
     playHover,
     playHudModeSwitch,
     playBusPulse,
+    playCrtPowerOn,
+    playCrtPowerOff,
   } = useAudio();
 
   // Core view mode: default '3d' hero
@@ -120,9 +131,11 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [isProjectDrawerOpen, setIsProjectDrawerOpen] = useState(false);
 
-  // 3D Viewmodel held cartridge state
+  // 3D Viewmodel held cartridge & drive bay state
   const [heldProjectId, setHeldProjectId] = useState<string | null>(null);
   const [returningProjectId, setReturningProjectId] = useState<string | null>(null);
+  const [insertedProjectId, setInsertedProjectId] = useState<string | null>(null);
+  const [cartridgeDriveState, setCartridgeDriveState] = useState<CartridgeDriveState>('idle');
 
   // Selected skill modal state
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
@@ -144,6 +157,10 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const heldProject = useMemo(() => {
     return heldProjectId ? getProjectById(heldProjectId) ?? null : null;
   }, [heldProjectId]);
+
+  const insertedProject = useMemo(() => {
+    return insertedProjectId ? getProjectById(insertedProjectId) ?? null : null;
+  }, [insertedProjectId]);
 
   const selectedSkill = useMemo(() => {
     return selectedSkillId ? getChipById(selectedSkillId) ?? null : null;
@@ -185,6 +202,8 @@ export function UIProvider({ children }: { children: ReactNode }) {
     if (mode === 'recruiter') {
       setHeldProjectId(null);
       setReturningProjectId(null);
+      setInsertedProjectId(null);
+      setCartridgeDriveState('idle');
     }
     playHudModeSwitch();
   }, [playHudModeSwitch]);
@@ -195,6 +214,8 @@ export function UIProvider({ children }: { children: ReactNode }) {
       if (next === 'recruiter') {
         setHeldProjectId(null);
         setReturningProjectId(null);
+        setInsertedProjectId(null);
+        setCartridgeDriveState('idle');
       }
       playHudModeSwitch();
       return next;
@@ -202,20 +223,63 @@ export function UIProvider({ children }: { children: ReactNode }) {
   }, [playHudModeSwitch]);
 
   const grabCartridge = useCallback((projectId: string) => {
+    if (insertedProjectId && insertedProjectId !== projectId) {
+      setInsertedProjectId(null);
+      setCartridgeDriveState('idle');
+    }
     setReturningProjectId(null);
     setHeldProjectId(projectId);
     setSelectedProjectId(projectId);
+    setCartridgeDriveState('idle');
     playBusPulse();
     playClick();
-  }, [playBusPulse, playClick]);
+  }, [insertedProjectId, playBusPulse, playClick]);
+
+  const insertCartridge = useCallback(() => {
+    if (heldProjectId && cartridgeDriveState === 'idle') {
+      setCartridgeDriveState('inserting');
+      playBusPulse();
+    }
+  }, [heldProjectId, cartridgeDriveState, playBusPulse]);
+
+  const onInsertFinished = useCallback(() => {
+    if (heldProjectId) {
+      setInsertedProjectId(heldProjectId);
+      setHeldProjectId(null);
+      setCartridgeDriveState('inserted');
+      playClick();
+      playCrtPowerOn();
+    }
+  }, [heldProjectId, playClick, playCrtPowerOn]);
+
+  const ejectCartridge = useCallback(() => {
+    if (insertedProjectId && (cartridgeDriveState === 'inserted' || cartridgeDriveState === 'inserting')) {
+      setCartridgeDriveState('ejecting');
+      playClick();
+      playCrtPowerOff();
+    }
+  }, [insertedProjectId, cartridgeDriveState, playClick, playCrtPowerOff]);
+
+  const onEjectFinished = useCallback(() => {
+    if (insertedProjectId) {
+      // Re-arm in player's viewmodel hand
+      setHeldProjectId(insertedProjectId);
+      setInsertedProjectId(null);
+      setCartridgeDriveState('idle');
+      playBusPulse();
+    }
+  }, [insertedProjectId, playBusPulse]);
 
   const returnCartridge = useCallback(() => {
-    if (heldProjectId) {
+    if (cartridgeDriveState === 'inserted') {
+      ejectCartridge();
+    } else if (heldProjectId) {
       setReturningProjectId(heldProjectId);
       setHeldProjectId(null);
+      setCartridgeDriveState('idle');
       playClick();
     }
-  }, [heldProjectId, playClick]);
+  }, [cartridgeDriveState, heldProjectId, ejectCartridge, playClick]);
 
   const onReturnFinished = useCallback(() => {
     setReturningProjectId(null);
@@ -302,6 +366,8 @@ export function UIProvider({ children }: { children: ReactNode }) {
       if (e.key === 'Escape' || e.key.toLowerCase() === 'e') {
         if (isProjectDrawerOpen || isSkillModalOpen) {
           closeAllOverlays();
+        } else if (cartridgeDriveState === 'inserted') {
+          ejectCartridge();
         } else if (heldProjectId) {
           returnCartridge();
         } else if (viewMode === 'recruiter' && e.key === 'Escape') {
@@ -313,7 +379,17 @@ export function UIProvider({ children }: { children: ReactNode }) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isProjectDrawerOpen, isSkillModalOpen, heldProjectId, returnCartridge, viewMode, closeAllOverlays, setViewMode]);
+  }, [
+    isProjectDrawerOpen,
+    isSkillModalOpen,
+    cartridgeDriveState,
+    ejectCartridge,
+    heldProjectId,
+    returnCartridge,
+    viewMode,
+    closeAllOverlays,
+    setViewMode,
+  ]);
 
   const value: UIContextType = {
     viewMode,
@@ -322,6 +398,9 @@ export function UIProvider({ children }: { children: ReactNode }) {
     heldProjectId,
     heldProject,
     returningProjectId,
+    insertedProjectId,
+    insertedProject,
+    cartridgeDriveState,
     isProjectDrawerOpen,
     selectedSkillId,
     selectedSkill,
@@ -336,6 +415,10 @@ export function UIProvider({ children }: { children: ReactNode }) {
     grabCartridge,
     returnCartridge,
     onReturnFinished,
+    insertCartridge,
+    ejectCartridge,
+    onInsertFinished,
+    onEjectFinished,
     openProject,
     closeProject,
     openSkill,

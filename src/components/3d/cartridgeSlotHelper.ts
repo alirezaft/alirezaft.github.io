@@ -64,3 +64,36 @@ export function getCartridgeSlotTransform(projectId: string): CartridgeSlotTrans
     quaternion,
   };
 }
+
+export interface DriveSlotTransforms {
+  /** Position hovering directly in front of the slot mouth */
+  mouthPosition: THREE.Vector3;
+  mouthQuaternion: THREE.Quaternion;
+  /** Final seated resting position deep inside the drive aperture */
+  slottedPosition: THREE.Vector3;
+  slottedQuaternion: THREE.Quaternion;
+}
+
+/**
+ * Calculates the exact world-space transforms for the Computer Case Drive Bay (Drive 0)
+ * located at [-0.12, 0.825, 0.872].
+ */
+export function getDriveSlotTransforms(): DriveSlotTransforms {
+  const mouthEuler = new THREE.Euler(-Math.PI / 2, 0, 0, 'YXZ');
+  const mouthQuat = new THREE.Quaternion().setFromEuler(mouthEuler);
+
+  // Hovering directly in front of the aperture
+  const mouthPos = new THREE.Vector3(-0.12, 0.825, 0.942);
+
+  // Slotted deep inside the bay aperture, leaving ~3cm of the acrylic grip visible
+  const slottedPos = new THREE.Vector3(-0.12, 0.825, 0.852);
+  const slottedQuat = mouthQuat.clone();
+
+  return {
+    mouthPosition: mouthPos,
+    mouthQuaternion: mouthQuat,
+    slottedPosition: slottedPos,
+    slottedQuaternion: slottedQuat,
+  };
+}
+

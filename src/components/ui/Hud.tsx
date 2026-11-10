@@ -16,7 +16,7 @@ export default function Hud() {
   const isDev = import.meta.env.DEV;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 pointer-events-none px-4 py-3 sm:px-6 sm:py-3.5 bg-[#050811] border-b border-[#1e293b]/80 shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
+    <header className="fixed top-0 left-0 right-0 z-40 pointer-events-none px-4 py-3 sm:px-6 sm:py-3.5 bg-[#050811] border-b border-[#1e293b]/80 shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left Side: Subtle minimal status dot indicating scene engine live */}
         <div className="flex-1 pointer-events-auto flex items-center">

@@ -342,6 +342,10 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
     * **Removed Click-to-Open Tech Specs Feature on Held Cartridge:** Removed automatic dossier popup when clicking in viewport with a held cartridge (`handleEmptyClick`), and removed the redundant `ACCESS DOSSIER [LMB]` button from the bottom held HUD card.
     * **Streamlined Reticle Interaction Prompts:** Stripped out verbose, multi-action reticle text and titles. Prompts now exclusively show concise action-oriented instructions (`LMB to grab`, `LMB to insert`, `LMB to eject`, `LMB to connect`, `LMB to view`). Reticle remains completely clean with no text clutter when looking at non-interactable surfaces.
     * Production build verified passing with `npm run build` (Exit code 0).
+  - **Step 4.4.7: Cartridge Insertion Disappearance & Slot-to-Hand Eject Trajectory [COMPLETED]:**
+    * **Inserted Cartridge Disappearance:** Fixed state where the inserted cartridge remained rendered and floating over the drive bay after insertion completed. `CartridgeViewmodel` now sets `visible = false` and returns `null` when `cartridgeDriveState === 'inserted'`.
+    * **Slot-to-Hand Eject Flight:** Fixed bug where ejecting a cartridge caused it to suddenly fly into hand from the shelf. Added `isFromEject` tracking flag so when eject animation completes (`ejectProgress >= 1`), `flightProgress` remains at `1` (held in hand), preventing the grab-from-shelf flight animation from triggering. The cartridge now cleanly slides out of the Drive 0 slot aperture and flies directly into the player's viewmodel hand from the slot.
+    * Production build verified passing with `npm run build` (Exit code 0).
 
 
 

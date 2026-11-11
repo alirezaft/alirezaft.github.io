@@ -48,6 +48,7 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
   // Motion & Animation Progress Trackers
   const flightProgress = useRef(0); // 0 (shelf slot) -> 1 (held in viewmodel hand)
   const isReturning = useRef(false);
+  const isFromEject = useRef(false);
 
   // Insertion & Eject Animators
   const insertProgress = useRef(0);
@@ -74,12 +75,18 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
     if (heldProjectId && heldProject) {
       setActiveProject(heldProject);
       slotTransform.current = getCartridgeSlotTransform(heldProjectId);
-      flightProgress.current = 0;
+      if (!isFromEject.current) {
+        flightProgress.current = 0;
+      } else {
+        flightProgress.current = 1;
+        isFromEject.current = false;
+      }
       isReturning.current = false;
       setVisible(true);
     } else if (insertedProjectId && insertedProject) {
       setActiveProject(insertedProject);
-      setVisible(true);
+      // Bug 1 Fix: Inserted cartridge disappears after insertion
+      setVisible(false);
       isReturning.current = false;
     } else if (!heldProjectId && !insertedProjectId && activeProject) {
       // Return to shelf animation
@@ -95,14 +102,25 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
         insertStartQuat.current = rootRef.current.quaternion.clone();
       }
       insertProgress.current = 0;
+      setVisible(true);
     }
 
     if (cartridgeDriveState === 'ejecting' && prevDriveState.current !== 'ejecting') {
       ejectProgress.current = 0;
+      isFromEject.current = true;
+      if (insertedProject) {
+        setActiveProject(insertedProject);
+      }
+      setVisible(true);
+    }
+
+    if (cartridgeDriveState === 'inserted') {
+      // Bug 1 Fix: Inserted cartridge disappears after insertion
+      setVisible(false);
     }
 
     prevDriveState.current = cartridgeDriveState;
-  }, [cartridgeDriveState]);
+  }, [cartridgeDriveState, insertedProject]);
 
   // Content Metadata & Materials
   const resolvedCategory = activeProject?.category || 'shipped-commercial';
@@ -278,25 +296,19 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
       rootRef.current.scale.setScalar(curScale);
 
       if (insertProgress.current >= 1) {
+        // Bug 1 Fix: Inserted cartridge disappears after insertion
+        setVisible(false);
         onInsertFinished();
       }
       return;
     }
 
     // =========================================================================
-    // STATE B: SEATED IN DRIVE BAY (Slotted resting position)
+    // STATE B: SEATED IN DRIVE BAY (Cartridge disappears inside PC)
     // =========================================================================
     if (cartridgeDriveState === 'inserted') {
-      rootRef.current.position.copy(driveTransforms.slottedPosition);
-      rootRef.current.quaternion.copy(driveTransforms.slottedQuaternion);
-      rootRef.current.scale.setScalar(1.0);
-
-      // Subtle resting glow
-      if (accentMeshRef.current) {
-        const mat = accentMeshRef.current.material as THREE.MeshStandardMaterial;
-        if (mat) {
-          mat.emissiveIntensity = 0.95 + Math.sin(time * 3) * 0.2;
-        }
+      if (visible) {
+        setVisible(false);
       }
       return;
     }
@@ -334,6 +346,9 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
       rootRef.current.scale.setScalar(curScale);
 
       if (ejectProgress.current >= 1) {
+        // Bug 2 Fix: Cartridge arrived in hand from slot, flag isFromEject so it stays in hand
+        isFromEject.current = true;
+        flightProgress.current = 1;
         onEjectFinished();
       }
       return;
@@ -378,7 +393,7 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
     }
   });
 
-  if (!visible || !activeProject) return null;
+  if (!visible || !activeProject || cartridgeDriveState === 'inserted') return null;
 
   return (
     <group ref={rootRef} scale={1.08}>
@@ -403,8 +418,8 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
         {finalTitle.toUpperCase()}
       </Text>
 
-      {/* Subtle Soft Fill Light for Viewmodel Hand (Active only when in hand) */}
-      {cartridgeDriveState !== 'inserted' && (
+      {/* Subtle Soft Fill Light for Viewmodel Hand (Active only when held in hand) */}
+      {cartridgeDriveState === 'idle' && (
         <pointLight
           position={[0.12, 0.08, 0.06]}
           color={finalAccent}

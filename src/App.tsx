@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState, useEffect } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import * as THREE from 'three';
 import { Grid, Text } from '@react-three/drei';
 import { Sparkles } from 'lucide-react';
 import AudioTestPage from './AudioTestPage';
@@ -31,13 +32,50 @@ const IS_AUDIO_TEST =
 // Main App
 // ---------------------------------------------------------------------------
 
+interface SharedCameraState {
+  position: THREE.Vector3;
+  quaternion: THREE.Quaternion;
+  fov: number;
+}
+
+const MainCameraBroadcaster: React.FC<{
+  cameraStateRef: React.MutableRefObject<SharedCameraState>;
+}> = ({ cameraStateRef }) => {
+  const { camera } = useThree();
+  useFrame(() => {
+    cameraStateRef.current.position.copy(camera.position);
+    cameraStateRef.current.quaternion.copy(camera.quaternion);
+    const persp = camera as THREE.PerspectiveCamera;
+    if (persp.isPerspectiveCamera) {
+      cameraStateRef.current.fov = persp.fov;
+    }
+  });
+  return null;
+};
+
+const OverlayCameraReceiver: React.FC<{
+  cameraStateRef: React.MutableRefObject<SharedCameraState>;
+}> = ({ cameraStateRef }) => {
+  const { camera } = useThree();
+  useFrame(() => {
+    camera.position.copy(cameraStateRef.current.position);
+    camera.quaternion.copy(cameraStateRef.current.quaternion);
+    const persp = camera as THREE.PerspectiveCamera;
+    if (persp.isPerspectiveCamera && persp.fov !== cameraStateRef.current.fov) {
+      persp.fov = cameraStateRef.current.fov;
+      persp.updateProjectionMatrix();
+    }
+  });
+  return null;
+};
+
 export default function App() {
   const {
     viewMode,
     heldProject,
-    heldProjectId,
+
     insertedProject,
-    insertedProjectId,
+
     cartridgeDriveState,
     returnCartridge,
     ejectCartridge,
@@ -49,6 +87,11 @@ export default function App() {
   const [isZooming, setIsZooming] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
+  const sharedCameraRef = useRef<SharedCameraState>({
+    position: new THREE.Vector3(0, 1.55, 2.1),
+    quaternion: new THREE.Quaternion(),
+    fov: 45,
+  });
 
   // Constantly play the ambient PCB sound when the 3D scene is active
   useEffect(() => {
@@ -82,12 +125,8 @@ export default function App() {
 
   // When holding or having slotted a cartridge, clicking viewport opens dossier
   const handleEmptyClick = useCallback(() => {
-    if (heldProjectId && !isProjectDrawerOpen) {
-      openProject(heldProjectId);
-    } else if (insertedProjectId && !isProjectDrawerOpen) {
-      openProject(insertedProjectId);
-    }
-  }, [heldProjectId, insertedProjectId, isProjectDrawerOpen, openProject]);
+    // Feature removed: clicking while holding cartridge no longer opens tech specs card
+  }, []);
 
   // Redirect to audio test harness in dev mode
   if (IS_AUDIO_TEST) return <AudioTestPage />;
@@ -130,13 +169,7 @@ export default function App() {
             <span className="text-[11px] font-mono text-cyber-cyan/90 hidden sm:inline">
               AIM AT DRIVE 0 & CLICK TO INSERT
             </span>
-            <button
-              onClick={() => openProject(heldProject.id)}
-              className="px-3 py-1 bg-cyber-cyan/20 border border-cyber-cyan/60 hover:border-cyber-cyan text-cyber-cyan text-xs font-mono font-bold rounded-full hover:bg-cyber-cyan/30 hover:shadow-[0_0_12px_rgba(0,243,255,0.4)] transition cursor-pointer flex items-center gap-1.5"
-            >
-              <span>ACCESS DOSSIER</span>
-              <span className="text-[10px] text-cyber-cyan/80">[LMB]</span>
-            </button>
+            
             <button
               onClick={returnCartridge}
               className="px-3 py-1 bg-slate-800/80 border border-slate-700 hover:border-slate-500 text-slate-300 text-xs font-mono rounded-full hover:bg-slate-700 hover:text-white transition cursor-pointer flex items-center gap-1.5"
@@ -209,8 +242,8 @@ export default function App() {
             {/* FPS Center-Screen Crosshair Raycaster & Targeting */}
             <CrosshairRaycaster onEmptyClick={handleEmptyClick} />
 
-            {/* First-Person Held Cartridge Viewmodel (Held in hand like FPS weapons/tools) */}
-            <CartridgeViewmodel isZooming={isZooming} />
+            {/* Broadcast main camera transform to overlay canvas */}
+            <MainCameraBroadcaster cameraStateRef={sharedCameraRef} />
 
             {/* 3-Point Cyber Lighting Rig & Ground Contact Shadows */}
             <CyberLighting />
@@ -257,6 +290,31 @@ export default function App() {
             <DevPerfMonitor hidden={viewMode === 'recruiter'} />
           )}
         </Canvas>
+        {/* First-Person Viewmodel Overlay Canvas (Guarantees held cartridge renders in front of CRT screen) */}
+        {viewMode === '3d' && (
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ zIndex: 110 }}
+          >
+            <Canvas
+              dpr={[1, 1.5]}
+              camera={{ position: [0, 1.55, 2.1], fov: 45 }}
+              frameloop="always"
+              gl={{
+                antialias: true,
+                alpha: true,
+                powerPreference: 'high-performance',
+              }}
+            >
+              <OverlayCameraReceiver cameraStateRef={sharedCameraRef} />
+              <ambientLight intensity={1.4} />
+              <directionalLight position={[2, 3, 2]} intensity={0.9} />
+              <directionalLight position={[-2, 2, -1]} intensity={0.6} />
+              <CartridgeViewmodel isZooming={isZooming} />
+            </Canvas>
+          </div>
+        )}
+
       </div>
 
       {/* Bottom Status Banner */}

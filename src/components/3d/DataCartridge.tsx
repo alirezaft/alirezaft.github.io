@@ -149,7 +149,7 @@ export const DataCartridge: React.FC<DataCartridgeProps> = ({
   const { isHovered } = useCrosshairInteractable({
     id: project?.id || finalTitle,
     ref: groupRef,
-    prompt: `GRAB // ${finalTitle}`,
+    prompt: 'LMB to grab',
     onInteract: () => {
       audio.playClick();
       audio.playBusPulse();

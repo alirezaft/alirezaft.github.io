@@ -21,17 +21,14 @@ export const ReticleOverlay: React.FC<ReticleOverlayProps> = ({
   isTouchDevice = false,
 }) => {
   const crosshair = useOptionalCrosshair();
-  const { heldProject, isProjectDrawerOpen } = useUI();
+  const { heldProject } = useUI();
 
   // If hovering an interactable in 3D, show its prompt.
   // Otherwise, if holding a cartridge in hand, show viewmodel weapon/tool controls.
   const activePrompt =
     propHoverText !== undefined
       ? propHoverText
-      : crosshair?.hoverPrompt ||
-        (heldProject && !isProjectDrawerOpen
-          ? `[LMB] OPEN DOSSIER · [RMB] INSPECT · [E] RETURN`
-          : null);
+      : (crosshair?.hoverPrompt || null);
   const hoverText = activePrompt;
 
   return (
@@ -63,7 +60,7 @@ export const ReticleOverlay: React.FC<ReticleOverlayProps> = ({
 
           {/* Dynamic contextual hover prompt underneath reticle */}
           {hoverText && (
-            <div className="absolute top-6 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-0.5 rounded bg-slate-950/80 border border-cyber-amber/60 text-[10px] font-mono tracking-wider text-cyber-amber uppercase backdrop-blur shadow-lg animate-fade-in">
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-0.5 rounded bg-slate-950/80 border border-cyber-amber/60 text-[10px] font-mono tracking-wider text-cyber-amber backdrop-blur shadow-lg animate-fade-in">
               {hoverText}
             </div>
           )}

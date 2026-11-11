@@ -188,11 +188,11 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
       * When a cartridge is picked up, the entire cartridge model is transferred to the player's hand and nothing is left behind on the shelf (the slot is completely vacated).
       * When returned, the whole cartridge model is smoothly returned into the shelf slot without any premature pop-in or duplicate geometry.
     - **In-Hand Controls & Auto Pointer-Lock Release ([src/context/UIContext.tsx](file:///c:/Projects/Personal/alirezaft.github.io/src/context/UIContext.tsx)):**
-      * **Left-Click (LMB):** Opens the technical Project Drawer case study.
+      * **Left-Click (LMB):** Inserts cartridge when targeting Drive 0 (dossier pop-up on click removed per ergonomics review).
       * **Return to Rack (`[E]` / `[Esc]`):** Smoothly flies the cartridge back into its shelf slot.
       * **Auto Cursor Release:** Opening the project drawer automatically calls `document.exitPointerLock()` so the mouse cursor is immediately freed to scroll, read, and click links in the 2D case study.
       * **Cartridge Swapping:** Aiming and clicking another cartridge on the shelf automatically returns the currently held cartridge and grabs the new one.
-      * **Tactical Bottom HUD Card:** Displays active held status (`HELD // [TITLE]`), with direct clickable buttons for `ACCESS DOSSIER [LMB]` and `RETURN TO SHELF [E / ESC]`.
+      * **Tactical Bottom HUD Card:** Displays active held status (`HELD // [TITLE]`), with instructions to aim at Drive 0 and return button `RETURN TO SHELF [E / ESC]`.
 
 ---
 
@@ -337,6 +337,11 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
       - **Simplified, Uncluttered Default Screen Hub:** Redesigned Mode A into a clean, legible developer terminal hub replacing the noisy ASCII block and dummy registers with 3 clear high-signal cards: (1) Insert a Cartridge → View Projects, (2) Probe an IC Chip → Inspect Skills, (3) Recruiter Quick-View → Verified CV (with a direct `[SWITCH MODE]` button).
       - **CSS Stacking Context & HUD Occlusion Fix:** Isolated the entire 3D canvas viewport using `relative z-0 isolate` on the canvas container and elevated `Hud.tsx` to `z-40`, guaranteeing that 3D-transformed CRT screen elements never leak out of the canvas stacking context to overlap or occlude the site header, tabs, or modal drawers when looking down.
     * Verified production build with `npm run build` (Exit code 0).
+  - **Step 4.4.6: Viewmodel Overlay Canvas & Reticle Ergonomics Polish [COMPLETED]:**
+    * **Viewmodel Overlay Canvas (CRT Depth Fix):** Rendered `CartridgeViewmodel` inside a dedicated, transparent foreground `<Canvas>` (z-index 110, `pointer-events-none`) with synchronous camera broadcasting (`MainCameraBroadcaster` -> `OverlayCameraReceiver`). Physically guarantees that the CRT monitor HTML screen content is rendered BEHIND the data cartridge the user is holding in hand.
+    * **Removed Click-to-Open Tech Specs Feature on Held Cartridge:** Removed automatic dossier popup when clicking in viewport with a held cartridge (`handleEmptyClick`), and removed the redundant `ACCESS DOSSIER [LMB]` button from the bottom held HUD card.
+    * **Streamlined Reticle Interaction Prompts:** Stripped out verbose, multi-action reticle text and titles. Prompts now exclusively show concise action-oriented instructions (`LMB to grab`, `LMB to insert`, `LMB to eject`, `LMB to connect`, `LMB to view`). Reticle remains completely clean with no text clutter when looking at non-interactable surfaces.
+    * Production build verified passing with `npm run build` (Exit code 0).
 
 
 

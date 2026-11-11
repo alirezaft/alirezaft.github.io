@@ -72,12 +72,13 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
     ref: driveSlotRef,
     prompt:
       cartridgeDriveState === 'inserting'
-        ? 'INSERTING // DRIVE 0...'
+        ? ''
         : cartridgeDriveState === 'inserted' && insertedProject
-        ? `ACCESS DOSSIER // ${insertedProject.title} [CLICK]`
+        ? 'LMB to view'
         : heldProject
-        ? `INSERT // ${heldProject.title} [CLICK]`
-        : 'DRIVE 0: CARTRIDGE BAY [EMPTY]',
+        ? 'LMB to insert'
+        : '',
+    enabled: !!heldProject || (cartridgeDriveState === 'inserted' && !!insertedProject),
     onInteract: () => {
       if (cartridgeDriveState === 'idle' && heldProjectId) {
         insertCartridge();
@@ -96,8 +97,9 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
     ref: ejectBtnRef,
     prompt:
       cartridgeDriveState === 'inserted' && insertedProject
-        ? `EJECT // ${insertedProject.title} [CLICK / ESC]`
-        : 'EJECT // DRIVE 0 [EMPTY]',
+        ? 'LMB to eject'
+        : '',
+    enabled: cartridgeDriveState === 'inserted' && !!insertedProject,
     onInteract: () => {
       if (cartridgeDriveState === 'inserted') {
         ejectCartridge();
@@ -111,7 +113,7 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
   const { isHovered: isUsbHovered } = useCrosshairInteractable({
     id: 'workstation_usb_port',
     ref: usbPortRef,
-    prompt: 'BUS A // USB PORT [AUTH READY]',
+    prompt: 'LMB to connect',
     onInteract: () => {
       audio.playClick();
       audio.playBusPulse();

@@ -10,6 +10,7 @@ import { getCartridgeSlotTransform, getDriveSlotTransforms } from './cartridgeSl
 export interface CartridgeViewmodelProps {
   /** Whether right-click inspect zoom is currently active */
   isZooming?: boolean;
+  renderMode?: 'hand' | 'docked' | 'all';
 }
 
 /**
@@ -25,7 +26,10 @@ export interface CartridgeViewmodelProps {
  * 6. Eject Animation (slides out slowly and returns to hand).
  * 7. Hand -> Rack (return flight).
  */
-export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZooming = false }) => {
+export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({
+  isZooming = false,
+  renderMode = 'all',
+}) => {
   const {
     heldProjectId,
     heldProject,
@@ -85,8 +89,7 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
       setVisible(true);
     } else if (insertedProjectId && insertedProject) {
       setActiveProject(insertedProject);
-      // Bug 1 Fix: Inserted cartridge disappears after insertion
-      setVisible(false);
+      setVisible(true);
       isReturning.current = false;
     } else if (!heldProjectId && !insertedProjectId && activeProject) {
       // Return to shelf animation
@@ -115,8 +118,7 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
     }
 
     if (cartridgeDriveState === 'inserted') {
-      // Bug 1 Fix: Inserted cartridge disappears after insertion
-      setVisible(false);
+      setVisible(true);
     }
 
     prevDriveState.current = cartridgeDriveState;
@@ -203,8 +205,16 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
   }, [gltf.scene, finalAccent, labelTexture]);
 
   // Frame Loop: Viewmodel positioning, flight lerp, insertion, eject, and inspect
-  useFrame((state, delta) => {
+    useFrame((state, delta) => {
     if (!rootRef.current || !visible || !activeProject) return;
+
+    const isDockedState =
+      cartridgeDriveState === 'inserting' ||
+      cartridgeDriveState === 'inserted' ||
+      cartridgeDriveState === 'ejecting';
+
+    if (renderMode === 'hand' && isDockedState) return;
+    if (renderMode === 'docked' && !isDockedState) return;
 
     const safeDelta = Math.min(delta, 0.05);
     const driveTransforms = getDriveSlotTransforms();
@@ -296,23 +306,30 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
       rootRef.current.scale.setScalar(curScale);
 
       if (insertProgress.current >= 1) {
-        // Bug 1 Fix: Inserted cartridge disappears after insertion
-        setVisible(false);
+        setVisible(true);
         onInsertFinished();
       }
       return;
     }
 
     // =========================================================================
-    // STATE B: SEATED IN DRIVE BAY (Cartridge disappears inside PC)
+    // STATE B: SEATED IN DRIVE BAY (Rests in slot with handle protruding)
     // =========================================================================
     if (cartridgeDriveState === 'inserted') {
-      if (visible) {
-        setVisible(false);
+      rootRef.current.position.copy(driveTransforms.slottedPosition);
+      rootRef.current.quaternion.copy(driveTransforms.slottedQuaternion);
+      rootRef.current.scale.setScalar(1.0);
+      setVisible(true);
+
+      // Subtle resting glow
+      if (accentMeshRef.current) {
+        const mat = accentMeshRef.current.material as THREE.MeshStandardMaterial;
+        if (mat) {
+          mat.emissiveIntensity = 0.95 + Math.sin(time * 3) * 0.2;
+        }
       }
       return;
     }
-
     // =========================================================================
     // STATE C: EJECTING FROM DRIVE BAY (Slides out -> Hand)
     // =========================================================================
@@ -393,7 +410,14 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({ isZoomin
     }
   });
 
-  if (!visible || !activeProject || cartridgeDriveState === 'inserted') return null;
+  const isDockedState =
+    cartridgeDriveState === 'inserting' ||
+    cartridgeDriveState === 'inserted' ||
+    cartridgeDriveState === 'ejecting';
+
+  if (!visible || !activeProject) return null;
+  if (renderMode === 'hand' && isDockedState) return null;
+  if (renderMode === 'docked' && !isDockedState) return null;
 
   return (
     <group ref={rootRef} scale={1.08}>

@@ -346,6 +346,16 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
     * **Inserted Cartridge Disappearance:** Fixed state where the inserted cartridge remained rendered and floating over the drive bay after insertion completed. `CartridgeViewmodel` now sets `visible = false` and returns `null` when `cartridgeDriveState === 'inserted'`.
     * **Slot-to-Hand Eject Flight:** Fixed bug where ejecting a cartridge caused it to suddenly fly into hand from the shelf. Added `isFromEject` tracking flag so when eject animation completes (`ejectProgress >= 1`), `flightProgress` remains at `1` (held in hand), preventing the grab-from-shelf flight animation from triggering. The cartridge now cleanly slides out of the Drive 0 slot aperture and flies directly into the player's viewmodel hand from the slot.
     * Production build verified passing with `npm run build` (Exit code 0).
+  - **Step 4.4.8: Dual-Pipeline Cartridge Rendering & Hollow Drive Cavity Occlusion [COMPLETED]:**
+    * **Root Cause Confirmation:** The user's diagnosis was 100% accurate. Because `CartridgeViewmodel` was previously moved to the foreground overlay `<Canvas>` (z-index 110) to fix the CRT monitor depth issue, it was rendering on top of the background canvas with zero depth testing against the computer chassis. This caused the cartridge to render in front of the entire computer casing during insertion. Furthermore, an earlier workaround had set `visible = false` on insertion completion, causing the cartridge to abruptly vanish.
+    * **Dual-Pipeline Viewmodel Architecture (`renderMode`):**
+      - `renderMode="hand"` (Overlay Canvas): Renders the cartridge ONLY while held in the player's viewmodel hand (`cartridgeDriveState === 'idle'` and inspect zoom). Ensures the CRT monitor's HTML screen content is rendered BEHIND the held cartridge.
+      - `renderMode="docked"` (Main Canvas): Renders the cartridge during `inserting`, `inserted`, and `ejecting` directly inside the main 3D scene. The computer chassis physically depth-tests against the cartridge, naturally hiding the portion inserted inside the computer.
+    * **Physical Hollow Drive Bay Aperture (`CrtWorkstation.tsx`):**
+      - Replaced the solid `RoundedBox` faceplate covering the drive bay with an authentic 4-piece chamfered bezel aperture (10.2cm × 2.2cm opening).
+      - Built a hollow interior slot cavity (cavity ceiling, floor, side walls, rear wall, elongated cyan guide rails, and recessed gold terminal pins).
+      - When inserted, the cartridge slides into the cavity; the top chassis and front bezel hide the inserted ~7.5cm, leaving the rear ~3.5cm grip naturally and authentically visible protruding from the slot aperture.
+    * Verified production build with `npm run build` (Exit code 0).
 
 
 

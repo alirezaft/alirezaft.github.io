@@ -244,6 +244,7 @@ export default function App() {
 
             {/* Broadcast main camera transform to overlay canvas */}
             <MainCameraBroadcaster cameraStateRef={sharedCameraRef} />
+            <CartridgeViewmodel isZooming={isZooming} renderMode="docked" />
 
             {/* 3-Point Cyber Lighting Rig & Ground Contact Shadows */}
             <CyberLighting />
@@ -310,7 +311,7 @@ export default function App() {
               <ambientLight intensity={1.4} />
               <directionalLight position={[2, 3, 2]} intensity={0.9} />
               <directionalLight position={[-2, 2, -1]} intensity={0.6} />
-              <CartridgeViewmodel isZooming={isZooming} />
+              <CartridgeViewmodel isZooming={isZooming} renderMode="hand" />
             </Canvas>
           </div>
         )}

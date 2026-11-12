@@ -271,30 +271,64 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
           ref={driveSlotRef}
           position={[-0.12, 0, 0.222]}
         >
-          {/* Drive Slot Chamfered Frame */}
-          <RoundedBox
-            args={[0.12, 0.036, 0.008]}
-            radius={0.003}
-            smoothness={3}
+          {/* Drive Slot Aperture Frame (Bezel with actual opening) */}
+          <Box
+            position={[0, 0.0145, 0.002]}
+            args={[0.12, 0.007, 0.006]}
+            material={materials.chassisMat}
+          />
+          <Box
+            position={[0, -0.0145, 0.002]}
+            args={[0.12, 0.007, 0.006]}
+            material={materials.chassisMat}
+          />
+          <Box
+            position={[-0.0555, 0, 0.002]}
+            args={[0.009, 0.022, 0.006]}
+            material={materials.chassisMat}
+          />
+          <Box
+            position={[0.0555, 0, 0.002]}
+            args={[0.009, 0.022, 0.006]}
             material={materials.chassisMat}
           />
 
-          {/* Drive Aperture Cutout */}
+          {/* Internal Slot Cavity Walls (Dark recessed interior) */}
           <Box
-            position={[0, 0, -0.003]}
-            args={[0.102, 0.022, 0.03]}
+            position={[0, 0.011, -0.04]}
+            args={[0.102, 0.002, 0.08]}
+            material={materials.faceplateMat}
+          />
+          <Box
+            position={[0, -0.011, -0.04]}
+            args={[0.102, 0.002, 0.08]}
+            material={materials.faceplateMat}
+          />
+          <Box
+            position={[-0.051, 0, -0.04]}
+            args={[0.002, 0.022, 0.08]}
+            material={materials.faceplateMat}
+          />
+          <Box
+            position={[0.051, 0, -0.04]}
+            args={[0.002, 0.022, 0.08]}
+            material={materials.faceplateMat}
+          />
+          <Box
+            position={[0, 0, -0.08]}
+            args={[0.102, 0.022, 0.002]}
             material={materials.faceplateMat}
           />
 
           {/* Internal Glowing Cyan Guide Rails */}
           <Box
-            position={[-0.049, 0, -0.012]}
-            args={[0.003, 0.014, 0.024]}
+            position={[-0.049, 0, -0.03]}
+            args={[0.003, 0.014, 0.06]}
             material={materials.cyanGuideMat}
           />
           <Box
-            position={[0.049, 0, -0.012]}
-            args={[0.003, 0.014, 0.024]}
+            position={[0.049, 0, -0.03]}
+            args={[0.003, 0.014, 0.06]}
             material={materials.cyanGuideMat}
           />
 
@@ -302,12 +336,11 @@ export const CrtWorkstation: React.FC<CrtWorkstationProps> = ({
           {[-0.03, -0.015, 0, 0.015, 0.03].map((px, idx) => (
             <Box
               key={`pin-${idx}`}
-              position={[px, -0.006, -0.024]}
+              position={[px, -0.006, -0.078]}
               args={[0.005, 0.002, 0.008]}
               material={materials.goldMat}
             />
           ))}
-
           {/* Drive Stencil Label */}
           <Text
             position={[-0.05, 0.023, 0.005]}

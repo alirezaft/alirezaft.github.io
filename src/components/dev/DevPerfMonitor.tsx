@@ -113,7 +113,13 @@ function PerfOverlay({ metricsRef, onResetMinMax, hidden }: PerfOverlayProps) {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Don't trigger if user is typing in an input
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
-      if (e.key === '`' || e.key === '~' || e.key === 'F3') {
+      if (
+        e.code === 'Backquote' ||
+        e.code === 'F3' ||
+        e.key === '`' ||
+        e.key === '~' ||
+        e.key === 'F3'
+      ) {
         e.preventDefault();
         setIsVisible((v) => !v);
       }

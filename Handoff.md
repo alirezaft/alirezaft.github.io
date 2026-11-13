@@ -356,6 +356,16 @@ Recruiters can immediately review verified titles (50M+ downloads), review code 
       - Built a hollow interior slot cavity (cavity ceiling, floor, side walls, rear wall, elongated cyan guide rails, and recessed gold terminal pins).
       - When inserted, the cartridge slides into the cavity; the top chassis and front bezel hide the inserted ~7.5cm, leaving the rear ~3.5cm grip naturally and authentically visible protruding from the slot aperture.
     * Verified production build with `npm run build` (Exit code 0).
+  - **Step 4.4.9: Insertion Step 1 Trajectory & Full Insertion Disappearance [COMPLETED]:**
+    * **Root Cause for Invisible Step 1:** In `renderMode="docked"`, the docked viewmodel previously returned `null` while `idle`, meaning `<group ref={rootRef}>` mounted only when `cartridgeDriveState` changed to `'inserting'`. In `useEffect`, `rootRef.current.position.clone()` was capturing its initial unpositioned `(0, 0, 0)` default origin on the floor under the desk. In Step 1 (`p < 0.42`), the cartridge interpolated from under the desk up to the slot mouth, hiding it completely under the desk surface until Step 2 (`p >= 0.42`).
+    * **Hand-to-Slot Flight Continuity:** Removed `(0, 0, 0)` origin capture from `useEffect`. On the first frame of `inserting` inside `useFrame`, `insertStartPos` and `insertStartQuat` are dynamically initialized to the exact current camera viewmodel hand transform (`targetHandWorldPos` and `targetHandWorldQuat`). The cartridge now smoothly and visibly glides from the player's hand across the screen to in front of the drive slot mouth (Step 1).
+    * **Full Insertion Disappearance (Step 3):** Preserved Step 2 sliding into the hollow cavity, and restored `setVisible(false)` and `return null` upon full insertion (`insertProgress >= 1`). The cartridge disappears cleanly into the PC drive bay once seated, and CRT monitor powers on with the dossier.
+    * Verified production build with `npm run build` (Exit code 0).
+  - **Step 4.4.10: Layout-Independent Keyboard Controls (Multi-Language Physical Key Mapping) [COMPLETED]:**
+    * **Root Cause:** Key listeners across the application previously relied on `e.key.toLowerCase() === 'e'`. When the user's OS keyboard was set to a non-English layout (e.g. Persian, Arabic, Russian, French, German), pressing the physical 'E' key yielded localized characters (such as `'ث'` or `'у'`), preventing `[E]` return/eject actions from firing.
+    * **Universal Physical Key Mapping (`e.code`):** Updated `UIContext.tsx`, `DevPerfMonitor.tsx`, `ProjectMediaCarousel.tsx`, `Hud.tsx`, and `AudioTestPage.tsx` to bind to `e.code` (e.g. `'KeyE'`, `'Escape'`, `'Backquote'`, `'F3'`, `'ArrowLeft'`, `'ArrowRight'`, `'Enter'`, `'Space'`). Physical keys now trigger their respective controls universally regardless of the active keyboard input language or layout.
+    * **Input Protection:** Added explicit guards ignoring shortcuts when the user is typing into text inputs, search boxes, or textareas, while preserving `Escape` to blur/dismiss.
+    * Verified production build with `npm run build` (Exit code 0).
 
 
 

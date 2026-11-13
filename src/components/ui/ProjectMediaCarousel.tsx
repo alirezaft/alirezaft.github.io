@@ -86,9 +86,11 @@ export default function ProjectMediaCarousel({
     if (mode !== 'drawer' || !hasMultiple) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
+      // Don't trigger if user is typing in an input
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
+      if (e.code === 'ArrowLeft' || e.key === 'ArrowLeft') {
         handlePrev();
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.code === 'ArrowRight' || e.key === 'ArrowRight') {
         handleNext();
       }
     };

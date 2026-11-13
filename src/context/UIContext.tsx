@@ -358,19 +358,43 @@ export function UIProvider({ children }: { children: ReactNode }) {
   }, [isProjectDrawerOpen, isSkillModalOpen, playClick]);
 
   // ---------------------------------------------------------------------------
-  // Global Keyboard Shortcuts (Escape to dismiss)
+  // Global Keyboard Shortcuts (Escape to dismiss, E to return/eject cartridge)
+  // Layout-independent: Uses e.code to work in any keyboard language/layout
   // ---------------------------------------------------------------------------
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' || e.key.toLowerCase() === 'e') {
+      // Don't trigger if user is typing in an input or textarea (unless Escape)
+      const target = e.target as HTMLElement | null;
+      const isInput =
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.isContentEditable);
+
+      if (isInput) {
+        if (e.code === 'Escape' || e.key === 'Escape') {
+          target.blur();
+          if (isProjectDrawerOpen || isSkillModalOpen) {
+            closeAllOverlays();
+          } else if (viewMode === 'recruiter') {
+            setViewMode('3d');
+          }
+        }
+        return;
+      }
+
+      const isEscape = e.code === 'Escape' || e.key === 'Escape';
+      const isKeyE = e.code === 'KeyE' || e.key.toLowerCase() === 'e';
+
+      if (isEscape || isKeyE) {
         if (isProjectDrawerOpen || isSkillModalOpen) {
           closeAllOverlays();
         } else if (cartridgeDriveState === 'inserted') {
           ejectCartridge();
         } else if (heldProjectId) {
           returnCartridge();
-        } else if (viewMode === 'recruiter' && e.key === 'Escape') {
+        } else if (viewMode === 'recruiter' && isEscape) {
           // If no modals are open and we are in recruiter view, ESC toggles back to 3D
           setViewMode('3d');
         }

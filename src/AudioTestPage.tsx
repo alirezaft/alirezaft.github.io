@@ -206,7 +206,15 @@ function SoundButton({ def, audio }: { def: SoundDef; audio: ReturnType<typeof u
       onClick={handlePlay}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' || e.key === ' ' ? handlePlay() : null}
+      onKeyDown={(e) =>
+        e.key === 'Enter' ||
+        e.code === 'Enter' ||
+        e.code === 'NumpadEnter' ||
+        e.key === ' ' ||
+        e.code === 'Space'
+          ? handlePlay()
+          : null
+      }
     >
       {/* Header row */}
       <div className="flex items-start justify-between gap-2">

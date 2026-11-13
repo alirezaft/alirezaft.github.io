@@ -89,7 +89,8 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({
       setVisible(true);
     } else if (insertedProjectId && insertedProject) {
       setActiveProject(insertedProject);
-      setVisible(true);
+      // Step 3: Inserted cartridge disappears after full insertion
+      setVisible(false);
       isReturning.current = false;
     } else if (!heldProjectId && !insertedProjectId && activeProject) {
       // Return to shelf animation
@@ -100,10 +101,8 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({
   // Track Drive State Transitions
   useEffect(() => {
     if (cartridgeDriveState === 'inserting' && prevDriveState.current !== 'inserting') {
-      if (rootRef.current) {
-        insertStartPos.current = rootRef.current.position.clone();
-        insertStartQuat.current = rootRef.current.quaternion.clone();
-      }
+      insertStartPos.current = null;
+      insertStartQuat.current = null;
       insertProgress.current = 0;
       setVisible(true);
     }
@@ -118,7 +117,8 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({
     }
 
     if (cartridgeDriveState === 'inserted') {
-      setVisible(true);
+      // Step 3: Inserted cartridge disappears after full insertion
+      setVisible(false);
     }
 
     prevDriveState.current = cartridgeDriveState;
@@ -277,23 +277,28 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({
       const INSERT_SPEED = 1.15; // ~0.85s total insertion
       insertProgress.current = Math.min(1, insertProgress.current + safeDelta * INSERT_SPEED);
 
+      if (!insertStartPos.current) {
+        insertStartPos.current = targetHandWorldPos.clone();
+        insertStartQuat.current = targetHandWorldQuat.clone();
+      }
+
       const p = insertProgress.current;
-      const startPos = insertStartPos.current || targetHandWorldPos;
-      const startQuat = insertStartQuat.current || targetHandWorldQuat;
+      const startPos = insertStartPos.current ?? targetHandWorldPos;
+      const startQuat = insertStartQuat.current ?? targetHandWorldQuat;
 
       const pos = new THREE.Vector3();
       const quat = new THREE.Quaternion();
       let curScale = 1.08;
 
       if (p < 0.42) {
-        // Stage 4: Moves towards the slot's mouth in horizontal orientation
+        // Stage 4 / Step 1: Moves towards the slot's mouth in horizontal orientation (Visible)
         const t1 = p / 0.42;
         const ease1 = t1 * t1 * (3 - 2 * t1); // smooth cubic ease-in-out
         pos.lerpVectors(startPos, driveTransforms.mouthPosition, ease1);
         quat.slerpQuaternions(startQuat, driveTransforms.mouthQuaternion, ease1);
         curScale = THREE.MathUtils.lerp(1.08, 1.0, ease1);
       } else {
-        // Stage 5: Cartridge goes in slowly into the slot aperture
+        // Stage 5 / Step 2: Cartridge goes in slowly into the slot aperture
         const t2 = (p - 0.42) / 0.58;
         const ease2 = 1 - Math.pow(1 - t2, 2); // gentle deceleration into contacts
         pos.lerpVectors(driveTransforms.mouthPosition, driveTransforms.slottedPosition, ease2);
@@ -306,27 +311,19 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({
       rootRef.current.scale.setScalar(curScale);
 
       if (insertProgress.current >= 1) {
-        setVisible(true);
+        // Step 3: After full insertion cartridge disappears and data is shown on CRT monitor
+        setVisible(false);
         onInsertFinished();
       }
       return;
     }
 
     // =========================================================================
-    // STATE B: SEATED IN DRIVE BAY (Rests in slot with handle protruding)
+    // STATE B: SEATED IN DRIVE BAY (Cartridge disappears inside PC)
     // =========================================================================
     if (cartridgeDriveState === 'inserted') {
-      rootRef.current.position.copy(driveTransforms.slottedPosition);
-      rootRef.current.quaternion.copy(driveTransforms.slottedQuaternion);
-      rootRef.current.scale.setScalar(1.0);
-      setVisible(true);
-
-      // Subtle resting glow
-      if (accentMeshRef.current) {
-        const mat = accentMeshRef.current.material as THREE.MeshStandardMaterial;
-        if (mat) {
-          mat.emissiveIntensity = 0.95 + Math.sin(time * 3) * 0.2;
-        }
+      if (visible) {
+        setVisible(false);
       }
       return;
     }
@@ -415,7 +412,7 @@ export const CartridgeViewmodel: React.FC<CartridgeViewmodelProps> = ({
     cartridgeDriveState === 'inserted' ||
     cartridgeDriveState === 'ejecting';
 
-  if (!visible || !activeProject) return null;
+  if (!visible || !activeProject || cartridgeDriveState === 'inserted') return null;
   if (renderMode === 'hand' && isDockedState) return null;
   if (renderMode === 'docked' && !isDockedState) return null;
 

@@ -142,7 +142,10 @@ export default function Hud() {
               }}
               onKeyDown={(e) => {
                 // Keyboard arrow adjustments play click instantly
-                if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+                if (
+                  ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key) ||
+                  ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.code)
+                ) {
                   playClick();
                 }
               }}
